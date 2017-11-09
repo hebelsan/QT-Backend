@@ -1,0 +1,2 @@
+ 
+g++ -o HFUDashboard_backend /home/pi/libevdev/libevdev/libevdev/libevdev.o lenkrad.hpp lenkrad.cpp model.hpp model.cpp main.cpp datentypen.hpp can_data.hpp can_data.cpp can_read.hpp can_read.cpp Car_status.cpp Car_status.hpp Motor_simulation.cpp Motor_simulation.hpp control.cpp control.hpp -lpthread
