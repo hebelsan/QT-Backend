@@ -33,6 +33,7 @@ struct control_daten_intern{  //Datentyp für Kommunikation zwischen Modelthread 
   bool gear_left;
   bool gear_right;
   bool xbox;
+  media_control_t *media_control;
 };
 
 typedef struct l_daten_intern l_daten;
@@ -42,6 +43,7 @@ typedef struct control_daten_intern control_daten;
 struct can_struct { // Datentyp für Kommunikation zwischen Mainthread und Modelthread. Übergabe der CAN-Schnittstelle 
   can_frame *my_can_frame; 
   can_data *my_can_data;
+  media_control_t *my_media_control;
 };
 
 
@@ -55,11 +57,11 @@ struct model_struct { //Wrapper für die die einzelen Datentypen
 
 enum steuerkreuz
 {
-	RECHTS,
-	LINKS,
-	HOCH,
-	RUNTER,
-	NEUTRAL
+	RECHTS = 0x3,
+	LINKS = 0x7,
+	HOCH = 0x1,
+	RUNTER = 0x5,
+	NEUTRAL = 0x0
 };
 
 typedef enum steuerkreuz steuerkreuz_t;

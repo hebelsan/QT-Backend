@@ -500,4 +500,3 @@ void *model(void* val){
   }
 }
 
-

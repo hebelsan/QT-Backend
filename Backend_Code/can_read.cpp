@@ -30,6 +30,7 @@ void *can_read(void* val){
 			case 0x7f1:
 				switch(data & 0xffff0000)
 				{
+					// Rad gedreht
 					case 0x36020000:
 					{
 						int8_t turnCount = 0;
@@ -37,6 +38,38 @@ void *can_read(void* val){
 						printf("Wheel turned %d times!\n", turnCount);
 						break;
 					}
+					// Rad gedrückt in Richtung
+					case 0x33010000:
+					{
+						switch(help_can_frame->data[2])
+						{
+							case 0x0:
+							case 0x1:
+							case 0x3:
+							case 0x5:
+							case 0x7:
+								steuerkreuz_t currentDir = (steuerkreuz_t) help_can_frame->data[2];
+								break;
+							default:
+								break; 
+					}
+					// Rad gedrückt
+					case 0x35010000:
+						if(help_can_frame->data[2] == 0x1); // pressed
+						else;
+						break;
+					// Linke Taste neben Rad
+					case 0x355b0000:
+						break;
+					// Rechte Taste neben Rad
+					case 0x355c0000:
+						break;
+					// Back-Taste
+					case 0x350f0000:
+						break;
+					// Menü-Taste
+					case 0x351a0000:
+						break;
 					default:
 						printf("Something happened: %d\n", data);
 						break;

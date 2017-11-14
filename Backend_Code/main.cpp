@@ -23,18 +23,25 @@ int main ( int argc,const char* argv[]){
   //CAN
   can_data can_bus; //CAN Objekt anlegen
   int t = can_bus.open_can(); //CAN-Schnittstelle öffnen
-  can_struct my_can_frame_data;
+  media_control_t my_media_control;
   
   
   //Lenkrad Struct
   l_daten *lenkrad_daten = new l_daten();
+  
+  //Control infos
   control_daten_intern control_daten;
+  control_daten.media_control = &my_media_control;
+  
+  //Übergabedaten für can_read;
   struct can_frame frame_read;
+  can_struct my_can_frame_data;
+  my_can_frame_data.my_can_frame = &frame_read;
+  my_can_frame_data.my_can_data = &can_bus;
+  my_can_frame_data.my_media_control = &my_media_control;
   
   //Übergabedaten für Modelthread  
   model_struct my_model_struct;
-  my_can_frame_data.my_can_frame = &frame_read;
-  my_can_frame_data.my_can_data = &can_bus;
   my_model_struct.my_l_daten = lenkrad_daten;
   my_model_struct.my_can_data = &can_bus;
   my_model_struct.my_can_frame = &frame_read;
@@ -50,7 +57,7 @@ int main ( int argc,const char* argv[]){
   my_fail = pthread_create(&th_lenkrad_lesen, NULL, &lenkrad_lesen, (void*) lenkrad_daten);
   if (my_fail != 0)
     std::cout << "my_fail= " << my_fail << std::endl;
-  
+
   //Thread Model starten
   my_fail = pthread_create(&th_model, NULL, &model, (void*) &my_model_struct);
   if (my_fail != 0)

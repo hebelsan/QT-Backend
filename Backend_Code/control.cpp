@@ -106,4 +106,7 @@ void *control (void* val){
   }
 }
 
-
+static void analyseMediaControl
+{
+    std::cout << "? 20 " << control_daten->media_control->wheel_turns << std::endl;
+}
