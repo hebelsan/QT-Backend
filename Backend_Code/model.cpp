@@ -69,6 +69,9 @@ void *model(void* val){
 	    frame_send.data[1] = 0x01;
 	    frame_send.data[2] = 0xFF;
 	    help_can_data->send_canframe(frame_send);
+	    help_control_daten->a = true;
+            help_control_daten->my_new = true;
+
 	  }
 	  break;
 	  
@@ -102,6 +105,9 @@ void *model(void* val){
 	    frame_send.data[1] = 0x01;
 	    frame_send.data[2] = 0x01;
 	    help_can_data->send_canframe(frame_send);
+	    help_control_daten->y = true;
+            help_control_daten->my_new = true;
+
 	  }
 	  break;
 	  

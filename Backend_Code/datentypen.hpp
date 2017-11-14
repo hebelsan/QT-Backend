@@ -53,5 +53,27 @@ struct model_struct { //Wrapper für die die einzelen Datentypen
   control_daten_intern *my_control_daten;
 };
 
+enum steuerkreuz
+{
+	RECHTS,
+	LINKS,
+	HOCH,
+	RUNTER,
+	NEUTRAL
+};
+
+typedef enum steuerkreuz steuerkreuz_t;
+
+typedef struct media_control
+{
+	steuerkreuz_t wheel_direction;
+	int8_t wheel_turns;
+	bool wheel_pressed;
+	bool menu_pressed;
+	bool back_pressed;
+	bool btn_right_pressed;
+	bool btn_left_pressed;
+} media_control_t;
+
 
 #endif

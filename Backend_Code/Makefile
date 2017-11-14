@@ -11,6 +11,7 @@ all: HFUDashboard_backend
 
 HFUDashboard_backend: $(OBJ)
 	$(CC) -o HFUDashboard_backend $(INCPATH) $(LIBEVDEV) $(OBJ) $(LIBDEF) main.cpp
+	@echo Erfolg!
 can_data.o: can_data.cpp can_data.hpp
 	$(CC) -c can_data.cpp can_data.hpp
 can_read.o: can_read.cpp

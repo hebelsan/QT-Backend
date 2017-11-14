@@ -58,9 +58,9 @@ int main ( int argc,const char* argv[]){
   
   // Eigener Thread zum lesen des CAN-Bus --> wird momentan nicht verwendet 
   
-  // my_fail = pthread_create(&th_can_read, NULL, &can_read, (void*) &my_can_frame_data);
-  //if (my_fail != 0)
-  //  std::cout << "my_fail= " << my_fail << std::endl;
+  my_fail = pthread_create(&th_can_read, NULL, &can_read, (void*) &my_can_frame_data);
+  if (my_fail != 0)
+    std::cout << "my_fail= " << my_fail << std::endl;
   
   //Thread Control starten
   my_fail = pthread_create(&th_control, NULL, &control, (void*) &control_daten);

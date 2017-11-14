@@ -1,14 +1,14 @@
 #include "control.hpp"
 
 void *control (void* val){
-  control_daten_intern *control_daten=(control_daten_intern *) val;
+	control_daten_intern *control_daten=(control_daten_intern *) val;
   
-  bool my_new; //true, wenn sich daten geändert haben. Wird wieder auf falsegesetzt, wenn die neue Daten an die View übermittelt wurden.
-  int kmh = control_daten->kmh; //Zwischenspeicherung, der zuletzt an View gesendeten Daten
-  int rpm = control_daten->rpm; //Zwischenspeicherung, der zuletzt an View gesendeten Daten
-  int gear = control_daten->gear; //Zwischenspeicherung, der zuletzt an View gesendeten Daten
-  unsigned int tank = control_daten->tank; //Zwischenspeicherung, der zuletzt an View gesendeten Daten
-  int temp = control_daten->temp; //Zwischenspeicherung, der zuletzt an View gesendeten Daten
+	bool my_new; //true, wenn sich daten geändert haben. Wird wieder auf falsegesetzt, wenn die neue Daten an die View übermittelt wurden.
+	int kmh = control_daten->kmh; //Zwischenspeicherung, der zuletzt an View gesendeten Daten
+	int rpm = control_daten->rpm; //Zwischenspeicherung, der zuletzt an View gesendeten Daten
+	int gear = control_daten->gear; //Zwischenspeicherung, der zuletzt an View gesendeten Daten
+	unsigned int tank = control_daten->tank; //Zwischenspeicherung, der zuletzt an View gesendeten Daten
+	int temp = control_daten->temp; //Zwischenspeicherung, der zuletzt an View gesendeten Daten
   
   while(1){
     
@@ -63,42 +63,35 @@ void *control (void* val){
 	
       }
       
-      if(temp != control_daten->temp){ //Prüfen, ob sich die Temperatur geändet hat.
-	std::cout << "? 9 " << control_daten->temp << std::endl;
-	temp = control_daten->temp;
-	
-      }
+	if(temp != control_daten->temp)
+	{ //Prüfen, ob sich die Temperatur geändet hat.
+		std::cout << "? 9 " << control_daten->temp << std::endl;
+		temp = control_daten->temp;
+	}
+	if(control_daten->xbox == true)
+	{ //Prüfen, ob Button "xbox" (Fehlermeldungen) betätig wurde.
+		std::cout << "? 10 " << control_daten->xbox << std::endl;
+		control_daten->xbox = false;
+	}
       
-      
-      
-      if(control_daten->xbox == true){ //Prüfen, ob Button "xbox" (Fehlermeldungen) betätig wurde.
-	std::cout << "? 10 " << control_daten->xbox << std::endl;
-	control_daten->xbox = false;
-	
-      }
-      
-      if(control_daten->rsb_top == true){ //Prüfen, ob Button "rsb_top" (Warnblinker) betätig wurde.
-	std::cout << "? 11 " << control_daten->rsb_top << std::endl;
-	control_daten->rsb_top = false;
-	
-      }
-      
-      if(tank != control_daten->tank){ //Prüfen, ob sich der Tankwert geändet hat.
-	std::cout << "? 12 " << control_daten->tank << std::endl;
-	tank = control_daten->tank;
-	
-      }
-	  
-	   if(control_daten->a == true){ //Prüfen, ob Button "a" (Volume Down) Button betätig wurde.
-	std::cout << "? 13 " << control_daten->a << std::endl;
-	control_daten->a = false; //Button zuzücksetzen
-	
-      }
-      if(control_daten->y == true){ //Prüfen, ob Button "y" (Volume Up) betätig wurde.
-	std::cout << "? 14 " << control_daten->b << std::endl;
-	control_daten->y = false; //Button zuzücksetzen
-      
-      
+	if(control_daten->rsb_top == true)
+	{ //Prüfen, ob Button "rsb_top" (Warnblinker) betätig wurde.
+		std::cout << "? 11 " << control_daten->rsb_top << std::endl;
+		control_daten->rsb_top = false;
+	}  
+	if(tank != control_daten->tank){ //Prüfen, ob sich der Tankwert geändet hat.
+		std::cout << "? 12 " << control_daten->tank << std::endl;
+		tank = control_daten->tank;
+	}
+	if(control_daten->a == true)
+	{ //Prüfen, ob Button "a" (Volume Down) Button betätig wurde.
+		std::cout << "? 13 " << control_daten->a << std::endl;
+		control_daten->a = false; //Button zuzücksetzen
+	}
+	if(control_daten->y == true){ //Prüfen, ob Button "y" (Volume Up) betätig wurde.
+		std::cout << "? 14 " << control_daten->b << std::endl;
+		control_daten->y = false; //Button zuzücksetzen
+	} 
       
       control_daten->my_new = false;
       
