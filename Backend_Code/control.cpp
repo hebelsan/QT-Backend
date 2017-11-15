@@ -106,7 +106,7 @@ void *control (void* val){
   }
 }
 
-static void analyseMediaControl
+static void analyseMediaControl(control_daten_intern *control_daten)
 {
     std::cout << "? 20 " << control_daten->media_control->wheel_turns << std::endl;
 }

@@ -48,10 +48,11 @@ void *can_read(void* val){
 							case 0x3:
 							case 0x5:
 							case 0x7:
-								steuerkreuz_t currentDir = (steuerkreuz_t) help_can_frame->data[2];
+								//steuerkreuz_t currentDir = (steuerkreuz_t) help_can_frame->data[2];
 								break;
 							default:
 								break; 
+						}
 					}
 					// Rad gedrückt
 					case 0x35010000:
