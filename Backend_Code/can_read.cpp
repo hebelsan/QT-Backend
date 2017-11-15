@@ -36,7 +36,7 @@ void *can_read(void* val){
 					{
 						int8_t turnCount = 0;
 						if(help_can_frame->data[2] >= 0x80) turnCount =-(~help_can_frame->data[2])+1;
-						printf("Wheel turned %d times!\n", turnCount);
+						//printf("Wheel turned %d times!\n", turnCount);
 						break;
 					}
 					// Rad gedrückt in Richtung
@@ -50,7 +50,7 @@ void *can_read(void* val){
 							case 0x5:
 							case 0x7:
 								media_control->wheel_direction = (steuerkreuz_t) help_can_frame->data[2];
-								//steuerkreuz_t currentDir = (steuerkreuz_t) help_can_frame->data[2];
+								printf("steuerkreuz betaetigt!");
 								break;
 							default:
 								break; 

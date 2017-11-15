@@ -1,7 +1,12 @@
 #include "control.hpp"
 
+static void initLocalMediaControl();
+static void analyseMediaControl(media_control_t *);
+
 // Lokaler Datenhalter
 static media_control_t local_media_control;
+
+
 
 void *control (void* val){
 	control_daten_intern *control_daten=(control_daten_intern *) val;
@@ -96,11 +101,12 @@ void *control (void* val){
 		} // endif my_new
     
 	}
+	analyseMediaControl(control_daten->media_control);
 }
 
 static void initLocalMediaControl()
 {
-	local_media_control.wheel_direction = steuerkreuz_t.NEUTRAL;
+	local_media_control.wheel_direction = NEUTRAL;
 	local_media_control.wheel_turns = 0;
 	local_media_control.wheel_pressed = false;
 	local_media_control.menu_pressed = false;
@@ -113,37 +119,37 @@ static void analyseMediaControl(media_control_t *control_daten)
 {
 	if(control_daten->wheel_turns != 0)
 	{
-		std::cout << "? 20 " << media_control->wheel_turns << std::endl;
+		std::cout << "? 20 " << control_daten->wheel_turns << std::endl;
 		control_daten->wheel_turns = 0;
 	}
-	if(media_control->wheel_direction != local_media_control.wheel_direction)
+	if(control_daten->wheel_direction != local_media_control.wheel_direction)
 	{
-		std::cout << "? 21 " << media_control->wheel_direction << std::endl;
-		local_media_control.wheel_direction = media_control->wheel_direction;
+		std::cout << "? 21 " << control_daten->wheel_direction << std::endl;
+		local_media_control.wheel_direction = control_daten->wheel_direction;
 	}
-	if(media_control->wheel_pressed != local_media_control.wheel_pressed)
+	if(control_daten->wheel_pressed != local_media_control.wheel_pressed)
 	{
-		std::cout << "? 22 " << media_control->wheel_pressed << std::endl;
-		local_media_control.wheel_pressed = media_control->wheel_pressed;
+		std::cout << "? 22 " << control_daten->wheel_pressed << std::endl;
+		local_media_control.wheel_pressed = control_daten->wheel_pressed;
 	}
-	if(media_control->menu_pressed != local_media_control.menu_pressed)
+	if(control_daten->menu_pressed != local_media_control.menu_pressed)
 	{
-		std::cout << "? 23 " << media_control->menu_pressed << std::endl;
-		local_media_control.menu_pressed = media_control->menu_pressed;
+		std::cout << "? 23 " << control_daten->menu_pressed << std::endl;
+		local_media_control.menu_pressed = control_daten->menu_pressed;
 	}
-	if(media_control->back_pressed != local_media_control.back_pressed)
+	if(control_daten->back_pressed != local_media_control.back_pressed)
 	{
-		std::cout << "? 24 " << media_control->back_pressed << std::endl;
-		local_media_control.back_pressed = media_control->back_pressed;
+		std::cout << "? 24 " << control_daten->back_pressed << std::endl;
+		local_media_control.back_pressed = control_daten->back_pressed;
 	}
-	if(media_control->btn_left_pressed != local_media_control.btn_left_pressed)
+	if(control_daten->btn_left_pressed != local_media_control.btn_left_pressed)
 	{
-		std::cout << "? 25 " << media_control->btn_left_pressed << std::endl;
-		local_media_control.btn_left_pressed = media_control->btn_left_pressed;
+		std::cout << "? 25 " << control_daten->btn_left_pressed << std::endl;
+		local_media_control.btn_left_pressed = control_daten->btn_left_pressed;
 	}
-	if(media_control->btn_right_pressed != local_media_control.btn_right_pressed)
+	if(control_daten->btn_right_pressed != local_media_control.btn_right_pressed)
 	{
-		std::cout << "? 26 " << media_control->btn_right_pressed << std::endl;
-		local_media_control.btn_right_pressed = media_control->btn_right_pressed;
+		std::cout << "? 26 " << control_daten->btn_right_pressed << std::endl;
+		local_media_control.btn_right_pressed = control_daten->btn_right_pressed;
 	}
 }
