@@ -62,7 +62,7 @@ typedef struct control_daten_intern control_daten;
 
 
 struct can_struct { // Datentyp für Kommunikation zwischen Mainthread und Modelthread. Übergabe der CAN-Schnittstelle 
-  can_frame *my_can_frame; 
+  can_frame *my_can_frame;
   can_data *my_can_data;
   media_control_t *my_media_control;
 };

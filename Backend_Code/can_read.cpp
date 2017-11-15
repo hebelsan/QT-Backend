@@ -11,6 +11,7 @@ void *can_read(void* val){
 	can_struct *help=(can_struct *) val;
 	can_frame *help_can_frame = help->my_can_frame;
 	can_data *help_can_data = help->my_can_data;
+        media_control_t *media_control = help->my_media_control;
   
 	//Endlosschleife, die prüft ob neue Daten am CAN-BUS anliegen
 	while(1){ 
@@ -48,6 +49,7 @@ void *can_read(void* val){
 							case 0x3:
 							case 0x5:
 							case 0x7:
+								media_control->wheel_direction = (steuerkreuz_t) help_can_frame->data[2];
 								//steuerkreuz_t currentDir = (steuerkreuz_t) help_can_frame->data[2];
 								break;
 							default:
@@ -56,23 +58,31 @@ void *can_read(void* val){
 					}
 					// Rad gedrückt
 					case 0x35010000:
-						if(help_can_frame->data[2] == 0x1); // pressed
-						else;
+						if(help_can_frame->data[2] == 0x1) media_control->wheel_pressed = true; // pressed
+						else media_control->wheel_pressed = false;
 						break;
 					// Linke Taste neben Rad
 					case 0x355b0000:
+						if(help_can_frame->data[2] == 0x1) media_control->btn_left_pressed = true;
+						else media_control->btn_right_pressed = false;
 						break;
 					// Rechte Taste neben Rad
 					case 0x355c0000:
+						if(help_can_frame->data[2] == 0x1) media_control->btn_right_pressed = true;
+						else media_control->btn_right_pressed = false;
 						break;
 					// Back-Taste
 					case 0x350f0000:
+						if(help_can_frame->data[2] == 0x1) media_control->back_pressed = true;
+						else media_control->back_pressed = false;
 						break;
 					// Menü-Taste
 					case 0x351a0000:
+						if(help_can_frame->data[2] == 0x1) media_control->menu_pressed = true;
+						else media_control->menu_pressed = false;
 						break;
 					default:
-						printf("Something happened: %d\n", data);
+						//printf("Something happened: %d\n", data);
 						break;
 				}
 				break;
