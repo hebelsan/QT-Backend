@@ -100,8 +100,8 @@ void *control (void* val){
 	
 		} // endif my_new
     
+		analyseMediaControl(control_daten->media_control);
 	}
-	analyseMediaControl(control_daten->media_control);
 }
 
 static void initLocalMediaControl()
@@ -119,7 +119,7 @@ static void analyseMediaControl(media_control_t *control_daten)
 {
 	if(control_daten->wheel_turns != 0)
 	{
-		std::cout << "? 20 " << control_daten->wheel_turns << std::endl;
+		std::cout << "? 20 " << static_cast<int16_t>(control_daten->wheel_turns) << std::endl;
 		control_daten->wheel_turns = 0;
 	}
 	if(control_daten->wheel_direction != local_media_control.wheel_direction)

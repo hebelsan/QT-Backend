@@ -35,7 +35,8 @@ void *can_read(void* val){
 					case 0x36020000:
 					{
 						int8_t turnCount = 0;
-						if(help_can_frame->data[2] >= 0x80) turnCount =-(~help_can_frame->data[2])+1;
+						if(help_can_frame->data[2] >= 0x80) media_control->wheel_turns =-((~help_can_frame->data[2])+1);
+						else media_control->wheel_turns = help_can_frame->data[2];
 						//printf("Wheel turned %d times!\n", turnCount);
 						break;
 					}
@@ -50,7 +51,7 @@ void *can_read(void* val){
 							case 0x5:
 							case 0x7:
 								media_control->wheel_direction = (steuerkreuz_t) help_can_frame->data[2];
-								printf("steuerkreuz betaetigt!");
+								//printf("steuerkreuz betaetigt!");
 								break;
 							default:
 								break; 
@@ -58,13 +59,17 @@ void *can_read(void* val){
 					}
 					// Rad gedrückt
 					case 0x35010000:
-						if(help_can_frame->data[2] == 0x1) media_control->wheel_pressed = true; // pressed
+						if(help_can_frame->data[2] == 0x1) 
+						{
+							//printf("Wheel pressed!\n");
+							media_control->wheel_pressed = true; // pressed
+						}
 						else media_control->wheel_pressed = false;
 						break;
 					// Linke Taste neben Rad
 					case 0x355b0000:
 						if(help_can_frame->data[2] == 0x1) media_control->btn_left_pressed = true;
-						else media_control->btn_right_pressed = false;
+						else media_control->btn_left_pressed = false;
 						break;
 					// Rechte Taste neben Rad
 					case 0x355c0000:
