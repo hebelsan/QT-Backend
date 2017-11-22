@@ -57,6 +57,7 @@ void *can_read(void* val){
 								break; 
 						}
 					}
+						break;
 					// Rad gedrückt
 					case 0x35010000:
 						if(help_can_frame->data[2] == 0x1) 
