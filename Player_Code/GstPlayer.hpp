@@ -13,6 +13,7 @@ typedef struct internal_data
 {
 	gboolean seekEnabled = FALSE;
 	GMainLoop *mainLoop;
+	GstElement *playbin;
 	volatile gboolean terminated;
 } 
 InternalData;
@@ -22,13 +23,12 @@ class GstPlayer
 private:
 	GstBus *bus;
 	InternalData data;
-	GstElement * playbin;
 	gboolean playing;
 	gboolean seek_enabled;
 	gboolean seek_done;
 	gint64 duration;
 	gboolean terminate;
-	gboolean handleMessage(GstBus*, GstMessage*, InternalData*);
+	static gboolean handleMessage(GstBus*, GstMessage*, InternalData*);
 	GThread *t_player;
 
 	//void* playerRoutine(void);
@@ -39,6 +39,7 @@ public:
 	void open(string);
 	int play(void);
 	int pause(void);
+	void seek(int);
 	void getState(void);
 	int getDuration(void);
 	void join(void);
