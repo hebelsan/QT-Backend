@@ -40,6 +40,7 @@ void *can_read(void* val){
 						//printf("Wheel turned %d times!\n", turnCount);
 						break;
 					}
+					break;
 					// Rad gedrückt in Richtung
 					case 0x33010000:
 					{
@@ -93,7 +94,6 @@ void *can_read(void* val){
 				}
 				break;
 			default:
-				printf("UNSUPPORTED DEVICE SENT MSG\n");
 				break;
 		}
 	}

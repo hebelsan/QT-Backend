@@ -73,6 +73,7 @@ int main ( int argc,const char* argv[]){
   
   
   
+<<<<<<< HEAD
 	std::cout << "main ende"<< std::endl;
   
   
@@ -82,6 +83,15 @@ int main ( int argc,const char* argv[]){
 	pthread_join(th_can_read,0);
 	pthread_join(th_control,0);
   
+=======
+  //Warten bis alle Threads fertig sind
+  pthread_join(th_lenkrad_lesen,0);
+  pthread_join(th_model,0);
+  //pthread_join(th_can_read,0);
+  pthread_join(th_control,0);
+   
+  std::cout << "ENDE MAIN" << std::endl;
+>>>>>>> e8e32a71c0ae62129054720db49adcac9543f5d8
 }
 
 
