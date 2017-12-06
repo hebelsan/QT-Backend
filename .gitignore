@@ -2,3 +2,4 @@
 *.o
 *.hpp.gch
 Backend_Code/HFUDashboard_backend
+Player_Code/player++
