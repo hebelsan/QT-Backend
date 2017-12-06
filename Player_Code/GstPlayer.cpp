@@ -80,8 +80,12 @@ int GstPlayer::getDuration()
 			g_printerr ("Could not query current duration.\n");
 		}
 	}
-	if(duration!=0)
-		return (int)duration/GST_SECOND;
+	return (int)(duration/GST_SECOND);
+}
+
+void GstPlayer::setVolume(double volume)
+{
+	g_object_set(G_OBJECT(data.playbin), "volume", (gdouble)volume, NULL);
 }
 
 void GstPlayer::join()
@@ -160,7 +164,7 @@ gboolean GstPlayer::handleMessage(GstBus *bus, GstMessage *msg, InternalData* da
 		break;
 	case GST_MESSAGE_DURATION:
 		/* TODO The duration has changed, mark the current one as invalid */
-		//duration = GST_CLOCK_TIME_NONE;
+		data->duration = GST_CLOCK_TIME_NONE;
 		break;
 	case GST_MESSAGE_STATE_CHANGED: 
 	{
@@ -180,8 +184,9 @@ gboolean GstPlayer::handleMessage(GstBus *bus, GstMessage *msg, InternalData* da
 				if (gst_element_query (data->playbin, query)) {
 					gst_query_parse_seeking (query, NULL, &data->seekEnabled, &start, &end);
 					if (data->seekEnabled) {
-					g_print ("Seeking is ENABLED from %" GST_TIME_FORMAT " to %" GST_TIME_FORMAT "\n",
-					GST_TIME_ARGS (start), GST_TIME_ARGS (end));
+						g_print ("Seeking is ENABLED from %" GST_TIME_FORMAT " to %" GST_TIME_FORMAT "\n",
+						GST_TIME_ARGS (start), GST_TIME_ARGS (end));
+						data->duration = end;
 					} else {
 						g_print ("Seeking is DISABLED for this stream.\n");
 					}

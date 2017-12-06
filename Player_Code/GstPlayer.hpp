@@ -15,6 +15,7 @@ typedef struct internal_data
 	GMainLoop *mainLoop;
 	GstElement *playbin;
 	volatile gboolean terminated;
+	gint64 duration;
 } 
 InternalData;
 
@@ -42,6 +43,8 @@ public:
 	void seek(int);
 	void getState(void);
 	int getDuration(void);
+	void setVolume(double);
+	double getVolume(void);
 	void join(void);
 	static void playerRoutineHelper(void*);
 };

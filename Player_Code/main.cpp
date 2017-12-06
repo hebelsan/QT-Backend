@@ -12,6 +12,9 @@ int main (int argc, char** args)
 	player.pause();
 	usleep(400000);
 	player.play();
+	usleep(9000000);
+	player.setVolume(0.5);
+	std::cout << player.getDuration()<< std::endl;
 	player.join();
 	return 1;
 }
