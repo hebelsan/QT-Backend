@@ -21,8 +21,8 @@
 void can_data::send_canframe(struct can_frame frame_tmp){
 
   nbytes = write(s, &frame_tmp, sizeof(frame_tmp)); //schreiben des can-frames auf den CAN-BUS
-  printf("Wrote %d bytes\n", nbytes); //Ausgeben, wieviel Bytes auf den CAN-BUS geschrieben wurden.
-  printf("Data: %x %x %x %x %x\n", frame_tmp.can_id, frame_tmp.data[0],frame_tmp.data[1], frame_tmp.data[2], frame_tmp.data[3]); //Ausgabe, der gesendeten daten (max. 5Byte, da ein Frame bei uns nie mehr hat)
+  //printf("Wrote %d bytes\n", nbytes); //Ausgeben, wieviel Bytes auf den CAN-BUS geschrieben wurden.
+  //printf("Data: %x %x %x %x %x\n", frame_tmp.can_id, frame_tmp.data[0],frame_tmp.data[1], frame_tmp.data[2], frame_tmp.data[3]); //Ausgabe, der gesendeten daten (max. 5Byte, da ein Frame bei uns nie mehr hat)
   
 } 
 
@@ -59,7 +59,7 @@ int can_data::open_can(void){
   addr.can_family  = AF_CAN;
   addr.can_ifindex = ifr.ifr_ifindex;
   
-  printf("%s at index %d\n", ifname, ifr.ifr_ifindex);
+  //printf("%s at index %d\n", ifname, ifr.ifr_ifindex);
   
   if(bind(s, (struct sockaddr *)&addr, sizeof(addr)) < 0) {
     perror("Error in socket bind");

@@ -1,0 +1,4 @@
+# exclude all object and .gch files
+*.o
+*.hpp.gch
+Backend_Code/HFUDashboard_backend
