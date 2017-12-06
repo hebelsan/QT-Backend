@@ -1,11 +1,13 @@
 #include "control.hpp"
+#include "GstPlayer.hpp"
+
 
 static void initLocalMediaControl();
-static void analyseMediaControl(media_control_t *);
+static void analyseMediaControl(media_control_t *, GstPlayer *);
+static bool isPlaying = false; 
 
 // Lokaler Datenhalter
 static media_control_t local_media_control;
-
 
 
 void *control (void* val){
@@ -17,7 +19,10 @@ void *control (void* val){
 	int gear = control_daten->gear; //Zwischenspeicherung, der zuletzt an View gesendeten Daten
 	unsigned int tank = control_daten->tank; //Zwischenspeicherung, der zuletzt an View gesendeten Daten
 	int temp = control_daten->temp; //Zwischenspeicherung, der zuletzt an View gesendeten Daten
-	
+
+	GstPlayer player(0, NULL);
+	player.open("file:///home/pi/test.mp3");
+
 	initLocalMediaControl();
 	while(1){
     
@@ -100,7 +105,7 @@ void *control (void* val){
 	
 		} // endif my_new
     
-		analyseMediaControl(control_daten->media_control);
+		analyseMediaControl(control_daten->media_control, &player);
 	}
 }
 
@@ -115,7 +120,7 @@ static void initLocalMediaControl()
 	local_media_control.btn_left_pressed = false;
 }
 
-static void analyseMediaControl(media_control_t *control_daten)
+static void analyseMediaControl(media_control_t *control_daten, GstPlayer *player)
 {
 	if(control_daten->wheel_turns != 0)
 	{
@@ -131,6 +136,13 @@ static void analyseMediaControl(media_control_t *control_daten)
 	{
 		std::cout << "? 22 " << control_daten->wheel_pressed << std::endl;
 		local_media_control.wheel_pressed = control_daten->wheel_pressed;
+		if (!isPlaying && control_daten->wheel_pressed == 1) {
+			player->play();
+			isPlaying = true;
+		} else if (control_daten->wheel_pressed == 1) {
+			player->pause();
+			isPlaying = false;
+		}
 	}
 	if(control_daten->menu_pressed != local_media_control.menu_pressed)
 	{

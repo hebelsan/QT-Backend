@@ -24,6 +24,11 @@ int main ( int argc,const char* argv[]){
 	can_data can_bus; //CAN Objekt anlegen
 	int t = can_bus.open_can(); //CAN-Schnittstelle öffnen
 	media_control_t my_media_control;
+	my_media_control.wheel_direction = (steuerkreuz_t)0;
+	my_media_control.wheel_turns = 0;
+	my_media_control.wheel_pressed = 0;
+	my_media_control.menu_pressed = 0;
+	my_media_control.back_pressed = 0;
 
 
 	//Lenkrad Struct
