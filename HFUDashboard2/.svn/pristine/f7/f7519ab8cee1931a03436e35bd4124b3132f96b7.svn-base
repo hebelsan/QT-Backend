@@ -1,0 +1,38 @@
+#ifndef CANREADER2_H
+#define CANREADER2_H
+
+#include <QObject>
+#include <QCanBusDevice> // for CanBusError
+
+#include <memory>
+#include "frameparser.h"
+
+QT_BEGIN_NAMESPACE
+
+class QCanBusFrame;
+class QLabel;
+
+QT_END_NAMESPACE
+
+class CANReader : public QObject
+{
+    Q_OBJECT
+public:
+    explicit CANReader(QObject *parent = nullptr);
+    ~CANReader();
+    void sendFrame();
+    FrameParser* getFrameParser();
+
+signals:
+    void frameReceived(QCanBusFrame frame);
+
+private slots:
+    void receiveCANFrame();
+    void receiveError(QCanBusDevice::CanBusError) const;
+
+private:
+    QCanBusDevice *m_canDevice;
+    FrameParser *fp;
+};
+
+#endif // CANREADER2_H

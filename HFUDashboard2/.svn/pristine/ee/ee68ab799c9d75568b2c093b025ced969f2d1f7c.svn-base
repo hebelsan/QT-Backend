@@ -1,0 +1,118 @@
+import QtQuick 2.7
+import QtQuick.Extras 1.4 //CircularGauge
+
+/*CircularGauge {
+        width: parent.width * .8
+        height: parent.height * .8
+        anchors.centerIn: parent
+        anchors.bottom: parent.Bottom
+
+
+        // size of steps
+        minimumValue: 0
+        maximumValue: 9000
+
+        style: HFUTachometerStyle {}
+}*/
+Image {
+    Canvas{
+        id: canvas
+        antialiasing: true
+
+        property color primaryColor: "white"
+        property color secondaryColor: canEventSink.colorrpm
+
+        property real centerWidth: width / 2
+        property real centerHeight: height / 2
+        property real radius: (Math.min(canvas.width, canvas.height) / 2)-10
+
+        property real minimumValue: 0
+        property real maximumValue: 9000
+        property real currentValue: canEventSink.rpm
+
+        // this is the angle that splits the circle in two arcs
+        // first arc is drawn from 0 radians to angle radians
+        // second arc is angle radians to 2*PI radians
+        property real angle: (currentValue - minimumValue) / (maximumValue - minimumValue) * Math.PI
+
+        // we want both circle to start / end at 12 o'clock
+        // without this offset we would start / end at 9 o'clock
+        property real angleOffset: -Math.PI
+
+        anchors.fill: parent
+
+        onPrimaryColorChanged: requestPaint()
+        onSecondaryColorChanged: requestPaint()
+        onMinimumValueChanged: requestPaint()
+        onMaximumValueChanged: requestPaint()
+        onCurrentValueChanged: requestPaint()
+
+        onPaint: {
+            var ctx = getContext("2d");
+            ctx.save();
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // First, thinner arc
+            // From angle to 2*PI
+
+            /*ctx.beginPath();
+            ctx.lineWidth = 5;
+            ctx.strokeStyle = primaryColor;
+            ctx.bezierCurveTo(width/2 , 0+20 , -40, 10, 0+10, height/2 )
+            ctx.moveTo(width/2,0+10)
+            ctx.bezierCurveTo(width/2 , 0+20 , width+40, 10, width-10, height/2)
+            ctx.stroke();*/
+
+
+            ctx.beginPath();
+            ctx.lineWidth = 20;
+            ctx.strokeStyle = secondaryColor;
+            ctx.bezierCurveTo(width/2 , 0+10 , -40, 10, 0+10, height/2-60 )
+            ctx.moveTo(width/2,0+10)
+            ctx.bezierCurveTo(width/2 , 0+10 , width+40, 10, width-10, height/2-60)
+            ctx.stroke();
+        }
+    }
+
+    id: image1
+    //anchors.horizontalCenter: parent.horizontalCenter+20
+    source: "bilder/oTacho.png"
+    height: parent.width
+    width: parent.width
+    Text{
+        y: 156
+        width: 94
+        height: 48
+        color: "#ffffff"
+        //anchors.horizontalCenter: parent.horizontalCenter
+        //anchors.verticalCenter: parent.verticalCenter
+        text: canEventSink.kph.toFixed(0)
+        anchors.left: parent.left
+        anchors.leftMargin: (parent.width/2)-100
+        anchors.verticalCenter: parent.verticalCenter
+        font.pointSize: 50
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
+        anchors.verticalCenterOffset: 0
+        //color: "000000"
+    }
+
+    Text {
+        id: text1
+        x: 206
+        y: 156
+        width: 38
+        height: 48
+        color: "#ffffff"
+        text: qsTr("km/h")
+        anchors.verticalCenterOffset: 0
+        anchors.right: parent.right
+        anchors.rightMargin: (parent.width/2)-100
+        anchors.verticalCenter: parent.verticalCenter
+        verticalAlignment: Text.AlignVCenter
+        horizontalAlignment: Text.AlignHCenter
+        font.pixelSize: 30
+
+    }
+}

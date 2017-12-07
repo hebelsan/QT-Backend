@@ -1,0 +1,76 @@
+import QtQuick 2.7
+import QtQuick.Controls.Styles 1.4
+import QtLocation 5.5
+
+//test
+Item{
+    //color: "green"
+    id: hfuPhoneLeft
+    ListView {
+        id: listView1
+        width: parent.width/2
+        height: parent.height/2
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.horizontalCenter: parent.horizontalCenter
+
+        model: ListModel {
+            ListElement {
+                name: "Kontakt 1"
+                picture: "bilder/oTacho.png"
+            }
+
+            ListElement {
+                name: "Kontakt 2"
+                picture: "bilder/oTacho.png"
+            }
+
+            ListElement {
+                name: "Kontakt 3"
+                picture: "bilder/oTacho.png"
+            }
+
+            ListElement {
+                name: "Kontakt 4"
+                picture: "bilder/oTacho.png"
+            }
+            ListElement {
+                name: "Kontakt 5"
+                picture: "bilder/oTacho.png"
+            }
+            ListElement {
+                name: "Kontakt 6"
+                picture: "bilder/oTacho.png"
+            }
+            ListElement {
+                name: "Kontakt 7"
+                picture: "bilder/oTacho.png"
+            }
+            ListElement {
+                name: "Kontakt 8"
+                picture: "bilder/oTacho.png"
+            }
+        }
+
+        delegate: Item {
+            x: 5
+            width: 80
+            height: 40
+            Row {
+                id: row1
+                Image {
+                    width: 40
+                    height: 40
+                    source: picture
+                }
+
+                Text {
+                    text: name
+                    anchors.verticalCenter: parent.verticalCenter
+                    font.bold: true
+                    color: "white"
+                }
+                spacing: 10
+            }
+        }
+    }
+}

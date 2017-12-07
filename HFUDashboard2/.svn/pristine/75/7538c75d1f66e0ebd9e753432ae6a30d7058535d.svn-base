@@ -1,0 +1,39 @@
+<RCC>
+    <qresource prefix="/">
+        <file>HFUDashboardBase.qml</file>
+        <file>HFUDashboardHeader.qml</file>
+        <file>HFUDashboardLeftView.qml</file>
+        <file>HFUDashboardMiddleView.qml</file>
+        <file>HFUDashboardRightView.qml</file>
+        <file>HFUTachometer.qml</file>
+        <file>HFUTachometerStyle.qml</file>
+        <file>HFUTurnIndicator.qml</file>
+        <file>CanEventSink.qml</file>
+        <file>bilder/oTacho.png</file>
+        <file>bilder/Tacho.png</file>
+        <file>bilder/Tacho3.png</file>
+        <file>HFUNavStyle.qml</file>
+        <file>bilder/Tacho4.png</file>
+        <file>HFUMediaLeft.qml</file>
+        <file>bilder/Fuel.png</file>
+        <file>bilder/Temp.png</file>
+        <file>HFURightSelectionItem.qml</file>
+        <file>bilder/Tacho7.png</file>
+        <file>bilder/Tacho8.png</file>
+        <file>bilder/Tacho9.png</file>
+        <file>bilder/Background.png</file>
+        <file>HFUPhoneLeft.qml</file>
+        <file>HFUInfoLeft.qml</file>
+        <file>bilder/TurnWeel.png</file>
+        <file>bilder/airbagstoerung.jpg</file>
+        <file>bilder/batterie.jpg</file>
+        <file>bilder/bremsbelagverschleiss.jpg</file>
+        <file>bilder/bremsfluessigkeit.jpg</file>
+        <file>bilder/kuehlmittel.jpg</file>
+        <file>bilder/motorkontrollleuchte.jpg</file>
+        <file>bilder/nebelscheinwerfer.jpg</file>
+        <file>bilder/oeldruck.jpg</file>
+        <file>bilder/reifendruckverlust.jpg</file>
+        <file>bilder/vorgluehkontrollleuchte.jpg</file>
+    </qresource>
+</RCC>

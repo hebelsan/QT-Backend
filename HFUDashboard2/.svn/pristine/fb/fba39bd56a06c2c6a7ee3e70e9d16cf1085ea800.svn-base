@@ -1,0 +1,38 @@
+#ifndef CANCONNECTOR_H
+#define CANCONNECTOR_H
+
+#include <QObject>
+#include <QCanBusDevice> // for CanBusError
+
+#include <memory>
+#include "frameparser.h"
+
+QT_BEGIN_NAMESPACE
+
+class QCanBusFrame;
+class QLabel;
+
+QT_END_NAMESPACE
+
+class CANConnector : public QObject
+{
+    Q_OBJECT
+public:
+    explicit CANConnector(QObject *parent = nullptr);
+    ~CANConnector();
+    void sendFrame(QCanBusFrame &frame);
+    FrameParser* getFrameParser();
+
+signals:
+    void frameReceived(QCanBusFrame frame);
+
+private slots:
+    void receiveFrame();
+    void receiveErrorFrame(QCanBusDevice::CanBusError) const;
+
+private:
+    QCanBusDevice *m_canDevice;
+    FrameParser *fp;
+};
+
+#endif // CANCONNECTOR_H

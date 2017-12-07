@@ -1,0 +1,32 @@
+QT += qml quick
+QT += serialbus widgets core
+QT += network positioning location # maps
+
+CONFIG += c++11
+
+SOURCES += main.cpp \
+    can/canreader.cpp \
+    can/frameparser.cpp \
+    can/fpaudi.cpp \
+    can/fpbmw.cpp \
+    can/fpopel.cpp
+
+RESOURCES += qml.qrc \
+    dev.qrc
+
+# Additional import path used to resolve QML modules in Qt Creator's code model
+QML_IMPORT_PATH =
+
+# Default rules for deployment.
+qnx: target.path = /tmp/$${TARGET}/bin
+else: unix:!android: target.path = /opt/$${TARGET}/bin
+!isEmpty(target.path): INSTALLS += target
+
+DISTFILES +=
+
+HEADERS += \
+    can/canreader.h \
+    can/frameparser.h \
+    can/fpaudi.h \
+    can/fpbmw.h \
+    can/fpopel.h

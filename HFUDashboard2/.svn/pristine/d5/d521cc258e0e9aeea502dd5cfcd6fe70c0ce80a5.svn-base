@@ -1,0 +1,10 @@
+#include "fpaudi.h"
+
+FPAudi::FPAudi() : FrameParser(nullptr)
+{
+
+}
+
+void FPAudi::receiveCANFrame(QCanBusFrame frame){
+    const qint32 id = frame.frameId();
+}

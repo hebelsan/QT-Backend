@@ -1,0 +1,19 @@
+#ifndef FPAUDI_H
+#define FPAUDI_H
+
+#include "frameparser.h"
+
+class FPAudi : public FrameParser
+{
+public:
+    FPAudi();
+
+public slots:
+    void receiveCANFrame(QCanBusFrame frame);
+
+private:
+    void dasboardFrame(QCanBusFrame frame);
+    void x501Frame(QCanBusFrame frame);
+};
+
+#endif // FPAUDI_H

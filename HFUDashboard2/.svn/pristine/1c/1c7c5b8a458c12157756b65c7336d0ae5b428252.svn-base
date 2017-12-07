@@ -1,0 +1,15 @@
+#ifndef FPOPEL_H
+#define FPOPEL_H
+
+#include "frameparser.h"
+
+class FPOpel : public FrameParser
+{
+public:
+    FPOpel();
+
+public slots:
+    void receiveCANFrame(QCanBusFrame frame);
+};
+
+#endif // FPOPEL_H

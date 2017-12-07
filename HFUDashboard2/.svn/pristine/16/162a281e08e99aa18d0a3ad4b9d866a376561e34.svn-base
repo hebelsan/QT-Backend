@@ -1,0 +1,32 @@
+import QtQuick 2.7
+
+Item {
+    id: hfuDashboardHeader
+    //color: "#161616"
+    property CanEventSink canEventSink: hfuDasboardBase.getCANEventSink()
+
+    HFUTurnIndicator {
+        id: leftIndicator
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: parent.left
+        anchors.leftMargin: 30
+        width: parent.height * 0.9
+        height: parent.height * 0.7
+
+        direction: Qt.Key_Left
+
+        on: canEventSink.turnSignal === Qt.Key_Left
+    }
+
+    HFUTurnIndicator {
+        id: rightIndicator
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.right:  parent.right
+        anchors.rightMargin: 30
+        width: parent.height * 0.9
+        height: parent.height * 0.7
+
+        direction: Qt.Key_Right
+        on: parent.canEventSink.turnSignal === Qt.Key_Right
+    }
+}

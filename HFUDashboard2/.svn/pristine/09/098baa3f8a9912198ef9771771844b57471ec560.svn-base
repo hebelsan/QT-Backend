@@ -1,0 +1,15 @@
+import QtQuick 2.7
+
+Item {
+    id: canEventSink
+
+    property int turnSignal: 2
+
+
+    //setting turn
+    function setTurn(event){
+        console.log("canEventSink.turnSignal", event)
+        turnSignal = event;
+    }
+
+}

@@ -1,0 +1,33 @@
+#ifndef HFUENUMS_H
+#define HFUENUMS_H
+
+#include <QObject>
+#include <QFlags>
+
+class HFUEnums
+{
+    Q_GADGET
+    Q_FLAGS(CarWarnings)
+    Q_ENUMS(CarWarning)
+    Q_ENUMS(CruseControlMode)
+public:
+    enum CarWarning {
+        Engine = 0x01,
+        CoolantTempHigh = 0x2,
+        ESP = 0x10,
+        ABS = 0xA0,
+        HandBrake = 0xC0
+    };
+    Q_ENUM(CarWarning)
+    Q_DECLARE_FLAGS(CarWarnings, CarWarning)
+
+    enum CruseControlMode {
+        Off = 0,
+        On = 0,
+        GreenCar = 2,
+        GreenCarDistanz = 3
+    };
+    Q_ENUM(CruseControlMode)
+};
+Q_DECLARE_OPERATORS_FOR_FLAGS(HFUEnums::CarWarnings)
+#endif // HFUEnums_H

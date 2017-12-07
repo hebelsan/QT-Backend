@@ -1,0 +1,150 @@
+import QtQuick 2.7
+import QtQuick.Controls.Styles 1.4
+import QtLocation 5.5
+import QtPositioning 5.2
+
+Item{
+
+    id: hfuNav
+    Location {
+        id: hfuLocation
+        coordinate{
+
+            latitude: 48.051234
+            longitude: 8.207061
+        }
+    }
+
+    property MapCircle circle
+
+    onParentChanged: {
+        circle= Qt.createQmlObject('import QtLocation 5.3; MapCircle{}', hfuNav )
+        circle.center = hfuLocation.coordinate
+        circle.radius = 2.0
+        circle.color = Qt.rgba(0,0.55,1,1);
+        circle.border.width= 0
+        map.addMapItem(circle)
+    }
+
+    Map {
+        id: map
+        width: parent.width*1.5
+        height: parent.height*1.5
+        zoomLevel: canEventSink.zoomLevel
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.horizontalCenter: parent.horizontalCenter
+        //scale: 1.5
+        //transformOrigin: Item.Center
+        //activeMapType: MapType.CycleMap
+
+
+
+        MapCircle {
+            center:hfuLocation.coordinate
+            radius: 2.0
+            color: Qt.rgba(0,0.55,1,0.5)
+            border.width: 0
+        }
+
+        plugin:
+            Plugin {
+                name: "mapbox"
+                PluginParameter { name: "mapbox.access_token"; value: "pk.eyJ1IjoiaHVlYm5lcnMiLCJhIjoiY2l2ank0bWhzMDA4azJ5cHAwZmh6am1qaCJ9.x2wdQ6YHTBj2DdSef1kE4Q" }
+                PluginParameter { name: "mapbox.map_id"; value: "mapbox.mapbox-streets-v7" }
+            }
+        //18.92/48.05124/8.20781
+        center: hfuLocation.coordinate
+        /*{
+            latitude: 48.051234
+            longitude: 8.207061
+        }*/
+        Component.onCompleted:{
+            circle= Qt.createQmlObject('import QtLocation 5.3; MapCircle{}', hfuNav )
+            circle.center = hfuLocation.coordinate
+            circle.radius = 2.0
+            circle.color = Qt.rgba(0,0.55,1,1);
+            circle.border.width= 0
+            map.addMapItem(circle)
+        }
+
+
+        /*Component.
+        Component.onCompleted: {
+            circle= Qt.createQmlObject('import QtLocation 5.3; MapCircle{}', hfuNav )
+            circle.center = hfuLocation.coordinate
+            circle.radius = 2.0
+            circle.color = 'blue'
+            circle.border.width= 0
+            map.addMapItem(circle)
+            //map.center = hfuLocation.coordinate
+            //console.log(map.center.latitude)
+        }*/
+
+    }
+    Canvas{
+        id: distance
+        property real maxVal: 100
+        property real minVal: 0
+
+        property real value: 100
+        property real topOffset: 0//temp.width*0.1
+        property real botOffset: parent.height-64//temp.width*0.9
+
+        property real distanceOfVal: (100-value)/maxVal*(botOffset-topOffset)
+        property color colorTemp:{
+            if (value>=20){
+                return "red"
+            }
+            else{
+                return "white"
+            }
+        }
+
+        width: 1000
+        height: parent.height
+        contextType: qsTr("2D")
+
+        onMinValChanged: requestPaint()
+        onMaxValChanged: requestPaint()
+        onValueChanged: requestPaint()
+
+        onPaint: {
+
+            var ctx = getContext("2d");
+            ctx.save();
+
+            ctx.clearRect(0, 0, width, height);
+
+            /*ctx.beginPath();
+            ctx.lineWidth = 20;
+            ctx.strokeStyle = "green";
+            ctx.moveTo(leftOffset, temp.height/2);
+            ctx.lineTo(rightOffset, temp.height/2);
+            ctx.stroke();*/
+
+            ctx.beginPath();
+            ctx.lineWidth = 58;
+            ctx.strokeStyle = Qt.rgba(0,0.55,1,1);
+            ctx.moveTo(parent.width-43+parent.width+32, botOffset);
+            ctx.lineTo(parent.width-43+parent.width+32, topOffset+distanceOfVal);
+            ctx.stroke();
+
+            ctx.restore();
+            //console.log(width)
+
+        }
+
+    }
+    Image{
+        //width: parent.width
+        //height:parent.height
+        anchors.right: parent.right
+        anchors.rightMargin: -parent.width-32
+        anchors.top: hfuDasboardBase.top
+        anchors.topMargin: 64
+        anchors.bottom: hfuDasboardBase.bottom
+        anchors.bottomMargin: -64
+        source: "bilder/NavLeft1.png"
+    }
+}
+

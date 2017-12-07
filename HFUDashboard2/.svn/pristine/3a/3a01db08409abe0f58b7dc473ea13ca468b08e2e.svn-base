@@ -1,0 +1,313 @@
+import QtQuick 2.7
+import QtQuick.Controls.Styles 1.4
+import QtLocation 5.5
+
+Item{
+    id: hfuInfoLeft
+    width: parent.width*0.9
+    height: parent.height
+
+    NumberAnimation on opacity {
+        id: createAnimation
+        from: 0
+        to:1
+        duration: 500
+    }
+    Component.onCompleted: createAnimation.start()
+    onParentChanged: createAnimation.start()
+
+    property string src1: canEventSink.warningSrc1
+    property string src2: canEventSink.warningSrc2
+    property string src3: canEventSink.warningSrc3
+    property string src4: canEventSink.warningSrc4
+    property string src5: canEventSink.warningSrc5
+    property string src6: canEventSink.warningSrc6
+    property string src7: canEventSink.warningSrc7
+    property string src8: canEventSink.warningSrc8
+    property string src9: canEventSink.warningSrc9
+
+    onSrc1Changed: {
+        warning1.visible = true;
+        if (src1 == ""){
+            warning1.visible = false;
+        }
+
+    }
+
+
+    onSrc2Changed: {
+        warning2.visible = true;
+        if (src2 == ""){
+            warning2.visible = false;
+        }
+
+    }
+
+
+    onSrc3Changed: {
+        warning3.visible = true;
+        if (src3 == ""){
+            warning3.visible = false;
+        }
+
+    }
+
+
+    onSrc4Changed: {
+        warning4.visible = true;
+        if (src4 == ""){
+            warning4.visible = false;
+        }
+
+    }
+
+
+    onSrc5Changed: {
+        warning5.visible = true;
+        if (src5 == ""){
+            warning5.visible = false;
+        }
+
+    }
+
+
+    onSrc6Changed: {
+        warning6.visible = true;
+        if (src6 == ""){
+            warning6.visible = false;
+        }
+
+    }
+
+
+    onSrc7Changed: {
+        warning7.visible = true;
+        if (src7 == ""){
+            warning7.visible = false;
+        }
+
+    }
+
+
+
+    onSrc8Changed: {
+        warning8.visible = true;
+        if (src8 == ""){
+            warning8.visible = false;
+        }
+
+    }
+
+
+    onSrc9Changed: {
+        warning9.visible = true;
+        if (src9 == ""){
+            warning9.visible = false;
+        }
+
+    }
+
+
+    Grid {
+        id: warningsGrid
+        scale: 0.8
+        //height: 190
+        //anchors.horizontalCenterOffset: 0
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.verticalCenterOffset: 21
+        anchors.horizontalCenterOffset: 3
+        columns: 3
+        columnSpacing: 3
+        spacing: 2
+
+        property color rectangleColor: "#161616"
+
+
+
+        Image{
+            id: warning1
+            width:68;
+            height: 62
+            source: src1
+        }
+        Image{
+            id: warning2
+            width:68;
+            height: 62
+            source: src2
+        }
+        Image{
+            id: warning3
+            width:68;
+            height: 62
+            source: src3
+        }
+        Image{
+            id: warning4
+            width:68;
+            height: 62
+            source: src4
+        }
+        Image{
+            id: warning5
+            width:68;
+            height: 62
+            source: src5
+        }
+        Image{
+            id: warning6
+            width:68;
+            height: 62
+            source: src6
+        }
+        Image{
+            id: warning7
+            width:68;
+            height: 62
+            source: src7
+        }
+        Image{
+            id: warning8
+            width:68;
+            height: 62
+            source: src8
+        }
+        Image{
+            id: warning9
+            width:68;
+            height: 62
+            source: src9
+        }
+    }
+
+
+    Image{
+        width:parent.width
+        height: parent.height
+        source: "bilder/InfoLeft.png"
+        scale: 0.8
+        Text{
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.top:parent.top
+            anchors.topMargin: 140
+            text: "Reichweite "+canEventSink.range
+            horizontalAlignment: Text.AlignHCenter
+            color: Qt.rgba(0,0.62,1,1)
+            font.pointSize: 16
+            scale: 0.8
+        }
+
+
+        Canvas{
+            id: temp_gauge
+
+            property real maxVal: 100
+            property real minVal: 0
+
+            property real value: canEventSink.temperature
+            property real leftOffset: parent.width*0.085//temp.width*0.1
+            property real rightOffset: parent.width*0.915//temp.width*0.9
+
+            property real distanceOfVal: value/maxVal*(rightOffset-leftOffset)
+            property color colorTemp:{
+                if (value>=80){
+                    return "red"
+                }
+                else{
+                    return Qt.rgba(0,0.62,1,1);
+                }
+            }
+
+            width: parent.width
+            height: parent.height
+            contextType: qsTr("2D")
+
+            onMinValChanged: requestPaint()
+            onMaxValChanged: requestPaint()
+            onValueChanged: requestPaint()
+
+            onPaint: {
+
+                var ctx = getContext("2d");
+                ctx.save();
+
+                ctx.clearRect(0, 0, width, height);
+
+                /*ctx.beginPath();
+                ctx.lineWidth = 20;
+                ctx.strokeStyle = "green";
+                ctx.moveTo(leftOffset, temp.height/2);
+                ctx.lineTo(rightOffset, temp.height/2);
+                ctx.stroke();*/
+
+                ctx.beginPath();
+                ctx.lineWidth = 37;
+                ctx.strokeStyle = colorTemp;
+                ctx.moveTo(leftOffset, parent.height*0.8625);
+                ctx.lineTo(leftOffset + distanceOfVal, parent.height*0.8625);
+                ctx.stroke();
+
+                ctx.restore();
+
+            }
+
+        }
+        Canvas{
+            id: fuel_gauge
+
+            property real maxVal: 100
+            property real minVal: 0
+
+            property real value: canEventSink.fuel// * 100
+            property real leftOffset: parent.width*0.08//temp.width*0.1
+            property real rightOffset: parent.width*0.91//temp.width*0.9
+
+            property real distanceOfVal: value/maxVal*(rightOffset-leftOffset)
+            property color colorFuel:{
+                if (value<=20){
+                    return "red"
+                }
+                else{
+                    return Qt.rgba(0,0.62,1,1);
+                }
+            }
+
+            width: parent.width
+            height: parent.height
+            contextType: qsTr("2D")
+
+            onMinValChanged: requestPaint()
+            onMaxValChanged: requestPaint()
+            onValueChanged: requestPaint()
+
+            onPaint: {
+
+                var ctx = getContext("2d");
+                ctx.save();
+
+                ctx.clearRect(0, 0, width, height);
+
+                /*ctx.beginPath();
+                ctx.lineWidth = 20;
+                ctx.strokeStyle = "green";
+                ctx.moveTo(leftOffset, temp.height/2);
+                ctx.lineTo(rightOffset, temp.height/2);
+                ctx.stroke();*/
+
+                ctx.beginPath();
+                ctx.lineWidth = 37;
+                ctx.strokeStyle = colorFuel;
+                ctx.moveTo(leftOffset, parent.height*0.2475);
+                ctx.lineTo(leftOffset + distanceOfVal, parent.height*0.2475);
+                ctx.stroke();
+
+                ctx.restore();
+
+            }
+
+        }
+
+    }
+
+}

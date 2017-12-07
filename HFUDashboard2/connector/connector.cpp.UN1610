@@ -1,0 +1,373 @@
+#include "connector.h"
+
+#include <Qt>
+#include <QDebug>
+#include <QSettings>
+#include <QMessageLogger>
+#include <QFile>
+#include <QDataStream>
+#include <QDateTime>
+
+#include <pthread.h>
+#include <iostream>
+#include <unistd.h>
+#include <string>
+#include <stdio.h>
+#include <ctime>
+
+bool Connector::instanceflag = false;
+Connector* Connector::instance = NULL;
+int Connector::rpm = 660;
+int Connector::rpm_new = 660;
+std::string Connector::turnSignalDirection = "left";
+bool Connector::turnSignalState = false;
+bool Connector::menuState = false;
+
+void *Connector::rpm_test(void *){
+    int i = 0;
+    while(1){
+        for(; i <= 6000; i=i+100){
+            usleep(100000);
+            rpm_new = i;
+        }
+
+        for(; i >= 0; i=i-100){
+            usleep(100000);
+            rpm_new = i;
+        }
+    }
+}
+
+void Connector::turnSignalTest(std::string direction){
+    pthread_t turnSignal_thread;
+    turnSignalDirection = direction;
+    pthread_create(&turnSignal_thread, NULL, turnSignal, NULL);
+}
+
+void Connector::menuTest(){
+    Connector *creader = Connector::getInstance();
+    pthread_t menu_thread;
+    emit creader->menuStateFrameReceived(true);
+    pthread_create(&menu_thread, NULL, menu, NULL);
+}
+
+/**
+ * @brief Connector::currentDate
+ * @return current Date
+ *
+ * gets the current system time and returns the date
+ */
+const std::string Connector::currentDate() {
+    time_t rawtime;
+    time ( &rawtime );
+    struct tm *timeinfo = localtime ( &rawtime );
+    char       buf[80];
+    strftime(buf, sizeof(buf), "%d.%m.%Y", timeinfo);
+
+    std::cout << buf << std::endl;
+
+    return buf;
+}
+
+/**
+ * @brief Connector::currentTime
+ * @return current Time
+ *
+ * gets the current system time and returns the time
+ */
+const std::string Connector::currentTime() {
+
+    std::cout << "test" << std::endl;
+
+    time_t rawtime;
+    time ( &rawtime );
+    struct tm *timeinfo = localtime ( &rawtime );
+    char       buf[80];
+    strftime(buf, sizeof(buf), "%X", timeinfo);
+
+    std::cout << buf << std::endl;
+
+    return buf;
+}
+
+/**
+ * @brief Connector::time
+ * @return
+ *
+ * sends periodically the current system time and date to the GUI
+ */
+void *Connector::time(void *){
+    Connector *creader = Connector::getInstance();
+
+    std::cout << "test2" << std::endl;
+
+    while(1){
+        emit creader->dateFrameReceived(currentDate());
+        emit creader->timeFrameReceived(currentTime());
+        usleep(1000000);
+    }
+}
+
+/**
+ * @brief Connector::menu
+ * @return
+ *
+ * Waits for 2 seconds and then turns of the menu if not cancelled before
+ */
+void *Connector::menu(void *){
+    menuState = true;
+    Connector *creader = Connector::getInstance();
+
+    usleep(2000000);
+
+    emit creader->menuStateFrameReceived(false);
+    menuState = false;
+}
+
+/**
+ * @brief Connector::turnSignal
+ * @return
+ *
+ * Thread for the Turn Signal
+ */
+void *Connector::turnSignal(void *){
+    turnSignalState = true;
+    Connector *creader = Connector::getInstance();
+
+    if(turnSignalDirection == "left"){
+        for(int i = 0; i < 5; i++){
+            usleep(1000000);
+            emit creader->turnSignalLeftFrameReceived(true);
+            usleep(1000000);
+            emit creader->turnSignalLeftFrameReceived(false);
+        }
+        turnSignalState = false;
+    }
+    else if(turnSignalDirection == "right"){
+        for(int i = 0; i < 5; i++){
+            usleep(1000000);
+            emit creader->turnSignalRightFrameReceived(true);
+            usleep(1000000);
+            emit creader->turnSignalRightFrameReceived(false);
+        }
+        turnSignalState = false;
+    }
+    else if(turnSignalDirection == "both"){
+        for(;;){
+            usleep(1000000);
+            emit creader->turnSignalRightFrameReceived(true);
+            emit creader->turnSignalLeftFrameReceived(true);
+            usleep(1000000);
+            emit creader->turnSignalRightFrameReceived(false);
+            emit creader->turnSignalLeftFrameReceived(false);
+        }
+        turnSignalState = false;
+    }
+}
+
+
+/**
+ * @brief Smoothing of rpm
+ * @param id
+ * @return
+ *
+ * rpm is 1/8 of new RPM value and 7/8 of old RPM value
+ */
+void *Connector::smooth_rpm(void *){
+    Connector *creader = Connector::getInstance();
+    //std::cout << 1 << std::endl;
+    while(1){
+        usleep(50000);
+        rpm = (rpm*7+rpm_new*1)/8;
+        emit creader->rpmFrameReceived(rpm);
+        //emit creader->fuelFrameReceived(130);
+        //std::cout << rpm << std::endl;
+    }
+}
+
+/**
+ * @brief input data from Control
+ * @param id
+ * @return
+ *
+ * gets the data from the Crontrol class and sends it to the GUI
+ */
+void *Connector::input(void *) {
+    Connector *creader = Connector::getInstance();
+
+    pthread_t smooth_thread;
+    pthread_t turnSignal_thread;
+    pthread_t menu_thread;
+    pthread_create(&smooth_thread, NULL, smooth_rpm, NULL);
+
+    char buffer[1024]; unsigned int identifier; unsigned int value;
+    while(1){
+        //std::cout << 0 << std::endl;
+        if(fgets(buffer, sizeof(buffer), stdin) == NULL){
+            continue;
+        }
+        if(sscanf(buffer, "? %u %u", &identifier, &value)==2){
+            switch(identifier){
+
+                case 0:{
+                    emit creader->speedFrameReceived(value);
+                    break;
+                }
+                case 1:{
+                    //emit creader->rpmFrameReceived(value);
+                    rpm_new = value;
+                    break;
+                }
+                case 2:{
+                    if(!turnSignalState){
+                        turnSignalDirection = "left";
+                        pthread_create(&turnSignal_thread, NULL, turnSignal, NULL);
+                    }
+                    if(turnSignalState && turnSignalDirection == "right"){
+                        turnSignalDirection = "left";
+                        pthread_cancel(turnSignal_thread);
+                        emit creader->turnSignalRightFrameReceived(false);
+                        pthread_create(&turnSignal_thread, NULL, turnSignal, NULL);
+                    }
+                    break;
+                }
+                case 3:{
+                    if(!turnSignalState){
+                        turnSignalDirection = "right";
+                        pthread_create(&turnSignal_thread, NULL, turnSignal, NULL);
+                    }
+                    if(turnSignalState && turnSignalDirection == "left"){
+                        turnSignalDirection = "right";
+                        pthread_cancel(turnSignal_thread);
+                        emit creader->turnSignalLeftFrameReceived(false);
+                        pthread_create(&turnSignal_thread, NULL, turnSignal, NULL);
+                    }
+                    break;
+                }
+                case 4:{
+                    if(menuState){
+                        pthread_cancel(menu_thread);
+                        emit creader->dashboardMenuRightFrameReceived();
+                        pthread_create(&menu_thread, NULL, menu, NULL);
+                    }
+                    else{
+                        emit creader->menuStateFrameReceived(true);
+                        emit creader->dashboardMenuRightFrameReceived();
+                        pthread_create(&menu_thread, NULL, menu, NULL);
+                    }
+                    break;
+                }
+                case 5:{
+                    if(menuState){
+                        pthread_cancel(menu_thread);
+                        emit creader->dashboardMenuLeftFrameReceived();
+                        pthread_create(&menu_thread, NULL, menu, NULL);
+                    }
+                    else{
+                        emit creader->menuStateFrameReceived(true);
+                        emit creader->dashboardMenuLeftFrameReceived();
+                        pthread_create(&menu_thread, NULL, menu, NULL);
+                    }
+                    break;
+                }
+                case 6:{
+                    emit creader->dashboardRollerUpFrameReceived();
+                    break;
+                }
+                case 7:{
+                    emit creader->dashboardRollerDownFrameReceived();
+                    break;
+                }
+                case 8:{
+                    emit creader->gearFrameReceived(value);
+                    break;
+                }
+                case 9:{
+                    //std::cout << "Temperatur angekommen: " << value << std::endl;
+                    emit creader->temperatureFrameReceived(value);
+                    break;
+                }
+                case 10:{
+                    emit creader->warningFrameReceived();
+                    break;
+                }
+                case 11:{
+                    if(!turnSignalState){
+                        turnSignalDirection = "both";
+                        pthread_create(&turnSignal_thread, NULL, turnSignal, NULL);
+                    }
+                    if((turnSignalState && turnSignalDirection == "left") || (turnSignalState && turnSignalDirection == "right")){
+                        turnSignalDirection = "both";
+                        pthread_cancel(turnSignal_thread);
+                        emit creader->turnSignalLeftFrameReceived(false);
+                        emit creader->turnSignalRightFrameReceived(false);
+                        pthread_create(&turnSignal_thread, NULL, turnSignal, NULL);
+                    }
+                    if(turnSignalState && turnSignalDirection == "both"){
+                        pthread_cancel(turnSignal_thread);
+                        emit creader->turnSignalLeftFrameReceived(false);
+                        emit creader->turnSignalRightFrameReceived(false);
+                        turnSignalState = false;
+                    }
+                    break;
+                }
+                case 12:{
+                    emit creader->fuelFrameReceived(value);
+                    break;
+                }
+            }
+        }
+        else{
+
+            for(int i = 0; buffer[i] != '\n'; i++){
+                std::cout << buffer[i];
+            }
+            std::cout << std::endl;
+        }
+    }
+}
+
+/**
+ * @brief Constructor for Connector
+ * @param parent
+ *
+ * Initializes the Thread for smoothing the rpm and the Thread for the data input from the control class
+ */
+Connector::Connector(QObject *parent) : QObject(parent)
+{
+
+    pthread_t input_thread;
+    pthread_create(&input_thread, NULL, input, NULL);
+    pthread_detach(input_thread);
+
+    /*pthread_t time_thread;
+    pthread_create(&time_thread, NULL, time, NULL);
+    pthread_detach(time_thread);*/
+    emit this->dateFrameReceived(currentDate());
+    emit this->timeFrameReceived(currentTime());
+
+}
+
+/**
+ * @brief Connector::getInstance
+ * @return Instance of the Connector Class
+ *
+ * Singleton Pattern: only one instance of the Connector class can be present
+ */
+Connector* Connector::getInstance(){
+
+    if(!instanceflag){
+        instance = new Connector();
+        instanceflag = true;
+    }
+
+    return instance;
+}
+
+/*Connector* Connector::getConnector(){
+    return instance;
+}*/
+
+void Connector::setRpm(float rpm){
+    rpm_new = rpm;
+}

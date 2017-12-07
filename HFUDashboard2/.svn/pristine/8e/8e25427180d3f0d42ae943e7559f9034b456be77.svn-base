@@ -1,0 +1,101 @@
+import QtQuick 2.7
+
+Item {
+    id: canEventSink
+
+    property int turnSignal: 2
+    property real kphold
+    property real kph
+    property real rpmold: 1000
+    property real rpm: 1000
+    property real fuel: 0.85
+    property string gear: "P"
+    property real temperature: 0.1
+    property Item activeLeft: Rectangle{
+        height: hfuDasboardLeftView.height
+        width: hfuDasboardLeftView.width
+        color:"black"
+    }
+    property Item media: HFUMediaLeft{
+        height: hfuDasboardLeftView.height
+        width: hfuDasboardLeftView.width
+    }
+    property Item nav: HFUNavStyle{
+        height: hfuDasboardLeftView.height
+        width: hfuDasboardLeftView.width
+    }
+    property color colorrpm: {
+        var x;
+        if (rpm<5000){
+            return "green"
+        }
+        else{
+            if (rpm<7000){
+                return "blue";
+            }else{
+                return "red"
+            }
+        }
+
+    }
+
+    //setting turn
+    function setTurn(event){
+        console.log("canEventSink.turnSignal", event)
+        turnSignal = event;
+    }
+    //--------------------------------------------------------------------------------------------------------------------
+    //setting rpm
+
+    function setRpm(newRpm){
+        rpmold = rpm
+        rpm = newRpm;
+    }
+
+    Behavior on rpm{
+        NumberAnimation {
+            id: rpmanimation
+            duration: 600
+            easing.type: Easing.InOutQuad
+            from: rpmold
+        }
+    }
+    //--------------------------------------------------------------------------------------------------------------------
+    //setting kph
+    function setSpeed(newKph){
+        kphold= kph
+        kph = newKph;
+    }
+
+    Behavior on kph{
+        NumberAnimation {
+            id: kphanimation
+            duration: 600
+            easing.type: Easing.InOutQuad
+            from: kphold
+        }
+    }
+    //--------------------------------------------------------------------------------------------------------------------
+    //setting Gear
+    function setGear(newGear){
+        gear = newGear;
+    }
+    //--------------------------------------------------------------------------------------------------------------------
+    //setting Temp
+    function setTemp(newTemp){
+        temperature = newTemp;
+    }
+    //--------------------------------------------------------------------------------------------------------------------
+    //setting Fuel
+    function setFuel(newFuel){
+        fuel = newFuel;
+    }
+    //set Left View
+    function setMediaLeft(){
+        activeLeft = media;
+    }
+    function setNavleft(){
+        activeLeft = nav;
+    }
+
+}

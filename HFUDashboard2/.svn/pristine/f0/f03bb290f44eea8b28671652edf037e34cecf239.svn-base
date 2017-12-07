@@ -1,0 +1,79 @@
+import QtQuick 2.7
+import QtQuick.Controls 2.0
+import QtQuick.Layouts 1.0
+
+ApplicationWindow {
+    visible: true
+    id: hfuDasboardBase
+    title: qsTr("HFU Dashboard")
+    visibility: "FullScreen"
+    color: "#161616"
+
+    CanEventSink{
+        id: canEventSink
+    }
+
+    function getCANEventSink(){
+        console.log("request can", canEventSink.turnSignal)
+        return canEventSink
+    }
+
+    Item {
+        id: keyhandler
+        focus:true
+        Keys.onReleased: {
+            console.log("event:", event.key === Qt.Key_Left)
+            if(event.key === Qt.Key_Left){
+                if (canEventSink.turnSignal === Qt.Key_Left) {
+                    canEventSink.setTurn(Qt.Key_Left)
+                } else {
+                    canEventSink.setTurn(0)
+                }
+            }
+            else if(event.key === Qt.Key_Right){
+                if (canEventSink.turnSignal !== Qt.Key_Right) {
+                    canEventSink.setTurn(Qt.Key_Right)
+                }
+                else {
+                    canEventSink.setTurn(0)
+                }
+            }
+        }
+    }
+
+    Item{
+        anchors.fill: parent
+        HFUDashboardHeader {
+            id: hfuDashboardHeader
+            width: parent.width
+            height: 0.10 * parent.height
+            anchors.top: parent.top
+        }
+
+        HFUDashboardLeftView{
+            width: 0.33 * parent.width
+            height: parent.height - (hfuDashboardHeader.height)
+            anchors.left: parent.left
+            anchors.leftMargin: 0
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 0
+        }
+
+        HFUDashboardMiddleView{
+            width: 0.33 * parent.width
+            height: parent.height - (hfuDashboardHeader.height)
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 0
+        }
+
+        HFUDashboardRightView{
+            width: 0.33 * parent.width
+            height: parent.height - (hfuDashboardHeader.height)
+            anchors.right: parent.right
+            anchors.rightMargin: 0
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 0
+        }
+    }
+}

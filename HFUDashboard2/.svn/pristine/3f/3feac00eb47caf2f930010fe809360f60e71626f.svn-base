@@ -1,0 +1,99 @@
+import QtQuick 2.7
+import QtQuick.Controls.Styles 1.4
+import QtLocation 5.5
+
+//test
+Item{
+    //color: "green"
+    id: hfuMediaLeft
+    Image {
+        id: coverPic
+        width: parent.width/3
+        height: width
+        anchors.horizontalCenter: parent.horizontalCenter
+        source: "bilder/oTacho.png"
+        anchors.top: parent.top
+        anchors.topMargin: parent.height*0.1
+    }
+    Rectangle{
+        id: song
+        height: 30
+        width: parent.width/2
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.top: coverPic.bottom
+        anchors.topMargin: parent.height*0.01
+        Canvas{
+            id: song_gauge
+
+            property real maxVal: 100
+            property real minVal: 0
+
+            property real value: canEventSink.song_time
+            property real leftOffset: parent.width*0.1
+            property real rightOffset: parent.width*0.9
+
+            property real distanceOfVal: value/maxVal*(rightOffset-leftOffset)
+
+            width: parent.width
+            height: parent.height
+            contextType: qsTr("2D")
+
+            onMinValChanged: requestPaint()
+            onMaxValChanged: requestPaint()
+            onValueChanged: requestPaint()
+
+            onPaint: {
+
+                var ctx = getContext("2d");
+                ctx.save();
+
+                ctx.clearRect(0, 0, width, height);
+
+                ctx.beginPath();
+                ctx.lineWidth = 20;
+                ctx.strokeStyle = "green";
+                ctx.moveTo(leftOffset, parent.height/2);
+                ctx.lineTo(rightOffset, parent.height/2);
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.lineWidth = 20;
+                ctx.strokeStyle = "red";
+                ctx.moveTo(leftOffset, parent.height/2);
+                ctx.lineTo(leftOffset + distanceOfVal, parent.height/2);
+                ctx.stroke();
+
+                ctx.restore();
+
+            }
+
+        }
+
+    }
+    Rectangle{
+        width: parent.width/2
+        height: width*0.6
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.top: song.bottom
+        anchors.topMargin: parent.height *0.01
+        color: "white"
+        Text{
+            id: song_name
+            font.pointSize: 40
+            text:"hallo"
+        }
+        Text{
+            id: album_name
+            font.pointSize: 40
+            anchors.top: song_name.bottom
+            text: "testalbum"
+        }
+        Text{
+            id: interpret_name
+            font.pointSize: 40
+            anchors.top: album_name.bottom
+            text: "testinterpret"
+        }
+    }
+
+}

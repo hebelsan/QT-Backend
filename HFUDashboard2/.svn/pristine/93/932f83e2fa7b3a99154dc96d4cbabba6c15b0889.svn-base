@@ -1,0 +1,201 @@
+import QtQuick 2.7
+import QtQuick.Controls 2.0
+//import QtQuick.Layouts 1.0
+
+ApplicationWindow {
+    visible: true
+    id: hfuDasboardBase
+    title: qsTr("HFU Dashboard")
+    //visibility: "FullScreen"
+    width: 1440
+    height: 540
+    color: "#161616"
+
+    CanEventSink{
+        id: canEventSink
+    }
+
+    function getCANEventSink(){
+        console.log("request can", canEventSink.turnSignal)
+        return canEventSink
+    }
+
+    Item {
+        id: keyhandler
+        focus:true
+        Keys.onReleased: {
+            if(event.key===Qt.Key_Up){
+                canEventSink.setSpeed(180)
+                canEventSink.setRpm(9000)
+            }
+            else if(event.key===Qt.Key_Down){
+                canEventSink.setSpeed(100)
+                canEventSink.setRpm(2200)
+            }
+            else if(event.key===Qt.Key_Left){
+
+                if (canEventSink.turnSignal!=Qt.LeftArrow)
+                    canEventSink.setTurn(Qt.LeftArrow)
+                else
+                    canEventSink.setTurn(0)
+            }
+            else if(event.key===Qt.Key_Right){
+                if (canEventSink.turnSignal!=Qt.RightArrow)
+                    canEventSink.setTurn(Qt.RightArrow)
+                else
+                    canEventSink.setTurn(0)
+            }
+            else if(event.key===Qt.Key_W){
+                if(canEventSink.turnSignal==2){
+                    canEventSink.setTurn(0)
+                }else
+                    canEventSink.setTurn(2)
+            }
+            else if(event.key===Qt.Key_U){
+                if(canEventSink.gear=="P"){
+                    canEventSink.setGear((1).toString())
+                }else
+                    canEventSink.setGear((parseInt(canEventSink.gear)+1).toString())
+            }
+            else if(event.key===Qt.Key_D){
+                if(canEventSink.gear-1==0){
+                    canEventSink.setGear("P")
+                }
+                else if(canEventSink.gear!="P"){
+                    canEventSink.setGear((canEventSink.gear-1).toString())
+                }
+            }
+            else if(event.key===Qt.Key_H){
+                canEventSink.setTemp(100)
+            }
+            else if(event.key===Qt.Key_C){
+                canEventSink.setTemp(50)
+
+            }
+            else if(event.key===Qt.Key_F){
+                canEventSink.setFuel(1)
+            }
+            else if(event.key===Qt.Key_E){
+                canEventSink.setFuel(0.2)
+
+            }
+            else if(event.key===Qt.Key_R){
+                canEventSink.setNavleft();
+                //hfuDashboardRightView.turnRight();
+                canEventSink.turnRight();
+
+            }
+            else if(event.key===Qt.Key_L){
+                canEventSink.turnLeft();
+                //hfuDashboardRightView.turnRight();
+            }
+            else if(event.key===Qt.Key_1){
+                canEventSink.setWarning(1);
+            }
+            else if(event.key===Qt.Key_2){
+                canEventSink.setWarning(2);
+            }
+            else if(event.key===Qt.Key_3){
+                canEventSink.setWarning(3);
+            }
+            else if(event.key===Qt.Key_4){
+                canEventSink.setWarning(4);
+            }
+            else if(event.key===Qt.Key_5){
+                canEventSink.setWarning(5);
+            }
+            else if(event.key===Qt.Key_6){
+                canEventSink.setWarning(6);
+            }
+            else if(event.key===Qt.Key_7){
+                canEventSink.setWarning(7);
+            }
+            else if(event.key===Qt.Key_8){
+                canEventSink.setWarning(8);
+            }
+            else if(event.key===Qt.Key_9){
+                canEventSink.setWarning(9);
+            }
+            else if(event.key===Qt.Key_Escape){
+                close()
+
+            }
+        }
+    }
+
+
+
+    Item {
+        Connections {
+            target: canReader
+            onSpeedFrameReceived: {
+                canEventSink.setSpeed(speed);
+            }
+
+            onRpmFrameReceived: {
+                canEventSink.setRpm(rpm);
+            }
+            onTurnSignalFrameReceived: {
+                console.log("turn signal frame received "+turn);
+                canEventSink.setTurn(turn);
+            }
+            onRangeFrameReceived: {
+                //canEventSink.set
+            }
+            onFuelFrameReceived: {
+                canEventSink.setFuel(fuel);
+            }
+            onDashboardMenuRight: {
+                canEventSink.turnRight();
+            }
+            onDashboardMenuLeft: {
+                canEventSink.turnLeft();
+            }
+            onWarningFrameReceived: {
+                canEventSink.setCarWarning(warnings);
+            }
+        }
+    }
+
+    Item{
+        id: view
+        anchors.fill: parent
+//        source: "bilder/Background.png"
+
+        /*
+        HFUDashboardHeader {
+            id: hfuDashboardHeader
+            width: parent.width
+            height: 0.10 * parent.height
+            anchors.top: parent.top
+        }*/
+
+        HFUDashboardLeftView{
+            id: hfuDasboardLeftView
+            width: 0.33 * parent.width
+            height: parent.height - (64)
+            anchors.right: hfuDasboardMiddleView.left
+            anchors.rightMargin: -22
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 0
+        }
+
+        HFUDashboardMiddleView{
+            id: hfuDasboardMiddleView
+            width: 0.33 * parent.width
+            height: parent.height
+            anchors.topMargin: 1// - (hfuDashboardHeader.height)
+            //anchors.horizontalCenter: parent.horizontalCenter
+        }
+
+        HFUDashboardRightView{
+            id: hfuDashboardRightView
+            width: 0.33 * parent.width
+            height: parent.height// - (hfuDashboardHeader.height)
+            anchors.right: parent.right
+            anchors.rightMargin: 0
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 0
+        }
+    }
+}

@@ -1,0 +1,120 @@
+#include "canreader.h"
+
+#include <Qt>
+#include <QDebug>
+#include <QCanBus>
+
+static QByteArray dataFromHex(const QString &hex)
+{
+    QByteArray line = hex.toLatin1();
+    line.replace(' ', QByteArray());
+    return QByteArray::fromHex(line);
+}
+
+static QByteArray dataToHex(const QByteArray &data)
+{
+    QByteArray result = data.toHex().toUpper();
+
+    for (int i = 0; i < result.size(); i += 3)
+        result.insert(i, ' ');
+
+    return result;
+}
+
+CANReader::CANReader(QObject *parent) : QObject(parent)
+{
+    foreach (const QByteArray &backend, QCanBus::instance()->plugins()) {
+        qInfo("%s", QString::fromLatin1(backend).toLatin1().data());
+        if (backend == "socketcan") {
+            // were found
+            break;
+        }
+    }
+
+    m_canDevice = QCanBus::instance()->createDevice("socketcan",  QStringLiteral("vcan0"));
+    //m_canDevice = QCanBus::instance()->createDevice("socketcan",  QStringLiteral("can0"));
+
+
+    if (!m_canDevice) {
+        qCritical() << "Error!";
+    }
+
+    connect(m_canDevice, &QCanBusDevice::framesReceived,
+            this, &CANReader::receiveCANFrame);
+
+    connect(m_canDevice, &QCanBusDevice::errorOccurred,
+            this, &CANReader::receiveError);
+
+     if (!m_canDevice->connectDevice()) {
+         qCritical() << "connection error!";
+     }
+}
+
+CANReader::~CANReader()
+{
+    delete m_canDevice;
+}
+
+
+void CANReader::receiveCANFrame(){
+    if (!m_canDevice)
+        return;
+
+    const QCanBusFrame frame = m_canDevice->readFrame();
+    const qint8 dataLength = frame.payload().size();
+    const qint32 id = frame.frameId();
+
+    bool ok;
+    switch(id){
+        //rpm
+        case 0xa5:
+            //qInfo() << "rpm: " << (((frame.payload()[6] * 256.0f) + frame.payload()[5]) / 4.0f);
+            emit rpmFrameReceived(((frame.payload()[6] * 256.0f) + frame.payload()[5]) / 4.0f);
+            break;
+        case 0x254:
+            /*qInfo() << "kmh: " <<
+                       ( (((frame.payload()[1]*256.0f + frame.payload()[0]) - 32767.0f) / 50.0f) +
+                         (((frame.payload()[3]*256.0f + frame.payload()[2]) - 32767.0f) / 50.0f) +
+                         (((frame.payload()[5]*256.0f + frame.payload()[4]) - 32767.0f) / 50.0f) +
+                         (((frame.payload()[7]*256.0f + frame.payload()[6]) - 32767.0f) / 50.0f) ) / 4.0f;*/
+            break;
+        case 0x1f6:
+            if (frame.payload()[0] == 0x91){
+                //qInfo() << "turn left";
+                emit turnSignalFrameReceived(Qt::LeftArrow);
+            } else if (frame.payload()[0] == 0xa1){
+                //qInfo() << "turn right";
+                emit turnSignalFrameReceived(Qt::RightArrow);
+            }
+            break;
+        default:
+            break;
+    }
+
+
+}
+
+void CANReader::receiveError(QCanBusDevice::CanBusError error) const
+{
+    switch (error) {
+    case QCanBusDevice::ReadError:
+    case QCanBusDevice::WriteError:
+    case QCanBusDevice::ConnectionError:
+    case QCanBusDevice::ConfigurationError:
+    case QCanBusDevice::UnknownError:
+        qWarning() << m_canDevice->errorString();
+    default:
+        break;
+    }
+}
+
+void CANReader::sendFrame(){
+    QCanBusFrame frame;
+    frame.setFrameId(8);
+    QByteArray payload("A36E");
+    frame.setPayload(payload);
+    m_canDevice->writeFrame(frame);
+}
+
+
+

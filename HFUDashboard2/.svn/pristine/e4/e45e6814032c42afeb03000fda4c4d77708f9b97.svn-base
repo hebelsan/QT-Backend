@@ -1,0 +1,148 @@
+import QtQuick 2.7
+import QtQuick.Extras 1.4 //CircularGauge
+
+/*CircularGauge {
+        width: parent.width * .8
+        height: parent.height * .8
+        anchors.centerIn: parent
+        anchors.bottom: parent.Bottom
+
+
+        // size of steps
+        minimumValue: 0
+        maximumValue: 9000
+
+        style: HFUTachometerStyle {}
+}*/
+Image {
+    Canvas{
+        id: canvas
+        antialiasing: true
+
+        property color primaryColor: "white"
+        property color secondaryColor: canEventSink.colorrpm
+
+        property real centerWidth: width / 2
+        property real centerHeight: parent.height/2*0.88
+        property real radius: (canvas.width / 2)*0.85
+
+        property real minimumValue: 0
+        property real maximumValue: 6000
+        property real currentValue: canEventSink.rpm
+
+        // this is the angle that splits the circle in two arcs
+        // first arc is drawn from 0 radians to angle radians
+        // second arc is angle radians to 2*PI radians
+        property real angle: (currentValue - minimumValue) / (maximumValue - minimumValue) * Math.PI/2
+
+        // we want both circle to start / end at 12 o'clock
+        // without this offset we would start / end at 9 o'clock
+        property real angleOffset: -Math.PI/2
+        anchors.horizontalCenterOffset: 0
+        anchors.bottomMargin: 0
+        anchors.leftMargin: 0
+        anchors.topMargin: 0
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.left: parent.left
+        anchors.bottom: parent.bottom
+        anchors.top: parent.top
+
+
+        onPrimaryColorChanged: requestPaint()
+        onSecondaryColorChanged: requestPaint()
+        onMinimumValueChanged: requestPaint()
+        onMaximumValueChanged: requestPaint()
+        onCurrentValueChanged: requestPaint()
+
+        onPaint: {
+            var ctx = getContext("2d");
+            ctx.save();
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            ctx.beginPath();
+            ctx.lineWidth = 30;
+            ctx.strokeStyle = canEventSink.colorrpm;
+            ctx.arc(canvas.centerWidth,
+                    canvas.centerHeight,
+                    canvas.radius,
+                    canvas.angleOffset,
+                    canvas.angleOffset + canvas.angle);
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.lineWidth = 30;
+            ctx.strokeStyle = canEventSink.colorrpm;
+            ctx.arc(canvas.centerWidth,
+                    canvas.centerHeight,
+                    canvas.radius,
+                    canvas.angleOffset,
+                    canvas.angleOffset - canvas.angle, true );
+            ctx.stroke();
+
+            ctx.restore();
+        }
+    }
+
+    id: image1
+    anchors.verticalCenter: parent.verticalCenter
+    anchors.horizontalCenter: parent.horizontalCenter
+    //anchors.top: parent.top
+    //anchors.topMargin: 0
+    source: "bilder/tacho20.png"
+    //width: parent.width*0.9
+    //height: parent.height*5
+    fillMode: Image.PreserveAspectFit
+
+    //y: 50
+    Text{
+        width: 94
+        height: 48
+        color: Qt.rgba(0,0.55,1,1);
+        //anchors.horizontalCenter: parent.horizontalCenter
+        //anchors.verticalCenter: parent.verticalCenter
+        text: canEventSink.kph.toFixed(0)
+        anchors.left: parent.left
+        anchors.leftMargin: parent.width/2*0.6
+        anchors.top: parent.top
+        anchors.topMargin: parent.height/2*0.7
+        font.pointSize: 40
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
+        //color: "000000"
+        Text {
+            id: text1
+            x: 232
+            width: 38
+            height: 48
+            color: Qt.rgba(0,0.55,1,1);
+            text: qsTr("km/h")
+            anchors.bottom: parent.bottom
+            anchors.left: parent.right
+            anchors.leftMargin: 22
+            verticalAlignment: Text.AlignBottom
+            horizontalAlignment: Text.AlignHCenter
+            font.pixelSize: 30
+
+        }
+    }
+
+    Text{
+        id: gearText
+        width: 94
+        height: 48
+        color: canEventSink.gearTextColor
+        //anchors.horizontalCenter: parent.horizontalCenter
+        //anchors.verticalCenter: parent.verticalCenter
+        text: canEventSink.gear
+        anchors.left: parent.left
+        anchors.leftMargin: parent.width/2- width/2
+        anchors.top: parent.top
+        anchors.topMargin: parent.height/3*2.05
+        font.pointSize: 34
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignBottom
+        //color: "000000"
+    }
+
+}

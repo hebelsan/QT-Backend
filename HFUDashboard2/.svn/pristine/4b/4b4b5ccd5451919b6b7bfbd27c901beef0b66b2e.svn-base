@@ -1,0 +1,10 @@
+#include "frameparser.h"
+
+
+FrameParser::FrameParser(QObject *parent) : QObject(parent)
+{
+}
+
+
+void FrameParser::receiveCANFrame(QCanBusFrame frame){
+}

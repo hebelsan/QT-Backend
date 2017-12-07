@@ -1,0 +1,155 @@
+import QtQuick 2.7
+import QtQuick.Controls.Styles 1.4
+import QtLocation 5.5
+
+//test
+Item{
+    //color: "green"
+    id: hfuPhoneLeft
+
+    NumberAnimation on opacity {
+        id: createAnimation
+        from: 0
+        to:1
+        duration: 500
+    }
+    Component.onCompleted: createAnimation.start()
+    onParentChanged: createAnimation.start()
+
+    ListView {
+        id: listView1
+        width: 240
+        height: 300
+        highlightRangeMode: ListView.StrictlyEnforceRange
+        currentIndex: canEventSink.selectetContact
+        highlightFollowsCurrentItem: true
+        //currentItem.
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.verticalCenterOffset: +10
+
+        highlight: Component{
+            Rectangle{
+                width: listView1.width
+                y: listView1.currentItem.y
+                color: Qt.rgba(0,0.55,1,1)
+
+                Behavior on y{
+                    SpringAnimation{
+                        spring: 3
+                        damping: 0.2
+
+                    }
+                    //console.log(ListView1.currentItem)
+                }
+            }
+        }
+
+        onCurrentIndexChanged:{
+            for (var i=0; i<8; i+=1){
+                listModel.setProperty(i, "Textcolor", "#008CFF");
+            }
+            listModel.setProperty(listView1.currentIndex, "Textcolor", "white");
+        }
+
+        model: ListModel {
+            id: listModel
+            ListElement {
+
+                name: "Kontakt 1"
+                picture: "bilder/oTacho.png"
+                phone: "015208888888"
+                Textcolor: "lightblue"
+            }
+
+            ListElement {
+
+                name: "Kontakt 2"
+                picture: "bilder/oTacho.png"
+                phone: "015208888888"
+                Textcolor: "lightblue"
+            }
+
+            ListElement {
+                name: "Kontakt 3"
+                picture: "bilder/oTacho.png"
+                phone: "015208888888"
+                Textcolor: "blue"
+            }
+
+            ListElement {
+                name: "Kontakt 4"
+                picture: "bilder/oTacho.png"
+                phone: "015208888888"
+                Textcolor: "blue"
+            }
+            ListElement {
+                name: "Kontakt 5"
+                picture: "bilder/oTacho.png"
+                phone: "015208888888"
+                Textcolor: "blue"
+            }
+            ListElement {
+                name: "Kontakt 6"
+                picture: "bilder/oTacho.png"
+                phone: "015208888888"
+                Textcolor: "blue"
+            }
+            ListElement {
+                name: "Kontakt 7"
+                picture: "bilder/oTacho.png"
+                phone: "015208888888"
+                Textcolor: "blue"
+            }
+            ListElement {
+                name: "Kontakt 8"
+                picture: "bilder/oTacho.png"
+                phone: "015208888888"
+                Textcolor: "blue"
+            }
+        }
+
+        delegate: Item {
+            width: 240
+            height: 60
+            Row {
+                anchors.verticalCenter: parent.verticalCenter
+                id: row1
+                Image {
+                    id: pic
+                    width: 40
+                    height: 40
+                    source: picture
+                }
+                Item{
+
+                    anchors.right: row1.right
+                    Text {
+                        id:nameTxt
+                        text: name
+                        anchors.verticalCenter: parent.verticalCenter
+                        font.bold: true
+                        color: Textcolor
+                    }
+                    Text {
+                        id: phoneText
+                        anchors.top: nameTxt.bottom
+                        anchors.topMargin: 5
+                        anchors.left: nameTxt.left
+                        text: phone
+                        anchors.verticalCenter: parent.verticalCenter
+                        font.bold: true
+                        color: Textcolor
+                    }
+                }
+                spacing: 30
+            }
+        }
+    }
+
+    Image{
+        width:parent.width
+        height: parent.height
+        source: "bilder/PhoneLeft.png"
+    }
+}

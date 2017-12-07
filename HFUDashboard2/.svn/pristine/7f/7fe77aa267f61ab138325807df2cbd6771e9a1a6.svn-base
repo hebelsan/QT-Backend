@@ -1,0 +1,38 @@
+#ifndef CANREADER2_H
+#define CANREADER2_H
+
+#include <QObject>
+#include <QCanBusDevice> // for CanBusError
+QT_BEGIN_NAMESPACE
+
+class QCanBusFrame;
+class QLabel;
+
+QT_END_NAMESPACE
+
+class CANReader : public QObject
+{
+    Q_OBJECT
+public:
+    explicit CANReader(QObject *parent = nullptr);
+    ~CANReader();
+    void sendFrame();
+
+signals:
+    void speedFrameReceived(float speed);
+    void rpmFrameReceived(float rpm);
+    void gearFrameReceived(QString gear);
+    void fuelFrameReceived(float fuel);
+    void temperatureFrameReceived(float temperature);
+    void turnSignalFrameReceived(Qt::ArrowType turn);
+
+private slots:
+    void receiveCANFrame();
+    void receiveError(QCanBusDevice::CanBusError) const;
+
+private:
+    QCanBusDevice *m_canDevice;
+
+};
+
+#endif // CANREADER2_H

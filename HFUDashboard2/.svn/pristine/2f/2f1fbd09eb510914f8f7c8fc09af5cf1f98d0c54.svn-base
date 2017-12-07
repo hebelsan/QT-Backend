@@ -1,0 +1,154 @@
+import QtQuick 2.7
+
+Item {
+    id: hfuDashboardHeader
+    //color: "#161616"
+    property CanEventSink canEventSink: hfuDasboardBase.getCANEventSink()
+
+    HFUTurnIndicator {
+        id: leftIndicator
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: parent.left
+        anchors.leftMargin: 30
+        width: parent.height * 0.9
+        height: parent.height * 0.7
+
+        direction: Qt.LeftArrow
+        on: canEventSink.turnSignal === Qt.LeftArrow || canEventSink.turnSignal===2
+    }
+
+    Rectangle{
+        id: temp_fuel
+        width: parent.width*0.3
+        height: parent.height
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.horizontalCenter: parent.horizontalCenter
+        color: "black"
+        Rectangle{
+            id:temp
+            width: parent.width/2
+            height: parent.height
+            //border.color: "white"
+            color: "black"
+            Canvas{
+                id: temp_gauge
+
+                property real maxVal: 100
+                property real minVal: 0
+
+                property real value: canEventSink.temperature
+                property real leftOffset: temp.width*0.1
+                property real rightOffset: temp.width*0.9
+
+                property real distanceOfVal: value/maxVal*(rightOffset-leftOffset)
+
+                width: temp.width
+                height: temp.height
+                contextType: qsTr("2D")
+
+                onMinValChanged: requestPaint()
+                onMaxValChanged: requestPaint()
+                onValueChanged: requestPaint()
+
+                onPaint: {
+
+                    var ctx = getContext("2d");
+                    ctx.save();
+
+                    ctx.clearRect(0, 0, width, height);
+
+                    ctx.beginPath();
+                    ctx.lineWidth = 20;
+                    ctx.strokeStyle = "green";
+                    ctx.moveTo(leftOffset, temp.height/2);
+                    ctx.lineTo(rightOffset, temp.height/2);
+                    ctx.stroke();
+
+                    ctx.beginPath();
+                    ctx.lineWidth = 20;
+                    ctx.strokeStyle = "red";
+                    ctx.moveTo(leftOffset, temp.height/2);
+                    ctx.lineTo(leftOffset + distanceOfVal, temp.height/2);
+                    ctx.stroke();
+
+                    ctx.restore();
+
+                }
+
+            }
+
+
+        }
+       Rectangle{
+            id:fuel
+            //border.color: "white"
+            width: parent.width/2
+            height: parent.height
+            anchors.right: parent.right
+            anchors.rightMargin: 0
+
+            color: "black"
+
+            Canvas{
+                id: fuel_gauge
+
+                property real maxVal: 100
+                property real minVal: 0
+
+                property real value: canEventSink.fuel*100
+                property real leftOffset: fuel.width*0.1
+                property real rightOffset: fuel.width*0.9
+
+                property real distanceOfVal: value/maxVal*(rightOffset-leftOffset)
+
+                width: fuel.width
+                height: fuel.height
+                contextType: qsTr("2D")
+
+                onMinValChanged: requestPaint()
+                onMaxValChanged: requestPaint()
+                onValueChanged: requestPaint()
+
+                onPaint: {
+
+                    var ctx = getContext("2d");
+                    ctx.save();
+
+                    ctx.clearRect(0, 0, width, height);
+
+                    ctx.beginPath();
+                    ctx.lineWidth = 20;
+                    ctx.strokeStyle = "green";
+                    ctx.moveTo(leftOffset, fuel.height/2);
+                    ctx.lineTo(rightOffset, fuel.height/2);
+                    ctx.stroke();
+
+                    ctx.beginPath();
+                    ctx.lineWidth = 20;
+                    ctx.strokeStyle = "red";
+                    ctx.moveTo(leftOffset, fuel.height/2);
+                    ctx.lineTo(leftOffset + distanceOfVal, fuel.height/2);
+                    ctx.stroke();
+
+                    ctx.restore();
+
+                }
+
+            }
+
+
+        }
+    }
+
+    HFUTurnIndicator {
+        id: rightIndicator
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.right:  parent.right
+        anchors.rightMargin: 30
+        width: parent.height * 0.9
+        height: parent.height * 0.7
+
+        direction: Qt.RightArrow
+        on: canEventSink.turnSignal === Qt.RightArrow || canEventSink.turnSignal===2
+    }
+}

@@ -1,0 +1,61 @@
+import QtQuick 2.7
+import QtQuick.Controls.Styles 1.4
+import QtLocation 5.5
+
+//test
+Item{
+    //color: "green"
+    id: hfuPhoneLeft
+    ListView {
+        id: listView1
+        x: 202
+        y: 207
+        width: parent.width/2
+        height: parent.height/3
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: parent.height*0.1
+
+        model: ListModel {
+            ListElement {
+                name: "Grey"
+                colorCode: "grey"
+            }
+
+            ListElement {
+                name: "Red"
+                colorCode: "red"
+            }
+
+            ListElement {
+                name: "Blue"
+                colorCode: "blue"
+            }
+
+            ListElement {
+                name: "Green"
+                colorCode: "green"
+            }
+        }
+        delegate: Item {
+            x: 5
+            width: 80
+            height: 40
+            Row {
+                id: row1
+                Rectangle {
+                    width: 40
+                    height: 40
+                    color: colorCode
+                }
+
+                Text {
+                    text: name
+                    anchors.verticalCenter: parent.verticalCenter
+                    font.bold: true
+                    color: "white"
+                }
+                spacing: 10
+            }
+        }
+    }
+}

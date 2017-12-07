@@ -1,0 +1,130 @@
+#include "canconnector.h"
+
+#include <Qt>
+#include <QDebug>
+#include <QCanBus>
+#include <QSettings>
+#include <QMessageLogger>
+#include <QFile>
+#include <QDataStream>
+#include <QDateTime>
+
+#include "frameparser.h"
+#include "fpbmw.h"
+#include "fpopel.h"
+#include "fpaudi.h"
+
+CANConnector::CANConnector(QObject *parent) : QObject(parent)
+{
+    /* logging for delay test
+    logFile.setFileName("/home/pi/log/qt_receive.log");
+    if (!logFile.open(QIODevice::WriteOnly | QIODevice::Text))
+        qDebug() << "could not open log";
+
+    */
+
+    /* display can backends
+    foreach (const QByteArray &backend, QCanBus::instance()->plugins()) {
+        qInfo("%s", QString::fromLatin1(backend).toLatin1().data());
+        if (backend == "socketcan") {
+            // were found
+            break;
+        }
+    } */
+
+    QSettings settings("/etc/hfudashboard.ini",  QSettings::IniFormat);
+    m_canDevice = QCanBus::instance()->createDevice(
+                    settings.value("can/plugin", "socketcan").toByteArray(),
+                    settings.value("can/interface", "can0").toString()
+                  );
+    //m_canDevice = QCanBus::instance()->createDevice("socketcan",  QStringLiteral("can0"));
+
+
+    if (!m_canDevice) {
+        qCritical() << "Error! Unable to set up can device.";
+    }
+
+    qInfo() << settings.value("can/type", "audi").toString();
+    QString canMessageType = settings.value("can/type", "audi").toString();
+    if (canMessageType == "bmw"){
+        fp = new FPBMW();
+    } else if (canMessageType == "opel"){
+        fp = new FPOpel();
+    }
+    else {
+        fp = new FPAudi();
+    }
+
+    connect(m_canDevice, &QCanBusDevice::framesReceived,
+            this, &CANConnector::receiveFrame);
+
+    connect(this, &CANConnector::frameReceived,
+            this->fp, &FrameParser::receiveCANFrame);
+
+    connect(m_canDevice, &QCanBusDevice::errorOccurred,
+            this, &CANConnector::receiveErrorFrame);
+
+    /* logging for delay test
+    connect(fp, &FrameParser::speedFrameReceived,
+            this, &CANConnector::receiveSpeedFrame);
+    */
+
+     if (!m_canDevice->connectDevice()) {
+         qCritical() << "connection error!";
+     }
+}
+
+CANConnector::~CANConnector()
+{
+
+    if (logFile.isOpen()){
+        logFile.close();
+    }
+    delete m_canDevice;
+    delete fp;
+}
+
+FrameParser* CANConnector::getFrameParser(){
+    return this->fp;
+}
+
+void CANConnector::receiveFrame(){
+    if (!m_canDevice)
+        return;
+    frameCount++;
+
+    /* logging for delay test
+    if (logFile.isOpen()){
+        QTextStream out(&logFile);
+        out << QDateTime::currentMSecsSinceEpoch() << ";" << frameCount << ";";
+    }
+    */
+
+    emit frameReceived(m_canDevice->readFrame());
+}
+
+void CANConnector::receiveErrorFrame(QCanBusDevice::CanBusError error) const
+{
+    switch (error) {
+    case QCanBusDevice::ReadError:
+    case QCanBusDevice::WriteError:
+    case QCanBusDevice::ConnectionError:
+    case QCanBusDevice::ConfigurationError:
+    case QCanBusDevice::UnknownError:
+        qWarning() << m_canDevice->errorString();
+    default:
+        break;
+    }
+}
+
+void CANConnector::sendFrame(QCanBusFrame &frame){
+    m_canDevice->writeFrame(frame);
+}
+
+void CANConnector::receiveSpeedFrame(float speed){
+    if (logFile.isOpen()){
+        QTextStream out(&logFile);
+        out << speed << "\n";
+    }
+}
+

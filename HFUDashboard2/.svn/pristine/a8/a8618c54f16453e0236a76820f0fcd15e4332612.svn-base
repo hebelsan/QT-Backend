@@ -1,0 +1,18 @@
+import QtQuick 2.0
+
+    Text{
+        id: text
+        width: 60
+        property int pos: 0
+        property string caption: "text"
+        color: "#ffffff"
+        font.pointSize: 24
+
+        text: caption
+        font.bold: false
+        font.italic: false
+        font.underline: true
+        verticalAlignment: Text.AlignRight
+        horizontalAlignment: Text.AlignHCenter
+
+    }

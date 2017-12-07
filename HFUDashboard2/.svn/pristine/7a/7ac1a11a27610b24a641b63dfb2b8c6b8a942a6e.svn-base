@@ -1,0 +1,144 @@
+import QtQuick 2.7
+import QtQuick.Controls.Styles 1.4
+import QtLocation 5.5
+
+Rectangle{
+    color: "#494d53"
+    height: parent.height
+    width: parent.width
+    id: HFUNAV
+
+    Plugin {
+        id: somePlugin
+        preferred: "osm"
+        // code here to choose the plugin as necessary
+    }
+
+    Map {
+        id: map
+        width: parent.width
+        height: parent.height
+        transformOrigin: Item.Center
+        //activeMapType: MapType.CycleMap
+        plugin: somePlugin
+
+        center {
+            latitude: -27
+            longitude: 153
+        }
+        zoomLevel: map.minimumZoomLevel
+
+        gesture.enabled: true
+    }
+}
+
+
+/*CircularGaugeStyle {
+    //
+    minimumValueAngle: -90
+    maximumValueAngle: 270
+
+    // size of steps
+    tickmarkStepSize: 1000
+
+    function degreesToRadians(degrees) {
+        return degrees * (Math.PI / 180);
+    }
+
+    background: Canvas{
+        id: canvas
+        antialiasing: true
+
+        property color primaryColor: "black"
+        property color secondaryColor: canEventSink.colorrpm
+
+        property real centerWidth: width / 2
+        property real centerHeight: height / 2
+        property real radius: (Math.min(canvas.width, canvas.height) / 2)-10
+
+        property real minimumValue: 0
+        property real maximumValue: 9000
+        property real currentValue: canEventSink.rpm
+
+        // this is the angle that splits the circle in two arcs
+        // first arc is drawn from 0 radians to angle radians
+        // second arc is angle radians to 2*PI radians
+        property real angle: (currentValue - minimumValue) / (maximumValue - minimumValue) * 2 * Math.PI
+
+        // we want both circle to start / end at 12 o'clock
+        // without this offset we would start / end at 9 o'clock
+        property real angleOffset: -Math.PI
+        anchors.topMargin: -22
+        anchors.rightMargin: -22
+        anchors.bottomMargin: -22
+        anchors.leftMargin: -22
+        anchors.fill: parent
+
+        onPrimaryColorChanged: requestPaint()
+        onSecondaryColorChanged: requestPaint()
+        onMinimumValueChanged: requestPaint()
+        onMaximumValueChanged: requestPaint()
+        onCurrentValueChanged: requestPaint()
+
+        onPaint: {
+            var ctx = getContext("2d");
+            ctx.save();
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // First, thinner arc
+            // From angle to 2*PI
+
+            ctx.beginPath();
+            ctx.lineWidth = 5;
+            ctx.strokeStyle = primaryColor;
+            ctx.arc(canvas.centerWidth,
+                    canvas.centerHeight,
+                    canvas.radius,
+                    angleOffset + canvas.angle,
+                    angleOffset + 2*Math.PI);
+            ctx.stroke();
+
+
+            // Second, thicker arc
+            // From 0 to angle
+
+            ctx.beginPath();
+            ctx.lineWidth = 20;
+            ctx.strokeStyle = canEventSink.colorrpm;
+            ctx.arc(canvas.centerWidth,
+                    canvas.centerHeight,
+                    canvas.radius,
+                    canvas.angleOffset,
+                    canvas.angleOffset + canvas.angle);
+            ctx.stroke();
+
+            ctx.restore();
+        }
+    }
+
+    tickmark: Rectangle {
+        visible: styleData.value < 80 || styleData.value % 10 == 0
+        implicitWidth: outerRadius * 0.02
+        antialiasing: true
+        implicitHeight: outerRadius * 0.06
+        color: styleData.value >= 5000 ? "#e34c22" : "#e5e5e5"
+    }
+
+    minorTickmark: null
+    /*Rectangle {
+        visible: styleData.value < 5000
+        implicitWidth: outerRadius * 0.01
+        antialiasing: true
+        implicitHeight: outerRadius * 0.03
+        color: "#e5e5e5"
+    }*/
+
+   /*tickmarkLabel:  Text {
+        font.pixelSize: Math.max(6, outerRadius * 0.05)
+        text: styleData.value
+        color: styleData.value >= 5000 ? "#e34c22" : "#e5e5e5"
+        antialiasing: true
+    }
+}*/
+

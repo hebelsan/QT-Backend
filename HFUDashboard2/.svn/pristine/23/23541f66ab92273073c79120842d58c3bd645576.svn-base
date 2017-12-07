@@ -1,0 +1,17 @@
+import QtQuick 2.7
+
+Item {
+    //color: "black"
+    //anchors.bottom: parent.bottom
+    anchors.horizontalCenter: parent.horizontalCenter
+    anchors.verticalCenter: parent.verticalCenter
+    HFUTachometer{
+        id: hfuTachometer
+        height: parent.height*0.9
+    }
+
+
+}
+
+
+

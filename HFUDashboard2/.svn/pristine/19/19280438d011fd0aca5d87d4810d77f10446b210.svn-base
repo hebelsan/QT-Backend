@@ -1,0 +1,92 @@
+import QtQuick 2.7
+import QtQuick.Controls.Styles 1.4
+import QtLocation 5.5
+
+Item{
+    id: hfuInfoLeft
+    width: parent.width*0.9
+    height: parent.height
+
+    property string src1: canEventSink.warningSrc1
+    property string src2: canEventSink.warningSrc2
+    property string src3: canEventSink.warningSrc3
+    property string src4: canEventSink.warningSrc4
+    property string src5: canEventSink.warningSrc5
+    property string src6: canEventSink.warningSrc6
+    property string src7: canEventSink.warningSrc7
+    property string src8: canEventSink.warningSrc8
+    property string src9: canEventSink.warningSrc9
+
+    Grid {
+        id: warningsGrid
+        height: parent.height/2
+        anchors.horizontalCenterOffset: 0
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.verticalCenter: parent.verticalCenter
+        columns: 3
+        spacing: 6
+
+        property color rectangleColor: "#161616"
+
+
+
+        Image{
+            id: warning1
+            width: 50;
+            height: 50
+            source: src1
+        }
+        Image{
+            id: warning2
+            width: 50;
+            height: 50
+            source: src2
+        }
+        Image{
+            id: warning3
+            width: 50;
+            height: 50
+            source: src3
+        }
+        Image{
+            id: warning4
+            width: 50;
+            height: 50
+            source: src4
+        }
+        Image{
+            id: warning5
+            width: 50;
+            height: 50
+            source: src5
+        }
+        Image{
+            id: warning6
+            width: 50;
+            height: 50
+            source: src6
+        }
+        Image{
+            id: warning7
+            width: 50;
+            height: 50
+            source: src7
+        }
+        Image{
+            id: warning8
+            width: 50;
+            height: 50
+            source: src8
+        }
+        Image{
+            id: warning9
+            width: 50;
+            height: 50
+            source: src9
+        }
+
+
+
+    }
+
+}

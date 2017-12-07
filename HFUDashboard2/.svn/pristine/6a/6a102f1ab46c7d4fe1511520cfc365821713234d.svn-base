@@ -1,0 +1,32 @@
+import QtQuick 2.7
+import QtLocation 5.5
+
+
+Rectangle {
+    id: hfuDashboardLeftView
+    color: "lightblue"
+
+
+
+    Plugin {
+        id: somePlugin
+        preferred: "osm"
+
+        // code here to choose the plugin as necessary
+    }
+
+    Map {
+        id: map
+
+        plugin: somePlugin
+
+        center {
+            latitude: -27
+            longitude: 153
+        }
+        zoomLevel: map.minimumZoomLevel
+
+        gesture.enabled: true
+    }
+
+}

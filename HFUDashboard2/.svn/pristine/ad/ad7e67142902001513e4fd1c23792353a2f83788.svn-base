@@ -1,0 +1,78 @@
+import QtQuick 2.7
+
+
+
+Image {
+    //id: hfuDashboardRightView
+    id:test
+    source: "/bilder/TurnWeel.png"
+
+          Item{
+            id: topSelect
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.verticalCenterOffset: -canEventSink.activeTop.height/2
+            anchors.horizontalCenterOffset: -canEventSink.activeTop.width*2
+            children: canEventSink.activeTop
+        }
+
+        Item{
+            id: leftSelect
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.verticalCenterOffset: -parent.height/4
+            anchors.horizontalCenterOffset: -canEventSink.activeLeft.width*1.5
+            children: canEventSink.activeLeft
+
+        }
+
+        Item{
+            id:rightSelect
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.verticalCenterOffset: parent.height/6
+            anchors.horizontalCenterOffset: -canEventSink.activeRight.width*1.5
+            children: canEventSink.activeRight
+        }
+        Item{
+            id: bottomSelect
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.verticalCenterOffset: parent.height/3
+            anchors.horizontalCenterOffset: -canEventSink.activeBotom.width*0.6
+            children: canEventSink.activeBotom
+        }
+
+        Item{
+           id: turnsignals
+           width: 260
+           height: parent.height/2
+           anchors.verticalCenter: parent.verticalCenter
+           anchors.right: parent.right
+           HFUTurnIndicator {
+               id: leftIndicator
+               width: parent.height * 0.45
+               height: parent.height * 0.35
+               anchors.top: parent.top
+               anchors.topMargin: 5
+               anchors.horizontalCenter: parent.horizontalCenter
+
+               direction: Qt.LeftArrow
+               on: canEventSink.turnSignal === Qt.LeftArrow || canEventSink.turnSignal===2
+           }
+
+           HFUTurnIndicator {
+               id: rightIndicator
+               width: parent.height * 0.45
+               height: parent.height * 0.35
+               anchors.bottom: parent.bottom
+               anchors.bottomMargin: 5
+               anchors.horizontalCenter: parent.horizontalCenter
+
+               direction: Qt.RightArrow
+               on: canEventSink.turnSignal === Qt.RightArrow || canEventSink.turnSignal===2
+           }
+        }
+
+
+}

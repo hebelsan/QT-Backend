@@ -1,0 +1,57 @@
+#ifndef FRAMEPARSER_H
+#define FRAMEPARSER_H
+
+#include <Qt>
+#include <QString>
+#include <QObject>
+#include <QCanBusFrame>
+
+#include "hfuenums.h"
+
+class FrameParser : public QObject
+{
+    Q_OBJECT
+
+public:
+    explicit FrameParser(QObject *parent = 0);
+
+signals:
+    void speedFrameReceived(float speed);
+    void rpmFrameReceived(float rpm);
+    void gearFrameReceived(int gear);
+    void fuelFrameReceived(float fuel);
+    void temperatureFrameReceived(float temperature);
+    void turnSignalOnFrameReceived(Qt::ArrowType turn);
+    void turnSignalOffFrameReceived();
+    void rangeFrameReceived(float range);
+    //void warningFrameReceived(HFUEnums::CarWarnings warnings);
+    void warningFrameReceived(int warnings);
+    void cruiseControlFrameReceived(CruseControl::CruseControlMod modi, int kmh);
+    void volumeUpFrameReceived();
+    void volumeDownFrameReceived();
+    void thumbwheelRightDownFrameReceived();
+    void thumbwheelLeftUpFrameReceived();
+    void navigationButtonPressedFrameReceived();
+    void navigationButtonReleasedFrameReceived();
+    void phoneButtonPressedFrameReceived();
+    void phoneButtonReleasedFrameReceived();
+    void radioButtonPressedFrameReceived();
+    void radioButtonReleasedFrameReceived();
+    void mediaButtonPressedFrameReceived();
+    void mediaButtonReleasedFrameReceived();
+    void menuButtonPressedFrameReceived();
+    void menuButtonReleasedFrameReceived();
+    void dashboardMenuRightFrameReceived();
+    void dashboardMenuLeftFrameReceived();
+    void dashboardRollerUpFrameReceived();
+    void dashboardRollerDownFrameReceived();
+    void dashboardRollerPressedFrameReceived();
+
+
+public slots:
+    virtual void receiveCANFrame(QCanBusFrame frame);
+
+};
+
+
+#endif // FRAMEPARSER_H

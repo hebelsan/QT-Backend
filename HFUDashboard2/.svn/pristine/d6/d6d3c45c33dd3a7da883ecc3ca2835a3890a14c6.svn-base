@@ -1,0 +1,270 @@
+import QtQuick 2.7
+
+
+
+Item {
+    id: hfuDashboardRightView
+    //color: "black"
+
+    property Canvas mediaItem: HFURightSelectionItem{
+        id: mediaItem
+        width:topSelect.width
+        height: topSelect.height
+        pos: 0
+        onPaint:{
+            caption.text="Media"
+            caption.font.pointSize = 23
+            caption.font.bold = true
+
+        }
+    }
+    property Canvas navItem: HFURightSelectionItem{
+        id: navItem
+        width:leftSelect.width
+        height: leftSelect.height
+        pos: 1
+        onPaint:{
+            caption.text="NAV"
+        }
+    }
+    property Canvas phoneItem: HFURightSelectionItem{
+        id: phoneItem
+        width:rightSelect.width
+        height: rightSelect.height
+        pos: 3
+        onPaint:{
+            caption.text="Phone"
+        }
+    }
+    property Canvas infoItem: HFURightSelectionItem{
+        id: infoItem
+        width:rightSelect.width
+        height: rightSelect.height
+        pos: 2
+        onPaint:{
+            caption.text="Info"
+        }
+    }
+    property Canvas activeTop: mediaItem
+    property Canvas activeLeft: navItem
+    property Canvas activeRight: phoneItem
+    property Canvas activeBotom: infoItem
+
+    function turnRight(){
+        var itemList = [mediaItem, phoneItem, infoItem, navItem]
+        for (var i=0;i<=itemList.length-1; i++){
+
+            if(itemList[i].pos>0){
+                itemList[i].pos=itemList[i].pos-1
+                //itemList[i].width=itemList[i].parent.width/2
+            }else{
+                itemList[i].pos=3
+            }
+
+            if(itemList[i].pos===0){
+                activeTop = itemList[i]
+                itemList[i].width=topSelect.width
+                itemList[i].caption.font.pointSize = 23
+                itemList[i].caption.font.bolt = true
+            }
+            else if(itemList[i].pos===1){
+                activeLeft = itemList[i]
+                itemList[i].width=leftSelect.width
+                itemList[i].caption.font.pointSize = 20
+                itemList[i].caption.font.bolt = false
+            }
+            else if(itemList[i].pos===2){
+                activeBotom = itemList[i]
+                itemList[i].width=bottomSelect.width
+                itemList[i].caption.font.pointSize = 20
+                itemList[i].caption.font.bolt = false
+            }
+            else if(itemList[i].pos===3){
+                activeRight = itemList[i]
+                itemList[i].width=rightSelect.width
+                itemList[i].caption.font.pointSize = 20
+                itemList[i].caption.font.bolt = false
+            }
+        }
+    }
+    function turnLeft(){
+        var itemList = [mediaItem, phoneItem, infoItem, navItem]
+        for (var i=0;i<=itemList.length-1; i++){
+
+            if(itemList[i].pos<3){
+                itemList[i].pos=itemList[i].pos+1
+                //itemList[i].width=itemList[i].parent.width/2
+            }else{
+                itemList[i].pos=0
+            }
+
+            if(itemList[i].pos===0){
+                activeTop = itemList[i]
+                itemList[i].width=topSelect.width
+                itemList[i].caption.font.pointSize = 23
+                itemList[i].caption.font.bolt = true
+            }
+            else if(itemList[i].pos===1){
+                activeLeft = itemList[i]
+                itemList[i].width=leftSelect.width
+                itemList[i].caption.font.pointSize = 20
+                itemList[i].caption.font.bolt = false
+            }
+            else if(itemList[i].pos===2){
+                activeBotom = itemList[i]
+                itemList[i].width=bottomSelect.width
+                itemList[i].caption.font.pointSize = 20
+                itemList[i].caption.font.bolt = false
+            }
+            else if(itemList[i].pos===3){
+                activeRight = itemList[i]
+                itemList[i].width=rightSelect.width
+                itemList[i].caption.font.pointSize = 20
+                itemList[i].caption.font.bolt = false
+            }
+        }
+    }
+
+    Canvas{
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.top: parent.top
+        anchors.topMargin: parent.height*0.1
+        //color: NULL
+        width: parent.width*0.7
+        height: width
+        contextType: qsTr("2D")
+        onWidthChanged: requestPaint()
+        //fill: "blue"
+        onPaint: {
+            var ctx = getContext("2d");
+            ctx.save();
+
+            ctx.clearRect(0, 0, width, height);
+            ctx.beginPath();
+            ctx.lineWidth = 10;
+            ctx.strokeStyle = "white";
+            ctx.arc(width/2, height/2,width/4+width/8, Math.PI/10, Math.PI/2.5);
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.lineWidth = 10;
+            ctx.strokeStyle = "white";
+            ctx.arc(width/2, height/2,width/4+width/8, -Math.PI/10, -Math.PI/3.2, true);
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.lineWidth = 10;
+            ctx.strokeStyle = "white";
+            ctx.arc(width/2, height/2,width/4+width/8, -Math.PI/5.7- Math.PI/2, -Math.PI/2.5-Math.PI/2, true);
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.lineWidth = 10;
+            ctx.strokeStyle = "white";
+            ctx.arc(width/2, height/2,width/4+width/8, -Math.PI/10- Math.PI, -Math.PI/2.5-Math.PI, true);
+            ctx.stroke();
+
+            ctx.restore();
+        }
+
+
+        Item{
+            id: topSelect
+            width:parent.width/2
+            height: parent.height/4
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.top: parent.top
+            anchors.topMargin: parent.height*0.01
+            //onWidthChanged:  requestPaint();
+            //color: "blue"
+            children: activeTop
+        }
+
+        Item{
+            id: leftSelect
+            width:parent.width/4
+            height: parent.height/4
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.left:  parent.left
+            anchors.leftMargin: parent.width*0.01
+            //color: "black"
+            children: activeLeft
+
+        }
+
+        Item{
+            id:rightSelect
+            width:parent.width/4
+            height: parent.height/4
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.right:  parent.right
+            anchors.rightMargin: parent.width*0.01
+            //color: "black"
+            children: activeRight
+        }
+        Item{
+            id: bottomSelect
+            width:parent.width/4
+            height: parent.height/4
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.bottom:  parent.bottom
+            anchors.bottomMargin: parent.height*0.01
+            //color: "black"
+            children: activeBotom
+        }
+
+    }
+
+    ListView {
+        id: listView1
+        x: 202
+        y: 207
+        width: parent.width/2
+        height: parent.height/3
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: parent.height*0.1
+
+        model: ListModel {
+            ListElement {
+                name: "Grey"
+                colorCode: "grey"
+            }
+
+            ListElement {
+                name: "Red"
+                colorCode: "red"
+            }
+
+            ListElement {
+                name: "Blue"
+                colorCode: "blue"
+            }
+
+            ListElement {
+                name: "Green"
+                colorCode: "green"
+            }
+        }
+        delegate: Item {
+            x: 5
+            width: 80
+            height: 40
+            Row {
+                id: row1
+                Rectangle {
+                    width: 40
+                    height: 40
+                    color: colorCode
+                }
+
+                Text {
+                    text: name
+                    anchors.verticalCenter: parent.verticalCenter
+                    font.bold: true
+                    color: "white"
+                }
+                spacing: 10
+            }
+        }
+    }
+}

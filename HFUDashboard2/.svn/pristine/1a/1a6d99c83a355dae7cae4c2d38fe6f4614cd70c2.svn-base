@@ -1,0 +1,15 @@
+#ifndef FPBMW_H
+#define FPBMW_H
+
+#include "frameparser.h"
+
+class FPBMW : public FrameParser
+{
+public:
+    FPBMW();
+
+public slots:
+    void receiveCANFrame(QCanBusFrame frame);
+};
+
+#endif // FPBMW_H

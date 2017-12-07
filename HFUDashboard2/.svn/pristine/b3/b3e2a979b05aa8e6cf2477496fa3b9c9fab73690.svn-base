@@ -1,0 +1,54 @@
+import QtQuick 2.7
+import QtQuick.Controls.Styles 1.4
+
+CircularGaugeStyle {
+    //
+    minimumValueAngle: -90
+    maximumValueAngle: 90
+
+    // size of steps
+    tickmarkStepSize: 1000
+
+    function degreesToRadians(degrees) {
+        return degrees * (Math.PI / 180);
+    }
+
+    background: Canvas {
+        onPaint: {
+            var ctx = getContext("2d");
+            ctx.reset();
+
+            ctx.beginPath();
+            ctx.strokeStyle = "#e34c22";
+            ctx.lineWidth = outerRadius * 0.02;
+
+            ctx.arc(outerRadius, outerRadius, outerRadius - ctx.lineWidth / 2,
+                degreesToRadians(valueToAngle(80) - 90), degreesToRadians(valueToAngle(100) - 90));
+            ctx.stroke();
+        }
+   }
+
+    tickmark: Rectangle {
+        visible: styleData.value < 80 || styleData.value % 10 == 0
+        implicitWidth: outerRadius * 0.02
+        antialiasing: true
+        implicitHeight: outerRadius * 0.06
+        color: styleData.value >= 5000 ? "#e34c22" : "#e5e5e5"
+    }
+
+    minorTickmark: null
+        /*Rectangle {
+        visible: styleData.value < 5000
+        implicitWidth: outerRadius * 0.01
+        antialiasing: true
+        implicitHeight: outerRadius * 0.03
+        color: "#e5e5e5"
+    }*/
+
+    tickmarkLabel:  Text {
+        font.pixelSize: Math.max(6, outerRadius * 0.05)
+        text: styleData.value
+        color: styleData.value >= 5000 ? "#e34c22" : "#e5e5e5"
+        antialiasing: true
+    }
+}

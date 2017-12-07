@@ -1,0 +1,275 @@
+import QtQuick 2.7
+
+
+
+Rectangle {
+    id: hfuDashboardRightView
+    color: "black"
+
+    function turnRight(){
+
+    }
+    function turnLeft(){
+
+    }
+
+    Canvas{
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.top: parent.top
+        anchors.topMargin: parent.height*0.1
+        //color: NULL
+        width: parent.width*0.7
+        height: width
+        contextType: qsTr("2D")
+        onWidthChanged: requestPaint()
+        //fill: "blue"
+        onPaint: {
+            var ctx = getContext("2d");
+            ctx.save();
+
+            ctx.clearRect(0, 0, width, height);
+            ctx.beginPath();
+            ctx.lineWidth = 10;
+            ctx.strokeStyle = "white";
+            ctx.arc(width/2, height/2,width/4+width/8, Math.PI/10, Math.PI/2.5);
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.lineWidth = 10;
+            ctx.strokeStyle = "white";
+            ctx.arc(width/2, height/2,width/4+width/8, -Math.PI/10, -Math.PI/3.2, true);
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.lineWidth = 10;
+            ctx.strokeStyle = "white";
+            ctx.arc(width/2, height/2,width/4+width/8, -Math.PI/5.7- Math.PI/2, -Math.PI/2.5-Math.PI/2, true);
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.lineWidth = 10;
+            ctx.strokeStyle = "white";
+            ctx.arc(width/2, height/2,width/4+width/8, -Math.PI/10- Math.PI, -Math.PI/2.5-Math.PI, true);
+            ctx.stroke();
+
+            ctx.restore();
+        }
+
+
+        Item{
+            id: topSelect
+            width:parent.width/2
+            height: parent.height/4
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.top: parent.top
+            anchors.topMargin: parent.height*0.01
+            //onWidthChanged:  requestPaint();
+            //color: "blue"
+            HFURightSelectionItem{
+                width:parent.width
+                height: parent.height
+            }
+        }
+
+        Item{
+            id: leftSelect
+            width:parent.width/4
+            height: parent.height/4
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.left:  parent.left
+            anchors.leftMargin: parent.width*0.01
+            //color: "black"
+            Canvas{
+                id: navSelct
+                width:parent.width
+                height: parent.height
+                contextType: qsTr("2D")
+                onWidthChanged: requestPaint()
+                //fill: "blue"
+                onPaint: {
+                    var ctx = getContext("2d");
+                    ctx.save();
+
+                    ctx.clearRect(0, 0, width, height);
+                    ctx.beginPath();
+                    ctx.lineWidth = 10;
+                    ctx.strokeStyle = "white";
+                    ctx.ellipse(width*0.05, height*0.05, width*0.9, height*0.9)
+                    /*ctx.strokeStyle="blue"
+                    ctx.arcTo(width/2,height/2, parent.parent.width-width/2, parent.parent.height/2, parent.parent.width/2)*/
+
+                    ctx.stroke();
+
+                    ctx.restore();
+
+
+                }
+                Text{
+                    width: parent.width
+                    height:parent.height
+                    color: "#ffffff"
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.verticalCenter: parent.verticalCenter
+                    font.pointSize: 20
+
+                    text: "Nav"
+                    font.bold: false
+                    font.italic: false
+                    verticalAlignment: Text.AlignVCenter
+                    horizontalAlignment: Text.AlignHCenter
+
+                }
+            }
+        }
+
+        Item{
+            id:rightSelect
+            width:parent.width/4
+            height: parent.height/4
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.right:  parent.right
+            anchors.rightMargin: parent.width*0.01
+            //color: "black"
+            Canvas{
+                id: phoneSelect
+                width:parent.width
+                height: parent.height
+                contextType: qsTr("2D")
+                onWidthChanged: requestPaint()
+                //fill: "blue"
+                onPaint: {
+                    var ctx = getContext("2d");
+                    ctx.save();
+
+                    ctx.clearRect(0, 0, width, height);
+                    ctx.beginPath();
+                    ctx.lineWidth = 10;
+                    ctx.strokeStyle = "white";
+                    ctx.ellipse(width*0.05, height*0.05, width*0.9, height*0.9)
+                    /*ctx.strokeStyle="blue"
+                    ctx.arcTo(width/2,height/2, parent.parent.width-width/2, parent.parent.height/2, parent.parent.width/2)*/
+
+                    ctx.stroke();
+
+                    ctx.restore();
+                }
+                Text{
+                    width: parent.width
+                    height:parent.height
+                    color: "#ffffff"
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.verticalCenter: parent.verticalCenter
+                    font.pointSize: 20
+
+                    text: "Phone"
+                    font.bold: false
+                    font.italic: false
+                    verticalAlignment: Text.AlignVCenter
+                    horizontalAlignment: Text.AlignHCenter
+
+                }
+            }
+        }
+        Item{
+            id: bottomSelect
+            width:parent.width/4
+            height: parent.height/4
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.bottom:  parent.bottom
+            anchors.bottomMargin: parent.height*0.01
+            //color: "black"
+            Canvas{
+                id: infoSelect
+                width:parent.width
+                height: parent.height
+                contextType: qsTr("2D")
+                onWidthChanged: requestPaint()
+                //fill: "blue"
+                onPaint: {
+                    var ctx = getContext("2d");
+                    ctx.save();
+
+                    ctx.clearRect(0, 0, width, height);
+                    ctx.beginPath();
+                    ctx.lineWidth = 10;
+                    ctx.strokeStyle = "white";
+                    ctx.ellipse(width*0.05, height*0.05, width*0.9, height*0.9)
+                    /*ctx.strokeStyle="blue"
+                    ctx.arcTo(width/2,height/2, parent.parent.width-width/2, parent.parent.height/2, parent.parent.width/2)*/
+
+                    ctx.stroke();
+
+                    ctx.restore();
+                }
+                Text{
+                    width: parent.width
+                    height:parent.height
+                    color: "#ffffff"
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.verticalCenter: parent.verticalCenter
+                    font.pointSize: 19
+
+                    text: "Info"
+                    font.bold: false
+                    font.italic: false
+                    verticalAlignment: Text.AlignVCenter
+                    horizontalAlignment: Text.AlignHCenter
+
+                }
+            }
+        }
+
+    }
+
+    ListView {
+        id: listView1
+        x: 202
+        y: 207
+        width: parent.width/2
+        height: parent.height/3
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: parent.height*0.1
+
+        model: ListModel {
+            ListElement {
+                name: "Grey"
+                colorCode: "grey"
+            }
+
+            ListElement {
+                name: "Red"
+                colorCode: "red"
+            }
+
+            ListElement {
+                name: "Blue"
+                colorCode: "blue"
+            }
+
+            ListElement {
+                name: "Green"
+                colorCode: "green"
+            }
+        }
+        delegate: Item {
+            x: 5
+            width: 80
+            height: 40
+            Row {
+                id: row1
+                Rectangle {
+                    width: 40
+                    height: 40
+                    color: colorCode
+                }
+
+                Text {
+                    text: name
+                    anchors.verticalCenter: parent.verticalCenter
+                    font.bold: true
+                }
+                spacing: 10
+            }
+        }
+    }
+}

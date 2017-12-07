@@ -1,0 +1,31 @@
+#include "fpbmw.h"
+#include <QDebug>
+FPBMW::FPBMW() : FrameParser(nullptr)
+{
+
+}
+
+void FPBMW::receiveCANFrame(QCanBusFrame frame){
+    const qint32 id = frame.frameId();
+    if (id == 0xa5) {
+        emit FrameParser::rpmFrameReceived((((frame.payload().at(6) * 256.0f) + frame.payload().at(5)) / 4.0f)*1.6f);
+    }
+    else if (id == 0x254) {
+
+        qInfo() << "kmh: " << frame.payload().toFloat();
+               /*        (((((frame.payload()[1]*256.0f + frame.payload()[0]) - 32767.0f) / 50.0f) +
+                         (((frame.payload()[3]*256.0f + frame.payload()[2]) - 32767.0f) / 50.0f) +
+                         (((frame.payload()[5]*256.0f + frame.payload()[4]) - 32767.0f) / 50.0f) +
+                         (((frame.payload()[7]*256.0f + frame.payload()[6]) - 32767.0f) / 50.0f) ) / 4.0f);*/
+    }
+    else if (id == 0x1f6) {
+        QChar signal = frame.payload().at(0);
+        if (signal.unicode() == 0x91){
+                emit FrameParser::turnSignalOnFrameReceived(Qt::LeftArrow);
+            } else if (signal.unicode() == 0xa1){
+                emit FrameParser::turnSignalOnFrameReceived(Qt::RightArrow);
+            }
+        }
+}
+
+

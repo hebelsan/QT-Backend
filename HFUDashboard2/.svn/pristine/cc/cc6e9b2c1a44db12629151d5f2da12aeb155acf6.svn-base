@@ -1,0 +1,33 @@
+import QtQuick 2.7
+import QtQuick.Controls.Styles 1.4
+import QtLocation 5.5
+
+Item{
+    id: hfuInfoLeft
+    width: parent.width*0.9
+    height: parent.height
+
+
+    Grid {
+        id: warningsGrid
+        height: parent.height/2
+        anchors.horizontalCenterOffset: 0
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.verticalCenter: parent.verticalCenter
+        columns: 3
+        spacing: 6
+
+        Rectangle { color: "#aa6666"; width: 50; height: 50 }
+        Rectangle { color: "#aaaa66"; width: 50; height: 50 }
+        Rectangle { color: "#9999aa"; width: 50; height: 50 }
+
+        Rectangle { color: "#6666aa"; width: 50; height: 50 }
+        Rectangle { color: "#aa6666"; width: 50; height: 50 }
+        Rectangle { color: "#aaaa66"; width: 50; height: 50 }
+
+        Rectangle { color: "#9999aa"; width: 50; height: 50 }
+        Rectangle { color: "#9999aa"; width: 50; height: 50 }
+        Rectangle { color: "#6666aa"; width: 50; height: 50 }
+    }
+
+}

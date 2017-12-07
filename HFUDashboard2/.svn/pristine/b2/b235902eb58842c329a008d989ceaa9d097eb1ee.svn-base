@@ -1,0 +1,10 @@
+#include "fpopel.h"
+
+FPOpel::FPOpel() : FrameParser(nullptr)
+{
+
+}
+
+void FPOpel::receiveCANFrame(QCanBusFrame frame){
+    const qint32 id = frame.frameId();
+}

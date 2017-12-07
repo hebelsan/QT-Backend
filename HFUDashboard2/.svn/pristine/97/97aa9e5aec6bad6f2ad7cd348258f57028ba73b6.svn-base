@@ -1,0 +1,46 @@
+import QtQuick 2.0
+
+Canvas{
+    //width:parent.width
+    //height: parent.height
+    contextType: qsTr("2D")
+    onWidthChanged: requestPaint()
+    onContextChanged: requestPaint()
+    property Text caption: text
+    property int pos: 0
+    //fill: "blue"
+    onPaint: {
+        var ctx = getContext("2d");
+        ctx.save();
+
+        ctx.clearRect(0, 0, width, height);
+        ctx.beginPath();
+        ctx.lineWidth = 10;
+        ctx.strokeStyle = "white";
+        ctx.ellipse(width*0.05, height*0.05, width*0.9, height*0.9)
+        /*ctx.strokeStyle="blue"
+        ctx.arcTo(width/2,height/2, parent.parent.width-width/2, parent.parent.height/2, parent.parent.width/2)*/
+
+        ctx.stroke();
+
+        ctx.restore();
+
+
+    }
+    Text{
+        id: text
+        width: parent.width
+        height:parent.height
+        color: "#ffffff"
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.verticalCenter: parent.verticalCenter
+        font.pointSize: 20
+
+        text: "Phone"
+        font.bold: false
+        font.italic: false
+        verticalAlignment: Text.AlignVCenter
+        horizontalAlignment: Text.AlignHCenter
+
+    }
+}

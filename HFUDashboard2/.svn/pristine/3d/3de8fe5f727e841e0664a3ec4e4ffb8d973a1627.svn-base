@@ -1,0 +1,104 @@
+#include "fpaudi.h"
+#include <QDebug>
+
+FPAudi::FPAudi() : FrameParser(nullptr)
+{
+
+}
+
+void FPAudi::receiveCANFrame(QCanBusFrame frame){
+    const qint32 id = frame.frameId();
+
+    //cruse control
+    if (id == 0x501) {
+        int speed = QChar(frame.payload().at(1)).unicode();
+        if (frame.payload().at(0) == 0x0){
+            emit FrameParser::cruiseControlFrameReceived(CruseControl::Off, speed);
+        }
+        else if (frame.payload().at(0) == 0x1){
+            emit FrameParser::cruiseControlFrameReceived(CruseControl::On, speed);
+        }
+        else if (frame.payload().at(0) == 0x2){
+            emit FrameParser::cruiseControlFrameReceived(CruseControl::GreenCar, speed);
+        }
+        else if (frame.payload().at(0) == 0x3){
+            emit FrameParser::cruiseControlFrameReceived(CruseControl::GreenCarDistanz, speed);
+        }
+    }
+    // warnings
+    else if (id == 0x50A) {
+         emit FrameParser::warningFrameReceived(QChar(frame.payload().at(0)).unicode());
+    }
+    // 0x7F0 button events
+    else if  (id == 0x7F0){
+        int p2 = QChar(frame.payload().at(2)).unicode();
+        // volumne
+        if (frame.payload().at(0) == 0x23 && frame.payload().at(1) == 0x01){
+            if (p2 == 0x01){
+                emit FrameParser::volumeUpFrameReceived();
+            } else if (p2 == 0xFF) {
+                emit FrameParser::volumeDownFrameReceived();
+            }
+        }
+        // thumbwheel
+        if (frame.payload().at(0) == 0x23 && frame.payload().at(1) == 0x02){
+            qDebug() << "thumb";
+            if (p2 == 0x01){
+                qDebug() << "right";
+                emit FrameParser::thumbwheelRightDownFrameReceived();
+            } else if (p2 == 0xFF) {
+                qDebug() << "left";
+                emit FrameParser::thumbwheelLeftUpFrameReceived();
+            }
+        }
+        // navigation button
+        else if (frame.payload().at(0) == 0x35 && frame.payload().at(1) == 0x05) {
+            if (p2 == 0x01){
+                qDebug() << "nav pressed";
+                emit FrameParser::navigationButtonPressed();
+            } else if (p2 == 0x00) {
+                qDebug() << "nav released";
+                emit FrameParser::navigationButtonReleased();
+            }
+        }
+        // phone button
+        else if (frame.payload().at(0) == 0x35 && frame.payload().at(1) == 0x04) {
+            if (p2 == 0x01){
+                qDebug() << "phone pressed";
+                emit FrameParser::phoneButtonPressed();
+            } else if (p2 == 0x00) {
+                emit FrameParser::phoneButtonReleased();
+            }
+        }
+        // radio button
+        else if (frame.payload().at(0) == 0x35 && frame.payload().at(1) == 0x18) {
+            if (p2 == 0x01){
+                qDebug() << "radio pressed";
+                emit FrameParser::radioButtonPressed();
+            } else if (p2 == 0x00) {
+                emit FrameParser::radioButtonReleased();
+            }
+        }
+        // media button
+        else if (frame.payload().at(0) == 0x35 && frame.payload().at(1) == 0x02) {
+            if (p2 == 0x01){
+                qDebug() << "media pressed";
+                emit FrameParser::mediaButtonPressed();
+            } else if (p2 == 0x00) {
+                emit FrameParser::mediaButtonReleased();
+            }
+        }
+        // menu button
+        else if (frame.payload().at(0) == 0x35 && frame.payload().at(1) == 0x1A) {
+            if (p2 == 0x01){
+                qDebug() << "menu pressed";
+                emit FrameParser::menuButtonPressed();
+            } else if (p2 == 0x00) {
+                emit FrameParser::menuButtonReleased();
+            }
+        }
+    }
+
+
+
+}

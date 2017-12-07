@@ -1,0 +1,16 @@
+import QtQuick 2.7
+import QtQuick.Extras 1.4 //CircularGauge
+
+CircularGauge {
+        width: parent.width * .8
+        height: parent.height * .8
+        anchors.centerIn: parent
+        anchors.bottom: parent.Bottom
+
+
+        // size of steps
+        minimumValue: 0
+        maximumValue: 9000
+
+        style: HFUTachometerStyle {}
+}

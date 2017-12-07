@@ -1,0 +1,22 @@
+<RCC>
+    <qresource prefix="/">
+        <file>HFUDashboardBase.qml</file>
+        <file>HFUDashboardHeader.qml</file>
+        <file>HFUDashboardLeftView.qml</file>
+        <file>HFUDashboardMiddleView.qml</file>
+        <file>HFUDashboardRightView.qml</file>
+        <file>HFUTachometer.qml</file>
+        <file>HFUTachometerStyle.qml</file>
+        <file>HFUTurnIndicator.qml</file>
+        <file>CanEventSink.qml</file>
+        <file>bilder/oTacho.png</file>
+        <file>bilder/Tacho.png</file>
+        <file>bilder/Tacho3.png</file>
+        <file>HFUNavStyle.qml</file>
+        <file>bilder/Tacho4.png</file>
+        <file>HFUMediaLeft.qml</file>
+        <file>bilder/Fuel.png</file>
+        <file>bilder/Temp.png</file>
+        <file>HFURightSelectionItem.qml</file>
+    </qresource>
+</RCC>

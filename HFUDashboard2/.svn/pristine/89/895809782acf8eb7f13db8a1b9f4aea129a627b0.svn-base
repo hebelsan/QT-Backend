@@ -1,0 +1,39 @@
+import QtQuick 2.7
+
+Rectangle {
+    color: "#494d53"
+    HFUTachometer{
+        id: hfuTachometer
+        value: canEventSink.rpm
+    }
+
+
+        Grid {
+
+
+            //width: parent.width
+            height: parent.height - hfuTachometer.height
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 50
+            anchors.horizontalCenter: parent.horizontalCenter
+            //anchors.verticalCenter: parent.verticalCenter
+
+            columns: 3
+            spacing: 6
+
+            Rectangle { color: "#aa6666"; width: 50; height: 50 }
+            Rectangle { color: "#aaaa66"; width: 50; height: 50 }
+            Rectangle { color: "#9999aa"; width: 50; height: 50 }
+
+            Rectangle { color: "#6666aa"; width: 50; height: 50 }
+            Rectangle { color: "#aa6666"; width: 50; height: 50 }
+            Rectangle { color: "#aaaa66"; width: 50; height: 50 }
+
+            Rectangle { color: "#9999aa"; width: 50; height: 50 }
+            Rectangle { color: "#9999aa"; width: 50; height: 50 }
+            Rectangle { color: "#6666aa"; width: 50; height: 50 }
+        }
+    }
+
+
+

@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>hfudashboard.ini</file>
+    </qresource>
+</RCC>

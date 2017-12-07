@@ -1,0 +1,153 @@
+import QtQuick 2.7
+import QtQuick.Controls 2.0
+import QtQuick.Layouts 1.0
+
+ApplicationWindow {
+    visible: true
+    id: hfuDasboardBase
+    title: qsTr("HFU Dashboard")
+    visibility: "FullScreen"
+    color: "#161616"
+
+    CanEventSink{
+        id: canEventSink
+    }
+
+    function getCANEventSink(){
+        console.log("request can", canEventSink.turnSignal)
+        return canEventSink
+    }
+
+    Item {
+        id: keyhandler
+        focus:true
+        Keys.onReleased: {
+            if(event.key===Qt.Key_Up){
+                canEventSink.setSpeed(180)
+                canEventSink.setRpm(9000)
+            }
+            else if(event.key===Qt.Key_Down){
+                canEventSink.setSpeed(100)
+                canEventSink.setRpm(2200)
+            }
+            else if(event.key===Qt.Key_Left){
+
+                if (canEventSink.turnSignal!=Qt.LeftArrow)
+                    canEventSink.setTurn(Qt.LeftArrow)
+                else
+                    canEventSink.setTurn(0)
+            }
+            else if(event.key===Qt.Key_Right){
+                if (canEventSink.turnSignal!=Qt.RightArrow)
+                    canEventSink.setTurn(Qt.RightArrow)
+                else
+                    canEventSink.setTurn(0)
+            }
+            else if(event.key===Qt.Key_W){
+                if(canEventSink.turnSignal==2){
+                    canEventSink.setTurn(0)
+                }else
+                    canEventSink.setTurn(2)
+            }
+            else if(event.key===Qt.Key_U){
+                if(canEventSink.gear=="P"){
+                    canEventSink.setGear((1).toString())
+                }else
+                    canEventSink.setGear((parseInt(canEventSink.gear)+1).toString())
+            }
+            else if(event.key===Qt.Key_D){
+                if(canEventSink.gear-1==0){
+                    canEventSink.setGear("P")
+                }
+                else if(canEventSink.gear!="P"){
+                    canEventSink.setGear((canEventSink.gear-1).toString())
+                }
+            }
+            else if(event.key===Qt.Key_H){
+                canEventSink.setTemp(80)
+            }
+            else if(event.key===Qt.Key_C){
+                canEventSink.setTemp(50)
+
+            }
+            else if(event.key===Qt.Key_F){
+                canEventSink.setFuel(0.9)
+            }
+            else if(event.key===Qt.Key_E){
+                canEventSink.setFuel(0.2)
+
+            }
+            else if(event.key===Qt.Key_M){
+                canEventSink.setMediaLeft();
+                hfuDashboardRightView.turnLeft();
+
+            }
+            else if(event.key===Qt.Key_N){
+                canEventSink.setNavleft();
+                hfuDashboardRightView.turnRight();
+
+            }
+            else if(event.key===Qt.Key_Escape){
+                close()
+
+            }
+        }
+    }
+
+
+
+    Item {
+        Connections {
+            target: canReader
+            onRpmFrameReceived: {
+                console.log("rpm frame received "+rpm);
+                canEventSink.setRpm(rpm);
+            }
+            onTurnSignalFrameReceived: {
+                console.log("turn signal frame received "+turn);
+                canEventSink.setTurn(turn);
+            }
+        }
+    }
+
+    Image{
+        anchors.fill: parent
+        source: "bilder/Background.png"
+
+        HFUDashboardHeader {
+            id: hfuDashboardHeader
+            width: parent.width
+            height: 0.10 * parent.height
+            anchors.top: parent.top
+        }
+
+        HFUDashboardLeftView{
+            id: hfuDasboardLeftView
+            width: 0.33 * parent.width
+            height: parent.height - (hfuDashboardHeader.height)
+            anchors.left: parent.left
+            anchors.leftMargin: 0
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 0
+
+        }
+
+        HFUDashboardMiddleView{
+            width: 0.33 * parent.width
+            height: parent.height - (hfuDashboardHeader.height)
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 0
+        }
+
+        HFUDashboardRightView{
+            id: hfuDashboardRightView
+            width: 0.33 * parent.width
+            height: parent.height - (hfuDashboardHeader.height)
+            anchors.right: parent.right
+            anchors.rightMargin: 0
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 0
+        }
+    }
+}

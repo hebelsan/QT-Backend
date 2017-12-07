@@ -1,0 +1,135 @@
+import QtQuick 2.7
+import QtQuick.Extras 1.4 //CircularGauge
+
+/*CircularGauge {
+        width: parent.width * .8
+        height: parent.height * .8
+        anchors.centerIn: parent
+        anchors.bottom: parent.Bottom
+
+
+        // size of steps
+        minimumValue: 0
+        maximumValue: 9000
+
+        style: HFUTachometerStyle {}
+}*/
+Image {
+    Canvas{
+        id: canvas
+        antialiasing: true
+
+        property color primaryColor: "white"
+        property color secondaryColor: canEventSink.colorrpm
+
+        property real centerWidth: width / 2
+        property real centerHeight: parent.height/3
+        property real radius: (canvas.width / 2)-9
+
+        property real minimumValue: 0
+        property real maximumValue: 9000
+        property real currentValue: canEventSink.rpm
+
+        // this is the angle that splits the circle in two arcs
+        // first arc is drawn from 0 radians to angle radians
+        // second arc is angle radians to 2*PI radians
+        property real angle: (currentValue - minimumValue) / (maximumValue - minimumValue) * Math.PI/2
+
+        // we want both circle to start / end at 12 o'clock
+        // without this offset we would start / end at 9 o'clock
+        property real angleOffset: -Math.PI/2
+
+        anchors.fill: parent
+
+        onPrimaryColorChanged: requestPaint()
+        onSecondaryColorChanged: requestPaint()
+        onMinimumValueChanged: requestPaint()
+        onMaximumValueChanged: requestPaint()
+        onCurrentValueChanged: requestPaint()
+
+        onPaint: {
+            var ctx = getContext("2d");
+            ctx.save();
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            ctx.beginPath();
+            ctx.lineWidth = 20;
+            ctx.strokeStyle = canEventSink.colorrpm;
+            ctx.arc(canvas.centerWidth,
+                    canvas.centerHeight,
+                    canvas.radius,
+                    canvas.angleOffset,
+                    canvas.angleOffset + canvas.angle);
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.lineWidth = 20;
+            ctx.strokeStyle = canEventSink.colorrpm;
+            ctx.arc(canvas.centerWidth,
+                    canvas.centerHeight,
+                    canvas.radius,
+                    canvas.angleOffset,
+                    canvas.angleOffset - canvas.angle, true );
+            ctx.stroke();
+
+            ctx.restore();
+        }
+    }
+
+    id: image1
+    //anchors.horizontalCenter: parent.horizontalCenter+20
+    source: "bilder/Tacho.png"
+    width: parent.width
+    height: width/2*3
+    y: -100
+    Text{
+        width: 94
+        height: 48
+        color: "#000000"
+        //anchors.horizontalCenter: parent.horizontalCenter
+        //anchors.verticalCenter: parent.verticalCenter
+        text: canEventSink.kph.toFixed(0)
+        anchors.left: parent.left
+        anchors.leftMargin: 200
+        anchors.top: parent.top
+        anchors.topMargin: 300
+        font.pointSize: 50
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
+        //color: "000000"
+        Text {
+            id: text1
+            x: 232
+            width: 38
+            height: 48
+            color: "#000000"
+            text: qsTr("km/h")
+            anchors.top: parent.top
+            anchors.left: parent.right
+            anchors.leftMargin: 90
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
+            font.pixelSize: 30
+
+        }
+    }
+
+    Text{
+        width: 94
+        height: 48
+        color: "#000000"
+        //anchors.horizontalCenter: parent.horizontalCenter
+        //anchors.verticalCenter: parent.verticalCenter
+        text: canEventSink.gear
+        anchors.left: parent.left
+        anchors.leftMargin: parent.width/2- width/2
+        anchors.top: parent.top
+        anchors.topMargin: 580
+        font.pointSize: 50
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
+        //color: "000000"
+    }
+
+}

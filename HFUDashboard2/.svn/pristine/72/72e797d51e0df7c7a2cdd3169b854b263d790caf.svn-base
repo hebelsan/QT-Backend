@@ -1,0 +1,114 @@
+#include "canreader.h"
+
+#include <Qt>
+#include <QDebug>
+#include <QCanBus>
+#include <QSettings>
+
+#include "frameparser.h"
+#include "fpbmw.h"
+#include "fpopel.h"
+#include "fpaudi.h"
+
+static QByteArray dataFromHex(const QString &hex)
+{
+    QByteArray line = hex.toLatin1();
+    line.replace(' ', QByteArray());
+    return QByteArray::fromHex(line);
+}
+
+static QByteArray dataToHex(const QByteArray &data)
+{
+    QByteArray result = data.toHex().toUpper();
+
+    for (int i = 0; i < result.size(); i += 3)
+        result.insert(i, ' ');
+
+    return result;
+}
+
+CANReader::CANReader(QObject *parent) : QObject(parent)
+{
+    foreach (const QByteArray &backend, QCanBus::instance()->plugins()) {
+        qInfo("%s", QString::fromLatin1(backend).toLatin1().data());
+        if (backend == "socketcan") {
+            // were found
+            break;
+        }
+    }
+
+    m_canDevice = QCanBus::instance()->createDevice("socketcan",  QStringLiteral("vcan0"));
+    //m_canDevice = QCanBus::instance()->createDevice("socketcan",  QStringLiteral("can0"));
+
+
+    if (!m_canDevice) {
+        qCritical() << "Error!";
+    }
+
+    QSettings settings("/etc/hfudashboard.ini",  QSettings::IniFormat);
+
+    qInfo() << settings.value("can/type", "audi").toString();
+    QString canMessageType = settings.value("can/type", "audi").toString();
+    if (canMessageType == "bmw"){
+        fp = new FPBMW();
+    } else if (canMessageType == "opel"){
+        fp = new FPOpel();
+    }
+    else {
+        fp = new FPAudi();
+    }
+
+    connect(m_canDevice, &QCanBusDevice::framesReceived,
+            this, &CANReader::receiveCANFrame);
+
+    connect(this, &CANReader::frameReceived,
+            this->fp, &FrameParser::receiveCANFrame);
+
+    connect(m_canDevice, &QCanBusDevice::errorOccurred,
+            this, &CANReader::receiveError);
+
+     if (!m_canDevice->connectDevice()) {
+         qCritical() << "connection error!";
+     }
+}
+
+CANReader::~CANReader()
+{
+    delete m_canDevice;
+    delete fp;
+}
+
+FrameParser* CANReader::getFrameParser(){
+    return this->fp;
+}
+
+void CANReader::receiveCANFrame(){
+    if (!m_canDevice)
+        return;
+    emit frameReceived(m_canDevice->readFrame());
+}
+
+void CANReader::receiveError(QCanBusDevice::CanBusError error) const
+{
+    switch (error) {
+    case QCanBusDevice::ReadError:
+    case QCanBusDevice::WriteError:
+    case QCanBusDevice::ConnectionError:
+    case QCanBusDevice::ConfigurationError:
+    case QCanBusDevice::UnknownError:
+        qWarning() << m_canDevice->errorString();
+    default:
+        break;
+    }
+}
+
+void CANReader::sendFrame(){
+    QCanBusFrame frame;
+    frame.setFrameId(8);
+    QByteArray payload("A36E");
+    frame.setPayload(payload);
+    m_canDevice->writeFrame(frame);
+}
+
+
+

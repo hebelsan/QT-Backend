@@ -1,0 +1,58 @@
+import QtQuick 2.7
+import QtQuick.Extras 1.4 //CircularGauge
+
+/*CircularGauge {
+        width: parent.width * .8
+        height: parent.height * .8
+        anchors.centerIn: parent
+        anchors.bottom: parent.Bottom
+
+
+        // size of steps
+        minimumValue: 0
+        maximumValue: 9000
+
+        style: HFUTachometerStyle {}
+}*/
+
+Image {
+    id: image1
+    //anchors.horizontalCenter: parent.horizontalCenter+20
+    source: "bilder/oTacho.png"
+    height: parent.width
+    width: parent.width
+    Text{
+        y: 156
+        width: 94
+        height: 48
+        color: "#ffffff"
+        //anchors.horizontalCenter: parent.horizontalCenter
+        //anchors.verticalCenter: parent.verticalCenter
+        text: canEventSink.kph.toFixed(0)
+        anchors.left: parent.left
+        anchors.leftMargin: (parent.width/2)-100
+        anchors.verticalCenter: parent.verticalCenter
+        font.pointSize: 50
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
+        anchors.verticalCenterOffset: 0
+        //color: "000000"
+    }
+
+    Text {
+        id: text1
+        x: 206
+        y: 156
+        width: 38
+        height: 48
+        color: "#ffffff"
+        text: qsTr("km/h")
+        anchors.verticalCenterOffset: 0
+        anchors.right: parent.right
+        anchors.rightMargin: (parent.width/2)-100
+        anchors.verticalCenter: parent.verticalCenter
+        verticalAlignment: Text.AlignVCenter
+        horizontalAlignment: Text.AlignHCenter
+        font.pixelSize: 30
+    }
+}

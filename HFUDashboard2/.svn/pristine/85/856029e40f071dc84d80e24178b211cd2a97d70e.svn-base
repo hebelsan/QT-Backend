@@ -1,0 +1,29 @@
+#ifndef FRAMEPARSER_H
+#define FRAMEPARSER_H
+
+#include <Qt>
+#include <QString>
+#include <QObject>
+#include <QCanBusFrame>
+
+class FrameParser : public QObject
+{
+    Q_OBJECT
+public:
+    explicit FrameParser(QObject *parent = 0);
+
+signals:
+    void speedFrameReceived(float speed);
+    void rpmFrameReceived(float rpm);
+    void gearFrameReceived(QString gear);
+    void fuelFrameReceived(float fuel);
+    void temperatureFrameReceived(float temperature);
+    void turnSignalFrameReceived(Qt::ArrowType turn);
+
+public slots:
+    virtual void receiveCANFrame(QCanBusFrame frame);
+
+};
+
+
+#endif // FRAMEPARSER_H
