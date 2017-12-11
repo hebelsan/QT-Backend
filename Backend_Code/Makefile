@@ -1,9 +1,9 @@
 # Definition/Declarations of MAKE-Variables
-OBJ		= model.o lenkrad.o can_data.o can_read.o Car_status.o Motor_simulation.o control.o
+OBJ		= model.o lenkrad.o can_data.o can_read.o Car_status.o Motor_simulation.o control.o Mount.o Controller.o
 LIBEVDEV	= /home/pi/libevdev/libevdev/libevdev.o
 CC		= g++
 RM		= rm -f
-LIBDEF		= `pkg-config --cflags --libs gstreamer-1.0`
+LIBDEF		= `pkg-config --cflags --libs gstreamer-1.0` -ludev
 INCPATH		= -I /home/pi/libevdev/libevdev
 
 # targets:
@@ -24,8 +24,12 @@ lenkrad.o: lenkrad.hpp lenkrad.cpp
 	$(CC) -c $(INCPATH) $(LIBEVDEV) lenkrad.hpp lenkrad.cpp $(LIBDEF)
 GstPlayer.o: GstPlayer.hpp GstPlayer.cpp
 	$(CC) -c $(LIBDEF) GstPlayer.hpp GstPlayer.cpp -std=gnu++11
-control.o: control.hpp control.cpp GstPlayer.o
+control.o: control.hpp control.cpp Controller.o
 	$(CC) -c $(LIBDEF) control.hpp control.cpp -std=gnu++11 GstPlayer.o
+Controller.o: Controller.hpp Controller.cpp GstPlayer.o
+	$(CC) -c $(LIBDEF) Controller.hpp Controller.cpp -std=gnu++11 GstPlayer.o
+Mount.o: Mount.hpp Mount.cpp Controller.cpp
+	$(CC) -c $(LIBDEF) Mount.hpp Mount.cpp Controller.cpp -std=gnu++11 GstPlayer.o
 
 .PHONY: clean
 clean:

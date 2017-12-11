@@ -12,6 +12,7 @@
 #include "can_data.hpp"
 #include "can_read.hpp"
 #include "datentypen.hpp"
+#include "Mount.hpp"
 
 
 int main ( int argc,const char* argv[]){
@@ -54,7 +55,7 @@ int main ( int argc,const char* argv[]){
 
 
 	//Pthreads Objekte für jeden Thread anlegen
-	pthread_t th_lenkrad_lesen, th_model, th_can_read, th_control;
+	pthread_t th_lenkrad_lesen, th_model, th_can_read, th_control, th_mount;
 
 	//Thread Lenkrad starten
 	my_fail = pthread_create(&th_lenkrad_lesen, NULL, &lenkrad_lesen, (void*) lenkrad_daten);
@@ -76,6 +77,12 @@ int main ( int argc,const char* argv[]){
 	if (my_fail != 0)
 		std::cout << "my_fail= " << my_fail << std::endl;
 
+	//Thread Mount starten
+	Mount m;
+	int my_fail = pthread_create(&th_mount, NULL, &Mount::checkMount, &m);
+	if (my_fail != 0)
+		std::cout << "my_fail= " << my_fail << std::endl;
+
 
 
 
@@ -87,6 +94,7 @@ int main ( int argc,const char* argv[]){
 	pthread_join(th_model,0);
 	pthread_join(th_can_read,0);
 	pthread_join(th_control,0);
+	pthread_join(th_mount,0);
 
 
   //Warten bis alle Threads fertig sind
