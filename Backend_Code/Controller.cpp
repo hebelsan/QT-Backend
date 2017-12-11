@@ -130,12 +130,14 @@ void Controller::sendEvent(Event e) {
 			break;
 		case USB_PLUGGED_IN:
 			if (systemState.mainView != USB_VIEW) {
-				std::cout << "? 11 " << std::endl;
+				systemState.mainView = USB_VIEW;
+				std::cout << "? 11 1" << std::endl;
 			}
 			break;
 		case USB_PLUGGED_OUT:
 			if (systemState.mainView == USB_VIEW) {
-				std::cout << "? 11 " << std::endl;
+				systemState.mainView = START_VIEW;
+				std::cout << "? 11 1" << std::endl;
 			}
 			break;
 	}

@@ -79,7 +79,7 @@ int main ( int argc,const char* argv[]){
 
 	//Thread Mount starten
 	Mount m;
-	int my_fail = pthread_create(&th_mount, NULL, &Mount::checkMount, &m);
+	my_fail = pthread_create(&th_mount, NULL, &Mount::checkMount, &m);
 	if (my_fail != 0)
 		std::cout << "my_fail= " << my_fail << std::endl;
 
