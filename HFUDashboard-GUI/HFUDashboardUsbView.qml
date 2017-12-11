@@ -39,11 +39,11 @@ Item {
 
     Rectangle {
         id: volumeBar2
-        width: 40
-        height: 280
+        width: 15
+        height: 250
         anchors.top: parent.top
         anchors.left: parent.left
-        anchors.topMargin: 200
+        anchors.topMargin: 220
         anchors.leftMargin: -300
         border.color: "red"
         border.width: 1
@@ -52,23 +52,23 @@ Item {
     Image {
         id: rahmen
         visible: true
-        width: 645
+        width: 625
         height: 340
         anchors.top: parent.top
         anchors.left: parent.left
         anchors.topMargin: 170
-        anchors.leftMargin: -243
+        anchors.leftMargin: -253
         source: "bilder/UsbRahmen.png"
     }
 
     Rectangle {
         id: titlListRec
-        width: 600
+        width: 580
         height: 280
         anchors.top: parent.top
         anchors.left: parent.left
         anchors.topMargin: 200
-        anchors.leftMargin: -220
+        anchors.leftMargin: -230
         border.color: "red"
         border.width: 1
 

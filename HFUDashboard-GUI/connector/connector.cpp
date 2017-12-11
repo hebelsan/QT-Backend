@@ -1,6 +1,4 @@
 #include "connector.h"
-#include "../media/Mount.h"
-#include "../media/mediathread.h"
 #include "inputthread.h"
 
 #include <Qt>
@@ -17,7 +15,6 @@
 #include <string>
 #include <stdio.h>
 
-MediaThread mediaMountThread;
 InputThread inputThread;
 
 bool Connector::instanceflag = false;
@@ -375,7 +372,6 @@ Connector::Connector(QObject *parent) : QObject(parent)
 //    pthread_detach(input_thread);
 
     // media thread
-    mediaMountThread.start();
     inputThread.start();
 }
 

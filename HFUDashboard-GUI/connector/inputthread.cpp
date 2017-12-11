@@ -72,26 +72,8 @@ void InputThread::run() {
                 break;
             }
             case 11:{
+                // switch usb Mode
                 emit creader->switchUsbMediaMode();
-                break;
-//                std::cout << "ID: " << identifier << std::endl;
-//                if(!turnSignalState){
-//                    turnSignalDirection = "both";
-//                    pthread_create(&turnSignal_thread, NULL, turnSignal, NULL);
-//                }
-//                else if((turnSignalState && turnSignalDirection == "left") || (turnSignalState && turnSignalDirection == "right")){
-//                    turnSignalDirection = "both";
-//                    pthread_cancel(turnSignal_thread);
-//                    emit creader->turnSignalLeftFrameReceived(false);
-//                    emit creader->turnSignalRightFrameReceived(false);
-//                    pthread_create(&turnSignal_thread, NULL, turnSignal, NULL);
-//                }
-//                else if(turnSignalState && turnSignalDirection == "both"){
-//                    pthread_cancel(turnSignal_thread);
-//                    emit creader->turnSignalLeftFrameReceived(false);
-//                    emit creader->turnSignalRightFrameReceived(false);
-//                    turnSignalState = false;
-//                }
                 break;
             }
             case 12:{

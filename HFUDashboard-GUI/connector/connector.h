@@ -3,7 +3,6 @@
 
 #include <QObject>
 #include <QFile>
-#include "../media/mediathread.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -60,8 +59,6 @@ signals:
     // media
     void volumeUpFrameReceived();
     void volumeDownFrameReceived();
-    void usbPluggedInSignalReceived();
-    void usbPluggedOutSignalReceived();
     void musicPlayButtonPressed();
     void audioWheelTurnedLeft();
     void audioWheelTurnedRight();

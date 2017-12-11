@@ -34,8 +34,8 @@ Item{
                     canEventSink.setLeftViewToMedia();
                     connector.menuStateFrameReceived();
                 }
-                if (volumeAdjuster.anchors.leftMargin + volumeBar.width / 30 < volumeBar.width)
-                    volumeAdjuster.anchors.leftMargin += volumeBar.width / 30
+                if (volumeAdjuster.anchors.leftMargin + volumeBar.width / 20 < volumeBar.width)
+                    volumeAdjuster.anchors.leftMargin += volumeBar.width / 20
             }
             onVolumeDownFrameReceived: {
                 canEventSink.setShowVolume(true);
@@ -43,16 +43,25 @@ Item{
                     canEventSink.setLeftViewToMedia();
                     connector.menuStateFrameReceived();
                 }
-                if (volumeAdjuster.anchors.leftMargin - volumeBar.width / 30 > 0)
-                    volumeAdjuster.anchors.leftMargin -= volumeBar.width / 30
+                if (volumeAdjuster.anchors.leftMargin - volumeBar.width / 20 > 0)
+                    volumeAdjuster.anchors.leftMargin -= volumeBar.width / 2
+
+                0
             }
             onMusicPlayButtonPressed: {
                 if (mainView.visible && canEventSink.activeLeftView != media) {
                     canEventSink.setLeftViewToMedia();
                     connector.menuStateFrameReceived();
                 }
-                musicPlayButton.source = musicPlayButton.path2
-                playButtonTimer.start()
+                if (!canEventSink.isPlaying) {
+                    canEventSink.isPlaying = !canEventSink.isPlaying
+                    musicPlayButton.source = musicPlayButton.playPressedPath
+                    playButtonTimer.start()
+                } else {
+                    canEventSink.isPlaying = !canEventSink.isPlaying
+                    musicPlayButton.source = musicPlayButton.pausedPressedPath
+                    pauseButtonTimer.start()
+                }
             }
             onMusicBackwardButtonPressed: {
                 musicBackwardButton.source = musicBackwardButton.path2
@@ -79,12 +88,14 @@ Item{
 
         Image {
             id: musicPlayButton
-            property string path1: "bilder/MusicPlay.png"
-            property string path2: "bilder/MusicPlayPressed.png"
+            property string playNormalPath: "bilder/MusicPlay.png"
+            property string playPressedPath: "bilder/MusicPlayPressed.png"
+            property string pausedNormalPath: "bilder/MusicPause.png"
+            property string pausedPressedPath: "bilder/MusicPausePressed.png"
             property bool pressed: false
             width: 40
             height: 40
-            source: path1
+            source: playNormalPath
             anchors.horizontalCenter: mediaWindow.horizontalCenter
             anchors.bottom: mediaWindow.bottom
             anchors.bottomMargin: 120
@@ -95,11 +106,15 @@ Item{
 
             Timer {
                 id: playButtonTimer
-                interval: 200; running: false; repeat: false
-                onTriggered: musicPlayButton.source = musicPlayButton.path1;
+                interval: 100; running: false; repeat: false
+                onTriggered: musicPlayButton.source = musicPlayButton.pausedNormalPath;
             }
 
-
+            Timer {
+                id: pauseButtonTimer
+                interval: 100; running: false; repeat: false
+                onTriggered: musicPlayButton.source = musicPlayButton.playNormalPath;
+            }
             }
 
         Image {

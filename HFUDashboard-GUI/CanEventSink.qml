@@ -7,6 +7,7 @@ Item {
     id: canEventSink
     objectName: "canEventSink"
 
+    property bool isPlaying: false
     property double angle: 292
     property int turnSignal: 2
     property bool leftTurnSignal: false

@@ -11,8 +11,6 @@ unix{ LIBS += -ludev}
 
 SOURCES += main.cpp \
     connector/connector.cpp \
-    media/Mount.cpp \
-    media/mediathread.cpp \
     connector/inputthread.cpp \
     connector/smooththread.cpp \
     connector/timethread.cpp \
@@ -36,8 +34,6 @@ HEADERS += \
     hfuenums.h \
     main.h \
     connector/connector.h \
-    media/Mount.h \
-    media/mediathread.h \
     connector/inputthread.h \
     connector/smooththread.h \
     connector/timethread.h

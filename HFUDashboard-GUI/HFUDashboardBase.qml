@@ -257,13 +257,6 @@ ApplicationWindow {
                 canEventSink.decreaseZoom();
                 canEventSink.selectNextContact();
             }
-            onUsbPluggedInSignalReceived:{
-                mainView.visible = false;
-            }
-            onUsbPluggedOutSignalReceived:{
-                mainView.visible = true;
-                usbView.visible = false;
-            }
         }
     }
 
