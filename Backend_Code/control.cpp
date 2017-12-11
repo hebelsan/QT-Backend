@@ -1,5 +1,4 @@
 #include "control.hpp"
-#include "GstPlayer.hpp"
 #include "Controller.hpp"
 
 
