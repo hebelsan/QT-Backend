@@ -3,7 +3,7 @@
 
 
 static void initLocalMediaControl();
-static void analyseMediaControl(media_control_t *);
+static void analyseMediaControl(media_control_t *, Controller *);
 static bool isPlaying = false; 
 
 // Lokaler Datenhalter
@@ -106,7 +106,7 @@ void *control (void* val){
 	
 		} // endif my_new
     
-		analyseMediaControl(control_daten->media_control);
+		analyseMediaControl(control_daten->media_control, c);
 	}
 }
 
@@ -121,7 +121,7 @@ static void initLocalMediaControl()
 	local_media_control.btn_left_pressed = false;
 }
 
-static void analyseMediaControl(media_control_t *control_daten)
+static void analyseMediaControl(media_control_t *control_daten, Controller *c)
 {
 	if(control_daten->wheel_turns != 0)
 	{
@@ -135,6 +135,7 @@ static void analyseMediaControl(media_control_t *control_daten)
 	}
 	if(control_daten->wheel_pressed != local_media_control.wheel_pressed)
 	{
+		c->sendEvent(WHEEL_PRESSED);
 		std::cout << "? 22 " << control_daten->wheel_pressed << std::endl;
 		local_media_control.wheel_pressed = control_daten->wheel_pressed;
 	}
