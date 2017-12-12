@@ -8,7 +8,7 @@ Controller::Controller() {
 	systemState.audioState.isPaused = false;
 	systemState.audioState.currentTitle = "";
 	systemState.audioState.volume = 1.0;
-	player.open("file:///home/alex/Music/MarioLand.mp3");
+	player.open("file:///home/pi/test.mp3");
 }
 
 Controller* Controller::getInstance() {
