@@ -4,27 +4,27 @@
 
 using std::string;
 
-enum player_state
-{
-	PLAYING, PAUSED
-};
-
 typedef struct internal_data
 {
 	gboolean seekEnabled = FALSE;
-	GMainLoop *mainLoop;
-	GstElement *playbin;
+	GMainLoop *mainLoop = NULL;
+	GstElement *playbin = NULL;
+	GstElement *audioSink = NULL;
 	volatile gboolean terminated;
-	gint64 duration;
+	double playbackRate = 1.0;
+	double volume = 1.0;
+	gint64 duration = 0;
+	GstState state = GST_STATE_NULL;
 } 
 InternalData;
 
 class GstPlayer
 {
 private:
+	gboolean (*seconds_cb)(void*);
+	void* seconds_cb_data;
 	GstBus *bus;
 	InternalData data;
-	gboolean playing;
 	gboolean seek_enabled;
 	gboolean seek_done;
 	gint64 duration;
@@ -39,7 +39,10 @@ public:
 	~GstPlayer(void);
 	void open(string);
 	int play(void);
+	bool isPlaying();
 	int pause(void);
+	void advancedSeek(double);
+	double getPlaybackRate();
 	void seek(int);
 	void getState(void);
 	int getDuration(void);
