@@ -24,12 +24,12 @@ lenkrad.o: lenkrad.hpp lenkrad.cpp
 	$(CC) -c $(INCPATH) $(LIBEVDEV) lenkrad.hpp lenkrad.cpp $(LIBDEF)
 GstPlayer.o: GstPlayer.hpp GstPlayer.cpp
 	$(CC) -c $(LIBDEF) GstPlayer.hpp GstPlayer.cpp -std=gnu++11
-control.o: control.hpp control.cpp Controller.o
-	$(CC) -c $(LIBDEF) control.hpp control.cpp -std=gnu++11 GstPlayer.o
+control.o: control.hpp control.cpp
+	$(CC) -c $(LIBDEF) control.hpp control.cpp -std=gnu++11
 Controller.o: Controller.hpp Controller.cpp GstPlayer.o
 	$(CC) -c $(LIBDEF) Controller.hpp Controller.cpp -std=gnu++11 GstPlayer.o
 Mount.o: Mount.hpp Mount.cpp Controller.cpp
-	$(CC) -c $(LIBDEF) Mount.hpp Mount.cpp Controller.cpp -std=gnu++11 GstPlayer.o
+	$(CC) -c $(LIBDEF) Mount.hpp Mount.cpp -std=gnu++11
 
 .PHONY: clean
 clean:
