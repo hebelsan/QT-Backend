@@ -90,7 +90,7 @@ void Controller::sendEvent(Event e) {
 			break;
 		case BUTTON_A:
 			// Volume Down
-			if (systemState.audioState.volume != 0) {
+			if (systemState.audioState.volume >= 0.05) {
 				systemState.audioState.volume -= 0.05;
 			}
 			player.setVolume(systemState.audioState.volume);
@@ -98,7 +98,7 @@ void Controller::sendEvent(Event e) {
 			break;
 		case BUTTON_Y:
 			// Volume UP
-			if (systemState.audioState.volume != 1) {
+			if (systemState.audioState.volume <= 0.95) {
 				systemState.audioState.volume += 0.05;
 			}
 			player.setVolume(systemState.audioState.volume);

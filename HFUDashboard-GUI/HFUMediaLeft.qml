@@ -34,8 +34,8 @@ Item{
                     canEventSink.setLeftViewToMedia();
                     connector.menuStateFrameReceived();
                 }
-                if (volumeAdjuster.anchors.leftMargin + volumeBar.width / 20 < volumeBar.width)
-                    volumeAdjuster.anchors.leftMargin += volumeBar.width / 20
+                if (volumeAdjuster.anchors.rightMargin + volumeBar.width / 20 < volumeBar.width)
+                    volumeAdjuster.anchors.rightMargin += volumeBar.width / 20
             }
             onVolumeDownFrameReceived: {
                 canEventSink.setShowVolume(true);
@@ -43,10 +43,8 @@ Item{
                     canEventSink.setLeftViewToMedia();
                     connector.menuStateFrameReceived();
                 }
-                if (volumeAdjuster.anchors.leftMargin - volumeBar.width / 20 > 0)
-                    volumeAdjuster.anchors.leftMargin -= volumeBar.width / 2
-
-                0
+                if (volumeAdjuster.anchors.rightMargin - volumeBar.width / 20 > 0)
+                    volumeAdjuster.anchors.rightMargin -= volumeBar.width / 20
             }
             onMusicPlayButtonPressed: {
                 if (mainView.visible && canEventSink.activeLeftView != media) {
@@ -201,7 +199,7 @@ Item{
             z: 1
             source: "bilder/MusicVolumeAdjuster.png"
             anchors.verticalCenter: parent.verticalCenter
-            anchors.left: parent.left
+            anchors.right: parent.right
         }
 
         Image {
