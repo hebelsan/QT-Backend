@@ -23,12 +23,12 @@ void UsbView::sendEvent(EventEnum event, struct state* systemState, GstPlayer* p
 			if (systemState->audioState.volume > 0) {
 				systemState->audioState.volume -= 5;
 			}
-			player->setVolume(systemState->audioState.volume);
+			player->setVolume((double)systemState->audioState.volume/100);
 			// std::cout << "? 13 " << control_daten->a << std::endl;
 			break;
 		case BUTTON_Y:
 			// Volume UP
-			if (systemState->audioState.volume < 1) {
+			if (systemState->audioState.volume < 100) {
 				systemState->audioState.volume += 5;
 			}
 			player->setVolume((double)systemState->audioState.volume/100);

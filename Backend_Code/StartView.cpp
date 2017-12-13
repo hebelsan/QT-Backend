@@ -45,7 +45,7 @@ void StartView::sendEvent(EventEnum event, struct state* systemState, GstPlayer*
 			if (systemState->audioState.volume > 0) {
 				systemState->audioState.volume -= 5;
 			}
-			player->setVolume(systemState->audioState.volume);
+			player->setVolume((double)systemState->audioState.volume/100);
 			// std::cout << "? 13 " << control_daten->a << std::endl;
 			break;
 		case BUTTON_Y:
