@@ -8,7 +8,7 @@ Controller::Controller() {
 	systemState.audioState.isPaused = false;
 	systemState.audioState.currentTitle = "";
 	systemState.audioState.volume = 1.0;
-	player.open("file:///home/alex/Music/MarioLand.mp3");
+	player.open("file:///home/pi/test.mp3");
 }
 
 Controller* Controller::getInstance() {
@@ -47,7 +47,7 @@ void Controller::setSystemstate(state newState) {
 
 // depending on current view the signal if forwarded
 void Controller::sendEvent(EventEnum e) {
-	switch (systemState.mainView) 
+	switch (systemState.mainView)
 	{
 	case START_VIEW:
 		startView.sendEvent(e, &systemState, &player);
@@ -56,5 +56,4 @@ void Controller::sendEvent(EventEnum e) {
 		usbView.sendEvent(e, &systemState, &player);
 		break;
 	}
-	
 }
