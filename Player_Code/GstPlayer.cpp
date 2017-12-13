@@ -1,14 +1,10 @@
 #include "GstPlayer.hpp"
 
-static gboolean dummy(void*);
 
 GstPlayer::GstPlayer(int argc, char** argv)
 {
 	t_player = NULL;
 	data.terminated = FALSE;
-	duration = GST_CLOCK_TIME_NONE;
-	seconds_cb = dummy;
-	seconds_cb_data = NULL;
 	
 	/* Initialize GStreamer */
 	gst_init (&argc, &argv);
@@ -41,7 +37,7 @@ void GstPlayer::open(string uri)
 	if(data.mainLoop == NULL)
 	{
 		data.mainLoop = g_main_loop_new (NULL, FALSE);
-		g_timeout_add_seconds(1, (GSourceFunc)seconds_cb, seconds_cb_data);
+		g_timeout_add_seconds(1, (GSourceFunc)handleSeconds, &data);
 	}
 }
 
@@ -120,14 +116,14 @@ int GstPlayer::pause()
 int GstPlayer::getDuration()
 {
 	/* If we didn't know it yet, query the stream duration */
-	if (!GST_CLOCK_TIME_IS_VALID (duration)) 
+	if (!GST_CLOCK_TIME_IS_VALID (data.duration)) 
 	{
-		if (!gst_element_query_duration (data.playbin, GST_FORMAT_TIME, &duration)) 
+		if (!gst_element_query_duration (data.playbin, GST_FORMAT_TIME, &data.duration)) 
 		{
 			g_printerr ("Could not query current duration.\n");
 		}
 	}
-	return (int)(duration/GST_SECOND);
+	return (int)(data.duration/GST_SECOND);
 }
 
 void GstPlayer::setVolume(double volume)
@@ -144,13 +140,6 @@ void GstPlayer::playerRoutineHelper(void* instance)
 {
 	g_main_loop_run(((InternalData*)instance)->mainLoop);
 	g_thread_exit(0);
-}
-
-void GstPlayer::seek(int seconds)
-{
-	if(data.seekEnabled && seconds < duration)
-	gst_element_seek_simple (data.playbin, GST_FORMAT_TIME,
-		(GstSeekFlags)(GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_KEY_UNIT), seconds * GST_SECOND);
 }
 
 gboolean GstPlayer::handleMessage(GstBus *bus, GstMessage *msg, InternalData* data)
@@ -226,6 +215,31 @@ gboolean GstPlayer::handleMessage(GstBus *bus, GstMessage *msg, InternalData* da
 	return TRUE;
 }
 
+gboolean GstPlayer::handleSeconds(void* dieses)
+{
+	InternalData* data = (InternalData*)dieses;
+	gint64 current = -1;
+	/* Query the current position of the stream */
+	if (!gst_element_query_position (data->playbin, GST_FORMAT_TIME, &current)) {
+		g_printerr ("Could not query current position.\n");
+	}
+	
+	data->seconds_cb_func((int)(current/GST_SECOND), data->seconds_cb_data);
+	return true;
+}	
+
+void GstPlayer::setSecondsCb(seconds_cb function, void* dingsbums)
+{
+	data.seconds_cb_func = function;
+	data.seconds_cb_data = dingsbums;
+}
+
+void GstPlayer::setEofCb(eof_cb function, void* dingsbums)
+{
+	data.eof_cb_func = function;
+	data.eof_cb_data = dingsbums;
+}
+
 GstPlayer::~GstPlayer(void)
 {
 	gst_element_set_state(data.playbin, GST_STATE_NULL);
@@ -234,9 +248,4 @@ GstPlayer::~GstPlayer(void)
 	gst_object_unref(data.playbin);
 	gst_object_unref(bus);
 	//t_player->~thread();
-}
-
-static gboolean dummy(void*)
-{
-	return false;
 }
