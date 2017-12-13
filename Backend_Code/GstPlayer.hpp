@@ -4,18 +4,27 @@
 
 using std::string;
 
-enum player_state
-{
-	PLAYING, PAUSED
-};
+static gboolean dummy_sec(int, void*);
+static void dummy_eof(void*);
+
+typedef gboolean (*seconds_cb)(int, void*);
+typedef void (*eof_cb)(void*);
 
 typedef struct internal_data
 {
 	gboolean seekEnabled = FALSE;
-	GMainLoop *mainLoop;
-	GstElement *playbin;
+	GMainLoop *mainLoop = NULL;
+	GstElement *playbin = NULL;
+	GstElement *audioSink = NULL;
 	volatile gboolean terminated;
-	gint64 duration;
+	double playbackRate = 1.0;
+	double volume = 1.0;
+	gint64 duration = 0;
+	GstState state = GST_STATE_NULL;
+	seconds_cb seconds_cb_func = dummy_sec;
+	void* seconds_cb_data = NULL;
+	eof_cb eof_cb_func = dummy_eof;
+	void* eof_cb_data = NULL;
 } 
 InternalData;
 
@@ -24,12 +33,11 @@ class GstPlayer
 private:
 	GstBus *bus;
 	InternalData data;
-	gboolean playing;
 	gboolean seek_enabled;
 	gboolean seek_done;
-	gint64 duration;
 	gboolean terminate;
 	static gboolean handleMessage(GstBus*, GstMessage*, InternalData*);
+	static gboolean handleSeconds(void*);
 	GThread *t_player;
 
 	//void* playerRoutine(void);
@@ -39,12 +47,27 @@ public:
 	~GstPlayer(void);
 	void open(string);
 	int play(void);
+	bool isPlaying();
 	int pause(void);
-	void seek(int);
+	void advancedSeek(double);
+	double getPlaybackRate();
 	void getState(void);
 	int getDuration(void);
 	void setVolume(double);
 	double getVolume(void);
 	void join(void);
 	static void playerRoutineHelper(void*);
+	void setSecondsCb(seconds_cb, void*);
+	void setEofCb(eof_cb, void*);
 };
+
+static gboolean dummy_sec(int seconds, void*)
+{
+	printf("%d\n",seconds);
+	return false;
+}
+
+static void dummy_eof(void* dings)
+{
+	return;
+}
