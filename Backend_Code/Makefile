@@ -31,7 +31,7 @@ StartView.o: StartView.hpp StartView.cpp
 UsbView.o: UsbView.hpp UsbView.cpp
 	$(CC) -c $(LIBDEF) UsbView.hpp UsbView.cpp -std=gnu++11
 control.o: control.hpp control.cpp
-	$(CC) -c $(LIBDEF) control.hpp control.cpp -std=gnu++11
+	$(CC) -c control.hpp $(LIBDEF) control.cpp -std=gnu++11
 Controller.o: Controller.hpp Controller.cpp
 	$(CC) -c $(LIBDEF) Controller.hpp Controller.cpp -std=gnu++11
 Mount.o: Mount.hpp Mount.cpp Controller.cpp
