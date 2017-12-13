@@ -7,7 +7,7 @@ Controller::Controller() {
 	systemState.audioState.isPlaying = false;
 	systemState.audioState.isPaused = false;
 	systemState.audioState.currentTitle = "";
-	systemState.audioState.volume = 1.0;
+	systemState.audioState.volume = 100;
 	player.open("file:///home/pi/test.mp3");
 }
 

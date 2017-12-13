@@ -13,7 +13,7 @@ enum EventEnum    { BUTTON_UP, BUTTON_DOWN, BUTTON_LEFT, BUTTON_RIGHT,
 struct AudioState {
 	bool isPlaying;
 	bool isPaused;
-	double volume;
+	int volume;
 	std::string currentTitle;
 };
 

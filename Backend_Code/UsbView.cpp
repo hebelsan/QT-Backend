@@ -20,18 +20,18 @@ void UsbView::sendEvent(EventEnum event, struct state* systemState, GstPlayer* p
 			break;
 		case BUTTON_A:
 			// Volume Down
-			if (systemState->audioState.volume > 0.0) {
-				systemState->audioState.volume -= 0.05;
+			if (systemState->audioState.volume > 0) {
+				systemState->audioState.volume -= 5;
 			}
 			player->setVolume(systemState->audioState.volume);
 			// std::cout << "? 13 " << control_daten->a << std::endl;
 			break;
 		case BUTTON_Y:
 			// Volume UP
-			if (systemState->audioState.volume < 1.0) {
-				systemState->audioState.volume += 0.05;
+			if (systemState->audioState.volume < 1) {
+				systemState->audioState.volume += 5;
 			}
-			player->setVolume(systemState->audioState.volume);
+			player->setVolume((double)systemState->audioState.volume/100);
 			// std::cout << "? 14 " << control_daten->b << std::endl;
 			break;
 		case WHEEL_TURN:
