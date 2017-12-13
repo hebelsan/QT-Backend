@@ -4,6 +4,12 @@
 
 using std::string;
 
+static gboolean dummy_sec(int, void*);
+static void dummy_eof(void*);
+
+typedef gboolean (*seconds_cb)(int, void*);
+typedef void (*eof_cb)(void*);
+
 typedef struct internal_data
 {
 	gboolean seekEnabled = FALSE;
@@ -15,21 +21,23 @@ typedef struct internal_data
 	double volume = 1.0;
 	gint64 duration = 0;
 	GstState state = GST_STATE_NULL;
+	seconds_cb seconds_cb_func = dummy_sec;
+	void* seconds_cb_data = NULL;
+	eof_cb eof_cb_func = dummy_eof;
+	void* eof_cb_data = NULL;
 } 
 InternalData;
 
 class GstPlayer
 {
 private:
-	gboolean (*seconds_cb)(void*);
-	void* seconds_cb_data;
 	GstBus *bus;
 	InternalData data;
 	gboolean seek_enabled;
 	gboolean seek_done;
-	gint64 duration;
 	gboolean terminate;
 	static gboolean handleMessage(GstBus*, GstMessage*, InternalData*);
+	static gboolean handleSeconds(void*);
 	GThread *t_player;
 
 	//void* playerRoutine(void);
@@ -43,11 +51,23 @@ public:
 	int pause(void);
 	void advancedSeek(double);
 	double getPlaybackRate();
-	void seek(int);
 	void getState(void);
 	int getDuration(void);
 	void setVolume(double);
 	double getVolume(void);
 	void join(void);
 	static void playerRoutineHelper(void*);
+	void setSecondsCb(seconds_cb, void*);
+	void setEofCb(eof_cb, void*);
 };
+
+static gboolean dummy_sec(int seconds, void*)
+{
+	printf("%d\n",seconds);
+	return false;
+}
+
+static void dummy_eof(void* dings)
+{
+	return;
+}
