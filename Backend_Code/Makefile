@@ -1,5 +1,5 @@
 # Definition/Declarations of MAKE-Variables
-OBJ		= model.o lenkrad.o can_data.o can_read.o Car_status.o Motor_simulation.o control.o Mount.o Controller.o
+OBJ		= model.o lenkrad.o can_data.o can_read.o Car_status.o Motor_simulation.o control.o Mount.o Controller.o State.o UsbView.o StartView.o
 LIBEVDEV	= /home/pi/libevdev/libevdev/libevdev.o
 CC		= g++
 RM		= rm -f
@@ -24,10 +24,16 @@ lenkrad.o: lenkrad.hpp lenkrad.cpp
 	$(CC) -c $(INCPATH) $(LIBEVDEV) lenkrad.hpp lenkrad.cpp $(LIBDEF)
 GstPlayer.o: GstPlayer.hpp GstPlayer.cpp
 	$(CC) -c $(LIBDEF) GstPlayer.hpp GstPlayer.cpp -std=gnu++11
+State.o: State.hpp State.cpp GstPlayer.o
+	$(CC) -c $(LIBDEF) State.hpp State.cpp -std=gnu++11
+StartView.o: StartView.hpp StartView.cpp
+	$(CC) -c $(LIBDEF) StartView.hpp StartView.cpp -std=gnu++11
+UsbView.o: UsbView.hpp UsbView.cpp
+	$(CC) -c $(LIBDEF) UsbView.hpp UsbView.cpp -std=gnu++11
 control.o: control.hpp control.cpp
 	$(CC) -c $(LIBDEF) control.hpp control.cpp -std=gnu++11
-Controller.o: Controller.hpp Controller.cpp GstPlayer.o
-	$(CC) -c $(LIBDEF) Controller.hpp Controller.cpp -std=gnu++11 GstPlayer.o
+Controller.o: Controller.hpp Controller.cpp
+	$(CC) -c $(LIBDEF) Controller.hpp Controller.cpp -std=gnu++11
 Mount.o: Mount.hpp Mount.cpp Controller.cpp
 	$(CC) -c $(LIBDEF) Mount.hpp Mount.cpp -std=gnu++11
 
