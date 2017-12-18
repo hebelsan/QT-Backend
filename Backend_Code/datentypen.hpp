@@ -2,6 +2,7 @@
 #define DATENTYPEN_HPP
 
 #include "can_data.hpp"
+#include <string>
 
 enum steuerkreuz
 {
@@ -55,6 +56,8 @@ struct control_daten_intern{  //Datentyp für Kommunikation zwischen Modelthread 
 	bool gear_right;
 	bool xbox;
 	media_control_t *media_control;
+
+	std::string * my_mnt_point;
 };
 
 typedef struct l_daten_intern l_daten;
@@ -65,7 +68,6 @@ struct can_struct { // Datentyp für Kommunikation zwischen Mainthread und Modelt
 	can_frame *my_can_frame;
 	can_data *my_can_data;
 	media_control_t *my_media_control;
-	string * my_mnt_info;
 };
 
 

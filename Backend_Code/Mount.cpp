@@ -34,9 +34,14 @@ string Mount::convertToString(const char *str) {
 	return "";
 }
 
-Mount::setCntrlConnector(string* connector)
+void Mount::setCntrlConnector(std::string* connector)
 {
 	mnt_pnt = connector;
+}
+
+void Mount::setMountPoint(std::string point)
+{
+	mnt_pnt = new string(point);
 }
 
 void Mount::startScan(std::string &mountpoint, std::string &deviceID, std::string &deviceNode, bool &attached)
@@ -142,11 +147,11 @@ void* Mount::checkMount(void* mObject){
 		{
 			cout << "attached mountpoint:" << mountpoint << " device id:" << device_id << endl;
 			// Set Value to notify Controller
-			*mnt_pnt = &mountpoint;
+			((Mount *)mObject)->setMountPoint(mountpoint);
 		}
 		else
 		{
-			c->sendEvent(USB_PLUGGED_OUT);
+			((Mount *)mObject)->setMountPoint("");
 			cout << "detached" << endl;
 		}
 	}

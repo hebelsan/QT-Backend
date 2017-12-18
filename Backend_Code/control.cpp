@@ -9,7 +9,7 @@ static bool isPlaying = false;
 
 // Lokaler Datenhalter
 static media_control_t local_media_control;
-static string* local_mnt_info;
+static string local_mnt_point;
 
 void *control (void* val){
 	control_daten_intern *control_daten=(control_daten_intern *) val;
@@ -107,9 +107,19 @@ void *control (void* val){
 	
 		} // endif my_new
 		
-		if(local_mnt_info != control_daten->my_mnt_info)
-			if(*local_mnt_info != "") c->sendEvent(USB_PLUGGED_IN);
-			else c->sendEvent(USB_PLUGGED_OUT);
+		if(local_mnt_point != *control_daten->my_mnt_point)
+		{
+			if(local_mnt_point != "") 
+			{
+				c->sendEvent(USB_PLUGGED_IN);
+				local_mnt_point = *control_daten->my_mnt_point;
+			}
+			else 
+			{
+				local_mnt_point = "";
+				c->sendEvent(USB_PLUGGED_OUT);
+			}
+		}
 		analyseMediaControl(control_daten->media_control, c);
 	}
 }
@@ -123,7 +133,7 @@ static void initLocals()
 	local_media_control.back_pressed = false;
 	local_media_control.btn_right_pressed = false;
 	local_media_control.btn_left_pressed = false;
-	local_mnt_info = &std::string::empty;
+	local_mnt_point = "";
 }
 
 static void analyseMediaControl(media_control_t *control_daten, Controller *c)

@@ -37,10 +37,10 @@ int main ( int argc,const char* argv[]){
 	l_daten *lenkrad_daten = new l_daten();
 
 	//Control infos
-	string *mountpoint = &std::string::empty;
+	std::string *mountpoint = new std::string("");
 	control_daten_intern control_daten;
 	control_daten.media_control = &my_media_control;
-	control_daten.mount = mountpoint;
+	control_daten.my_mnt_point = mountpoint;
 
 	//Übergabedaten für can_read;
 	struct can_frame frame_read;

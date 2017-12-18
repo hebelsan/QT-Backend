@@ -4,7 +4,7 @@
 class Mount
 {
 private:
-	string* mnt_pnt;
+	std::string* mnt_pnt;
 	
 	public:
 	Mount();
@@ -13,7 +13,8 @@ private:
 	void getMountpoint(const std::string deviceNode, std::string &mountpoint);
 	virtual ~Mount();
 	static void *checkMount(void*);
-	setCntrlConnector(string*);
+	void setCntrlConnector(std::string*);
+	void setMountPoint(std::string);
 };
 
 #endif /* MOUNT_H_ */
