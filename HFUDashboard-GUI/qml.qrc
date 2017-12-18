@@ -135,5 +135,7 @@
         <file>bilder/UsbView/BackwardButtonPressed.png</file>
         <file>bilder/UsbView/BackwardButton.png</file>
         <file>MusicTitleProgressBar.qml</file>
+        <file>UsbViewVolumeBar.qml</file>
+        <file>bilder/UsbView/NotenSchluessel.jpg</file>
     </qresource>
 </RCC>

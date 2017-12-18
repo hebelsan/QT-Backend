@@ -2,6 +2,9 @@ import QtQuick 2.7
 
 Item {
     id: progressBar
+    property Timer timer: playTimeTest
+    property Item fullProgressBar: fullProgressBar
+    property Item progressButton: progressButton
 
     Image {
         id: emptyProgressBar
@@ -46,9 +49,19 @@ Item {
         anchors.top: parent.top
         anchors.right: parent.right
         anchors.topMargin: 15
-        anchors.rightMargin: 10
+        anchors.rightMargin: 15
         text: musicState.getFormatedTitleFullDuration()
         font.pointSize: 10
         color: "white"
+    }
+
+    Timer {
+        id: playTimeTest
+        interval: 1000; running: false; repeat: true
+        onTriggered: moveProgressBar();
+    }
+
+    function moveProgressBar() {
+        musicState.movePlayTime()
     }
 }

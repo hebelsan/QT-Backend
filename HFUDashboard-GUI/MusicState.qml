@@ -4,6 +4,8 @@ Item {
     id: musicState
     objectName: "musicState"
 
+    signal musicProgressTimerStarted()
+
     property bool showVolume: false
     property bool isPlaying: false
     property string title: "Current Title"
@@ -68,11 +70,10 @@ Item {
         title = newTitle;
     }
 
-    function movePlayTime(progressBar, progressButton) {
+    function movePlayTime() {
+        musicState.musicProgressTimerStarted()
         if (currentTime <= titleDuration) {
             setCurrentTime(++currentTime)
-            progressBar.width += progressBar.parent.width / titleDuration
-            progressButton.anchors.leftMargin += progressButton.parent.width / titleDuration
         }
     }
 }

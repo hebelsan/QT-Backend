@@ -48,10 +48,10 @@ Item{
                     musicPlayButton.source = musicPlayButton.pausedPressedPath
                     pauseButtonTimer.start()
                 }
-                if (playTimeTest.running)
-                    playTimeTest.stop();
+                if (progressBar.timer.running)
+                    progressBar.timer.stop();
                 else
-                    playTimeTest.start();
+                    progressBar.timer.start();
             }
             onMusicBackwardButtonPressed: {
                 musicBackwardButton.source = musicBackwardButton.path2
@@ -76,14 +76,13 @@ Item{
         width: 250
         height: parent.height - 50
 
-        Rectangle {
+        Image {
             width: parent.width - 60
             height: 160
             anchors.top: parent.top
             anchors.left: parent.left
             anchors.leftMargin: 30
-            border.color: "red"
-            border.width: 3
+            source: "bilder/UsbView/NotenSchluessel.jpg"
         }
 
         Text {
@@ -103,11 +102,14 @@ Item{
             anchors.top: parent.top
             anchors.topMargin: 220
             anchors.left: parent.left
-
-            Timer {
-                id: playTimeTest
-                interval: 1000; running: false; repeat: true
-                onTriggered: musicState.movePlayTime(fullProgressBar, progressButton);
+            Connections {
+                target: musicState
+                onMusicProgressTimerStarted: {
+                    progressBar.fullProgressBar.width +=
+                            progressBar.fullProgressBar.parent.width / musicState.titleDuration
+                    progressBar.progressButton.anchors.leftMargin +=
+                            progressBar.progressButton.parent.width / musicState.titleDuration
+                }
             }
         }
 
