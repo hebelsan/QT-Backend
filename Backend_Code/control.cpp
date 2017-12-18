@@ -107,19 +107,22 @@ void *control (void* val){
 	
 		} // endif my_new
 		
-		if(local_mnt_point != *control_daten->my_mnt_point)
+		if(local_mnt_point != *(control_daten->my_mnt_point))
 		{
-			if(local_mnt_point != "") 
+			if(*(control_daten->my_mnt_point) != "") 
 			{
 				c->sendEvent(USB_PLUGGED_IN);
-				local_mnt_point = *control_daten->my_mnt_point;
+				std::cout<< "USB_PLUGGED_IN" << *control_daten->my_mnt_point << std::endl;
+				local_mnt_point = *(control_daten->my_mnt_point);
 			}
 			else 
 			{
 				local_mnt_point = "";
 				c->sendEvent(USB_PLUGGED_OUT);
+				std::cout << "USB_PLUGGED_OUT" << std::endl;
 			}
 		}
+		//std::cout << *control_daten->my_mnt_point << std::endl;
 		analyseMediaControl(control_daten->media_control, c);
 	}
 }

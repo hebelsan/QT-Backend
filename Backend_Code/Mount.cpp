@@ -41,7 +41,7 @@ void Mount::setCntrlConnector(std::string* connector)
 
 void Mount::setMountPoint(std::string point)
 {
-	mnt_pnt = new string(point);
+	*mnt_pnt = point;
 }
 
 void Mount::startScan(std::string &mountpoint, std::string &deviceID, std::string &deviceNode, bool &attached)
