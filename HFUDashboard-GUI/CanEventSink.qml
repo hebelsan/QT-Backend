@@ -62,8 +62,6 @@ Item {
 
     property int selectetContact:0
 
-    property bool showVolume: false
-
     signal speedSignal(int speed)
 
     function setLeftViewToMedia() {

@@ -119,6 +119,21 @@
         <file>HFUDashboardUsbView.qml</file>
         <file>MusicListModel.qml</file>
         <file>fonts/UbuntuMono-R.ttf</file>
-        <file>bilder/UsbRahmen.png</file>
+        <file>bilder/UsbView/UsbRahmen.png</file>
+        <file>bilder/UsbView/Volumebalken_rot.png</file>
+        <file>bilder/UsbView/Volumebalken.png</file>
+        <file>bilder/UsbView/Bar.png</file>
+        <file>bilder/UsbView/Playbar.png</file>
+        <file>bilder/UsbView/Playposition.png</file>
+        <file>MusicState.qml</file>
+        <file>bilder/UsbView/PlayButtonPressed.png</file>
+        <file>bilder/UsbView/PlayButton.png</file>
+        <file>bilder/UsbView/PauseButtonPressed.png</file>
+        <file>bilder/UsbView/PauseButton.png</file>
+        <file>bilder/UsbView/ForwardButtonPressed.png</file>
+        <file>bilder/UsbView/ForwardButton.png</file>
+        <file>bilder/UsbView/BackwardButtonPressed.png</file>
+        <file>bilder/UsbView/BackwardButton.png</file>
+        <file>MusicTitleProgressBar.qml</file>
     </qresource>
 </RCC>

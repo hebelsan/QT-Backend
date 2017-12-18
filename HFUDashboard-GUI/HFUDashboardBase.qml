@@ -17,6 +17,10 @@ ApplicationWindow {
         id: canEventSink
     }
 
+    MusicState{
+        id: musicState
+    }
+
     function getCANEventSink(){
         console.log("request can", canEventSink.turnSignal)
         return canEventSink

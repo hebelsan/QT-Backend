@@ -29,37 +29,29 @@ Item{
         Connections {
             target: connector
             onVolumeUpFrameReceived: {
-                canEventSink.setShowVolume(true);
-                if (mainView.visible && canEventSink.activeLeftView != media) {
-                    canEventSink.setLeftViewToMedia();
-                    connector.menuStateFrameReceived();
-                }
+                musicState.setShowVolume(true);
                 if (volumeAdjuster.anchors.rightMargin - volumeBar.width / 20 > 0)
                     volumeAdjuster.anchors.rightMargin -= volumeBar.width / 20
             }
             onVolumeDownFrameReceived: {
-                canEventSink.setShowVolume(true);
-                if (mainView.visible && canEventSink.activeLeftView != media) {
-                    canEventSink.setLeftViewToMedia();
-                    connector.menuStateFrameReceived();
-                }
+                musicState.setShowVolume(true);
                 if (volumeAdjuster.anchors.rightMargin + volumeBar.width / 20 < volumeBar.width)
                     volumeAdjuster.anchors.rightMargin += volumeBar.width / 20
             }
             onMusicPlayButtonPressed: {
-                if (mainView.visible && canEventSink.activeLeftView != media) {
-                    canEventSink.setLeftViewToMedia();
-                    connector.menuStateFrameReceived();
-                }
-                if (!canEventSink.isPlaying) {
-                    canEventSink.isPlaying = !canEventSink.isPlaying
+                if (!musicState.isPlaying) {
+                    musicState.isPlaying = !musicState.isPlaying
                     musicPlayButton.source = musicPlayButton.playPressedPath
                     playButtonTimer.start()
                 } else {
-                    canEventSink.isPlaying = !canEventSink.isPlaying
+                    musicState.isPlaying = !musicState.isPlaying
                     musicPlayButton.source = musicPlayButton.pausedPressedPath
                     pauseButtonTimer.start()
                 }
+                if (playTimeTest.running)
+                    playTimeTest.stop();
+                else
+                    playTimeTest.start();
             }
             onMusicBackwardButtonPressed: {
                 musicBackwardButton.source = musicBackwardButton.path2
@@ -79,10 +71,45 @@ Item{
 
     Item {
         id: mediaWindow
-        x: 190
-        y: 25
+        x: 185
+        y: 50
         width: 250
         height: parent.height - 50
+
+        Rectangle {
+            width: parent.width - 60
+            height: 160
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.leftMargin: 30
+            border.color: "red"
+            border.width: 3
+        }
+
+        Text {
+            width: parent.width
+            height: 30
+            anchors.top: parent.top
+            anchors.topMargin: 180
+            horizontalAlignment:  Text.AlignHCenter
+            text: musicState.title
+            font.pointSize: 20
+            color: "white"
+        }
+
+        MusicTitleProgressBar {
+            id: progressBar
+            width: parent.width
+            anchors.top: parent.top
+            anchors.topMargin: 220
+            anchors.left: parent.left
+
+            Timer {
+                id: playTimeTest
+                interval: 1000; running: false; repeat: true
+                onTriggered: musicState.movePlayTime(fullProgressBar, progressButton);
+            }
+        }
 
         Image {
             id: musicPlayButton
@@ -113,7 +140,7 @@ Item{
                 interval: 100; running: false; repeat: false
                 onTriggered: musicPlayButton.source = musicPlayButton.playNormalPath;
             }
-            }
+        }
 
         Image {
             id: musicBackwardButton
@@ -154,7 +181,6 @@ Item{
     }
 
     Item {
-
         id: volume
         opacity: 0.5
         visible: this.opacity !== 0.5
@@ -165,11 +191,11 @@ Item{
         anchors.bottomMargin: 25
 
         states: [
-            State { when: canEventSink.showVolume;
+            State { when: musicState.showVolume;
                 PropertyChanges { target: volume; opacity: 1.0 }
                 PropertyChanges { target: volumeTimer; running: true }
             },
-            State { when: !canEventSink.showVolume;
+            State { when: !musicState.showVolume;
                 PropertyChanges { target: volume; opacity: 0.5 }
             }
         ]
@@ -180,7 +206,7 @@ Item{
         Timer {
             id: volumeTimer
             interval: 5000; running: false; repeat: false
-            onTriggered: canEventSink.setShowVolume(false);
+            onTriggered: musicState.setShowVolume(false);
         }
 
         Image {
