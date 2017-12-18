@@ -7,6 +7,7 @@
 #include <unistd.h>
 #include <pthread.h>
 #include <stdio.h>
+#include <string>
 #include "lenkrad.hpp"
 
 #include "can_data.hpp"
@@ -36,8 +37,10 @@ int main ( int argc,const char* argv[]){
 	l_daten *lenkrad_daten = new l_daten();
 
 	//Control infos
+	string *mountpoint = &std::string::empty;
 	control_daten_intern control_daten;
 	control_daten.media_control = &my_media_control;
+	control_daten.mount = mountpoint;
 
 	//Übergabedaten für can_read;
 	struct can_frame frame_read;
@@ -79,6 +82,7 @@ int main ( int argc,const char* argv[]){
 
 	//Thread Mount starten
 	Mount m;
+	m.setCntrlConnector(mountpoint);
 	my_fail = pthread_create(&th_mount, NULL, &Mount::checkMount, &m);
 	if (my_fail != 0)
 		std::cout << "my_fail= " << my_fail << std::endl;

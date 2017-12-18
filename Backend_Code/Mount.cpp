@@ -26,11 +26,17 @@ void Mount::getMountpoint(const string deviceNode, string &mountpoint) {
 	}
 	endmntent(aFile);
 }
+
 string Mount::convertToString(const char *str) {
 	if (str) {
 		return str;
 	}
 	return "";
+}
+
+Mount::setCntrlConnector(string* connector)
+{
+	mnt_pnt = connector;
 }
 
 void Mount::startScan(std::string &mountpoint, std::string &deviceID, std::string &deviceNode, bool &attached)
@@ -125,7 +131,6 @@ void Mount::startScan(std::string &mountpoint, std::string &deviceID, std::strin
 }
 
 void* Mount::checkMount(void* mObject){
-	Controller *c = Controller::getInstance();
 	while(true)
 	{
 		bool attached = false;
@@ -135,8 +140,9 @@ void* Mount::checkMount(void* mObject){
 		((Mount *)mObject)->startScan(mountpoint,device_id,device_node,attached);
 		if(attached)
 		{
-			c->sendEvent(USB_PLUGGED_IN);
 			cout << "attached mountpoint:" << mountpoint << " device id:" << device_id << endl;
+			// Set Value to notify Controller
+			*mnt_pnt = &mountpoint;
 		}
 		else
 		{

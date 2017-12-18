@@ -1,14 +1,15 @@
 #include "control.hpp"
 #include "Controller.hpp"
+#include <string>
 
 
-static void initLocalMediaControl();
+static void initLocals();
 static void analyseMediaControl(media_control_t *, Controller *);
 static bool isPlaying = false; 
 
 // Lokaler Datenhalter
 static media_control_t local_media_control;
-
+static string* local_mnt_info;
 
 void *control (void* val){
 	control_daten_intern *control_daten=(control_daten_intern *) val;
@@ -22,7 +23,7 @@ void *control (void* val){
 
 	Controller *c = Controller::getInstance();
 
-	initLocalMediaControl();
+	initLocals();
 	while(1){
     
     
@@ -105,12 +106,15 @@ void *control (void* val){
 		control_daten->my_new = false;
 	
 		} // endif my_new
-    
+		
+		if(local_mnt_info != control_daten->my_mnt_info)
+			if(*local_mnt_info != "") c->sendEvent(USB_PLUGGED_IN);
+			else c->sendEvent(USB_PLUGGED_OUT);
 		analyseMediaControl(control_daten->media_control, c);
 	}
 }
 
-static void initLocalMediaControl()
+static void initLocals()
 {
 	local_media_control.wheel_direction = NEUTRAL;
 	local_media_control.wheel_turns = 0;
@@ -119,6 +123,7 @@ static void initLocalMediaControl()
 	local_media_control.back_pressed = false;
 	local_media_control.btn_right_pressed = false;
 	local_media_control.btn_left_pressed = false;
+	local_mnt_info = &std::string::empty;
 }
 
 static void analyseMediaControl(media_control_t *control_daten, Controller *c)
