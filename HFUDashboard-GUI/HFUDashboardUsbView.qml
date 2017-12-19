@@ -46,6 +46,11 @@ Item {
             backwardButton.source = backwardButton.backwardButtonPath
             forwardButton.source = forwardButton.forwardButtonPath
         }
+
+        onNewMusicTitleList: {
+            console.log("new Musiklist")
+            console.log(newMusicList[0])
+        }
     }
 
 

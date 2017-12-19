@@ -2,10 +2,12 @@
 #include "../connector/connector.h"
 #include "smooththread.h"
 #include "turnsignalthread.h"
+#include "taglibmanager.h"
 
 #include <iostream>
 #include <QDebug>
 #include <stdio.h>
+#include <string>
 
 
 InputThread::InputThread() {}
@@ -16,9 +18,10 @@ void InputThread::run() {
     SmoothThread smoothThread;
     smoothThread.start();
 
+    TaglibManager TaglibManager;
 
 
-    char buffer[1024]; unsigned int identifier; int value;
+    char buffer[1024]; unsigned int identifier; int value; char files[1024];
     while(1){
         if(fgets(buffer, sizeof(buffer), stdin) == NULL){
             continue;
@@ -116,9 +119,11 @@ void InputThread::run() {
                  break;
             }
           }
+        } else if(sscanf(buffer, "* %[^\n]s", files)==1) {
+            qInfo(files);
+            TaglibManager.setFiles(files);
         }
         else{
-
             for(int i = 0; buffer[i] != '\n'; i++){
                 std::cout << buffer[i];
             }

@@ -14,6 +14,7 @@ SOURCES += main.cpp \
     connector/inputthread.cpp \
     connector/smooththread.cpp \
     connector/timethread.cpp \
+    connector/taglibmanager.cpp
 
 RESOURCES += qml.qrc \
     dev.qrc
@@ -36,7 +37,8 @@ HEADERS += \
     connector/connector.h \
     connector/inputthread.h \
     connector/smooththread.h \
-    connector/timethread.h
+    connector/timethread.h \
+    connector/taglibmanager.h
 
 #test pi
 target.path = /home/pi/

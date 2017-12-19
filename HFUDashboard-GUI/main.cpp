@@ -54,6 +54,7 @@ int main(int argc, char *argv[])
     qmlRegisterUncreatableType<Gears>("hfu.enums.Gear", 1, 0, "Gear", "You cannot create an instance of the Enums.");
 
     //qmlRegisterType<HFUEnums::CarWarnings>("hfu.CarWarnings", 1, 0, "HFUCarWarnings");
+    qRegisterMetaType< std::vector<QString> >("std::vector<QString>");
     QQmlApplicationEngine engine;
 
     Connector *creader = Connector::getInstance();

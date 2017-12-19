@@ -66,6 +66,7 @@ signals:
     void musicForwardButtonPressed();
     void musicBackwardButtonPressed();
     void musicWheelDirectionNormal();
+    void newMusicTitleList(std::vector <QString> newMusicList);
 };
 
 #endif // CONNECTOR_H
