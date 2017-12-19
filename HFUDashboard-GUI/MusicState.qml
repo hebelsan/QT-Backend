@@ -12,6 +12,7 @@ Item {
     // title duration in seconds
     property int titleDuration: 142
     property int currentTime: 0
+    property string coverPath: "bilder/UsbView/NotenSchluessel.jpg"
 
     function setShowVolume(state) {
         showVolume = state;

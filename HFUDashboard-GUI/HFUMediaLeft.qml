@@ -77,22 +77,24 @@ Item{
         height: parent.height - 50
 
         Image {
-            width: parent.width - 60
-            height: 160
+            width: parent.width - 100
+            height: 150
             anchors.top: parent.top
+            anchors.topMargin: 20
             anchors.left: parent.left
-            anchors.leftMargin: 30
-            source: "bilder/UsbView/NotenSchluessel.jpg"
+            anchors.leftMargin: 50
+            source: musicState.coverPath
         }
 
         Text {
+            id: title
             width: parent.width
             height: 30
             anchors.top: parent.top
             anchors.topMargin: 180
             horizontalAlignment:  Text.AlignHCenter
             text: musicState.title
-            font.pointSize: 20
+            font.pointSize: 16
             color: "white"
         }
 

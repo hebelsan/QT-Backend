@@ -25,6 +25,27 @@ Item {
                 }
             }
         }
+        onMusicPlayButtonPressed: {
+            if (playButton.isPlaying) {
+                playButton.source = playButton.playPath
+                playButton.isPlaying = false
+            }
+            else {
+                playButton.source = playButton.pausePath
+                playButton.isPlaying = true
+            }
+
+        }
+        onMusicBackwardButtonPressed: {
+            backwardButton.source = backwardButton.backwardButtonPressedPath
+        }
+        onMusicForwardButtonPressed: {
+            forwardButton.source = forwardButton.forwardButtonPressedPath
+        }
+        onMusicWheelDirectionNormal: {
+            backwardButton.source = backwardButton.backwardButtonPath
+            forwardButton.source = forwardButton.forwardButtonPath
+        }
     }
 
 
@@ -46,7 +67,7 @@ Item {
         anchors.left: parent.left
         anchors.bottomMargin: 190
         anchors.leftMargin: -200
-        source: "bilder/UsbView/NotenSchluessel.jpg"
+        source: musicState.coverPath
     }
 
     Item {
@@ -79,31 +100,38 @@ Item {
 
         Image {
             id: backwardButton
+            property string backwardButtonPath: "bilder/UsbView/BackwardButton.png"
+            property string backwardButtonPressedPath: "bilder/UsbView/BackwardButtonPressed.png"
             width: 40
             height: 40
             anchors.bottom: parent.bottom
             anchors.left: parent.left
             anchors.leftMargin: 50
-            source: "bilder/UsbView/BackwardButton.png"
+            source: backwardButtonPath
         }
 
         Image {
             id: playButton
+            property string playPath: "bilder/UsbView/PlayButton.png"
+            property string pausePath: "bilder/UsbView/PauseButton.png"
+            property bool isPlaying: false
             width: 40
             height: 40
             anchors.bottom: parent.bottom
             anchors.horizontalCenter: parent.horizontalCenter
-            source: "bilder/UsbView/PlayButton.png"
+            source: playPath
         }
 
         Image {
             id: forwardButton
+            property string forwardButtonPath: "bilder/UsbView/ForwardButton.png"
+            property string forwardButtonPressedPath: "bilder/UsbView/ForwardButtonPressed.png"
             width: 40
             height: 40
             anchors.bottom: parent.bottom
             anchors.right: parent.right
             anchors.rightMargin: 50
-            source: "bilder/UsbView/ForwardButton.png"
+            source: forwardButtonPath
         }
     }
 
