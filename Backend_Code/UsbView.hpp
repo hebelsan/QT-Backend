@@ -2,11 +2,19 @@
 #define USBVIEW_HPP
 
 #include "State.hpp"
+#include <string>
+#include "StartView.hpp"
 
 class UsbView : public State {
-	public:
-	UsbView() : State(){}
-	void sendEvent(EventEnum, struct state*, GstPlayer*) const;
+private:
+	int currentSelect;
+	std::string medium;
+	UsbView();
+	
+public:
+	static State* getInstance();
+	virtual State* sendEvent(EventEnum, GlobalParams&);
+	virtual std::string getName();
 };
 
 #endif

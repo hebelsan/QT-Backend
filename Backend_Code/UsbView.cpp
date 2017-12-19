@@ -3,7 +3,28 @@
 
 using namespace std;
 
-void UsbView::sendEvent(EventEnum event, struct state* systemState, GstPlayer* player) const {
+UsbView::UsbView() : State()
+{
+	currentSelect = 0;
+	medium = "";
+}
+
+State* UsbView::getInstance()
+{
+	static UsbView theInstance;
+	return &theInstance;
+}
+
+std::string UsbView::getName()
+{
+	return std::string("USB View");
+}
+
+State* UsbView::sendEvent(EventEnum event, GlobalParams& globals) {
+	// Falls sich Medium ändert, zurücksetzen.
+	if(medium != globals.getMountpoint())
+		currentSelect = 0;
+	
 	// switch jedes Event
 	switch (event) {
 		case BUTTON_UP:
@@ -15,23 +36,17 @@ void UsbView::sendEvent(EventEnum event, struct state* systemState, GstPlayer* p
 		case BUTTON_RIGHT:
 			break;
 		case RSB_TOP:
-			systemState->mainView = START_VIEW;
+			return globals.getOldState();
 			// std::cout << "? 11 " << control_daten->rsb_top << std::endl;
 			break;
 		case BUTTON_A:
-			// Volume Down
-			if (systemState->audioState.volume > 0) {
-				systemState->audioState.volume -= 5;
-			}
-			player->setVolume((double)systemState->audioState.volume/100);
+			//Volume DOWN
+			globals.decreaseVolume();
 			// std::cout << "? 13 " << control_daten->a << std::endl;
 			break;
 		case BUTTON_Y:
 			// Volume UP
-			if (systemState->audioState.volume < 100) {
-				systemState->audioState.volume += 5;
-			}
-			player->setVolume((double)systemState->audioState.volume/100);
+			globals.increaseVolume();
 			// std::cout << "? 14 " << control_daten->b << std::endl;
 			break;
 		case WHEEL_TURN:
@@ -41,8 +56,7 @@ void UsbView::sendEvent(EventEnum event, struct state* systemState, GstPlayer* p
 		case WHEEL_PRESSED:
 			// std::cout << "? 22 " << control_daten->wheel_pressed << std::endl;
 			// if (!systemState.audioState.isPlaying && control_daten->wheel_pressed == 1) {
-			player->play();
-			systemState->audioState.isPlaying = true;
+			
 			//} else if (control_daten->wheel_pressed == 1) {
 			//	player.pause();
 			//	systemState.audioState.isPlaying = false;
@@ -53,10 +67,13 @@ void UsbView::sendEvent(EventEnum event, struct state* systemState, GstPlayer* p
 			// nextTitle
 			break;
 		case USB_PLUGGED_IN:
-			// get title
+			// Stay in this view;
+			return this;
 			break;
 		case USB_PLUGGED_OUT:
-			std::cout << "? 11 " << std::endl;
+			std::cout << "? 11 1" << std::endl;
+			return globals.getOldState();
 			break;
 	}
+	return this;
 }

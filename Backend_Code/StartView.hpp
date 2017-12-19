@@ -2,12 +2,20 @@
 #define StartView_HPP
 
 #include "State.hpp"
+#include "CarCamView.hpp"
+#include "PhoneView.hpp"
+#include "UsbView.hpp"
+#include <string>
 
 class StartView : public State 
 {
-	public:
+private:
 	StartView() : State(){}
-	void sendEvent(EventEnum, struct state *, GstPlayer *) const;
+	
+public:
+	static StartView* getInstance();
+	virtual State* sendEvent(EventEnum, GlobalParams&);
+	virtual std::string getName();
 };
 
 #endif

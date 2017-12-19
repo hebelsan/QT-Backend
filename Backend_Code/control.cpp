@@ -111,13 +111,14 @@ void *control (void* val){
 		{
 			if(*(control_daten->my_mnt_point) != "") 
 			{
+				c->setMountpoint(*(control_daten->my_mnt_point));
 				c->sendEvent(USB_PLUGGED_IN);
-				std::cout<< "USB_PLUGGED_IN" << *control_daten->my_mnt_point << std::endl;
 				local_mnt_point = *(control_daten->my_mnt_point);
 			}
 			else 
 			{
 				local_mnt_point = "";
+				c->setMountpoint("");
 				c->sendEvent(USB_PLUGGED_OUT);
 				std::cout << "USB_PLUGGED_OUT" << std::endl;
 			}

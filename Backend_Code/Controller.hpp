@@ -3,27 +3,21 @@
 
 #include <string>
 #include "ControllerDatentypen.hpp"
+#include "State.hpp"
 #include "StartView.hpp"
-#include "UsbView.hpp"
 
 class Controller {
-	private:
-	struct state systemState;
+private:
 	Controller();
 	GstPlayer player = GstPlayer(0, NULL);
-	StartView startView;
-	UsbView usbView;
-
-	public:
+	State *currentState;
+	GlobalParams globals;
+	
+public:
 	static Controller *getInstance();
-	MainViewEnum getMainView();
-	LeftViewEnum getLeftView();
-	double getPlayerVolume();
-	void setMainView(MainViewEnum);
-	void setLeftView(LeftViewEnum);
-	void setSystemstate(state);
-
 	void sendEvent(EventEnum);
+	void setMountPoint(std::string);
+	State* getCurrentState();
 };
 
 #endif
