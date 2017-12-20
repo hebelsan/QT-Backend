@@ -1,5 +1,5 @@
 # Definition/Declarations of MAKE-Variables
-OBJ		= model.o lenkrad.o can_data.o can_read.o Car_status.o Motor_simulation.o control.o Mount.o Controller.o State.o UsbView.o StartView.o PhoneView.o InfoView.o CarCamView.o
+OBJ		= model.o lenkrad.o can_data.o can_read.o Car_status.o Motor_simulation.o control.o Mount.o Controller.o State.o UsbView.o StartView.o PhoneView.o InfoView.o CarCamView.o GlobalParams.o FileManager.o
 LIBEVDEV	= /home/pi/libevdev/libevdev/libevdev.o
 CC		= g++
 RM		= rm -f
@@ -11,7 +11,7 @@ INCPATH		= -I /home/pi/libevdev/libevdev
 all: HFUDashboard_backend
 
 HFUDashboard_backend: $(OBJ) GstPlayer.o
-	$(CC) -o HFUDashboard_backend $(INCPATH) $(LIBEVDEV) $(OBJ) GstPlayer.o $(LIBDEF) main.cpp
+	$(CC) -o HFUDashboard_backend $(INCPATH) $(LIBEVDEV) $(OBJ) GstPlayer.o $(LIBDEF) main.cpp $(TAGLIB)
 	@echo Erfolg!
 can_data.o: can_data.cpp can_data.hpp
 	$(CC) -c can_data.cpp can_data.hpp
@@ -25,6 +25,10 @@ model.o: model.hpp model.cpp can_data.o
 	$(CC) -c model.cpp model.hpp
 lenkrad.o: lenkrad.hpp lenkrad.cpp
 	$(CC) -c $(INCPATH) $(LIBEVDEV) lenkrad.hpp lenkrad.cpp $(LIBDEF)
+FileManager.o: FileManager.hpp FileManager.cpp
+	$(CC) -c $(LIBDEF) FileManager.hpp FileManager.cpp $(TAGLIB)
+GlobalParams.o: State.hpp GlobalParams.cpp
+	$(CC) -c $(LIBDEF)  State.hpp GlobalParams.cpp -std=gnu++11
 GstPlayer.o: GstPlayer.hpp GstPlayer.cpp
 	$(CC) -c $(LIBDEF) GstPlayer.hpp GstPlayer.cpp -std=gnu++11
 InfoView.o: InfoView.hpp InfoView.cpp
