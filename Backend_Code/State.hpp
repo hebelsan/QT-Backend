@@ -4,6 +4,8 @@
 #include "ControllerDatentypen.hpp"
 #include "GstPlayer.hpp"
 #include <string>
+#include <vector>
+#include "FileManager.hpp"
 
 /*
  * Was ich brauche:
@@ -18,11 +20,16 @@ class State {
 	State(){};
 	virtual State* sendEvent(EventEnum, GlobalParams&) = 0; // sends Event based on view
 	virtual std::string getName() = 0;
+	// virtual void enter() = 0;
 };
 
 class GlobalParams
 {
 private:
+	std::string subDir;
+	std::vector<std::string>* dirContent;
+	FileManager fileManager;
+	int currentSelect;
 	unsigned int volume;
 	State* oldState;
 	GstPlayer player = GstPlayer(0, NULL);
@@ -37,6 +44,9 @@ public:
 	State* getOldState();
 	void setMountpoint(std::string);
 	std::string getMountpoint();
+	void nextSelect();
+	void previousSelect();
+	void loadSelection();
 };
 
 #endif
