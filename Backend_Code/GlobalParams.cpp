@@ -64,7 +64,7 @@ void GlobalParams::previousSelect()
 // Wenn das Wählrad gedreht wird, soll hier hochgezählt werden.
 void GlobalParams::nextSelect()
 {
-	if(currentSelect < dirContent->size()-1)
+	if(dirContent != nullptr && currentSelect < dirContent->size()-1)
 		++currentSelect;
 }
 
