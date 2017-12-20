@@ -15,7 +15,7 @@ void GlobalParams::increaseVolume()
 		volume += 5;
 	}
 	player.setVolume((double)volume/100);
-	std::cout << "? 13 1" << std::endl;
+	std::cout << "? 14 1" << std::endl;
 }
 
 void GlobalParams::decreaseVolume()
@@ -24,7 +24,7 @@ void GlobalParams::decreaseVolume()
 		volume -= 5;
 	}
 	player.setVolume((double)volume/100);
-	std::cout << "? 14 1" << std::endl;
+	std::cout << "? 13 1" << std::endl;
 }
 
 unsigned int GlobalParams::getVolume()

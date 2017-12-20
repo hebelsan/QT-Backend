@@ -99,12 +99,10 @@ void *control (void* val){
 		if(control_daten->a == true)
 		{ //Prüfen, ob Button "a" (Volume Down) Button betätig wurde.
 			c->sendEvent(BUTTON_A);
-			std::cout << "? 13 " << control_daten->a << std::endl;
 			control_daten->a = false; //Button zuzücksetzen
 		}
 		if(control_daten->y == true){ //Prüfen, ob Button "y" (Volume Up) betätig wurde.
 			c->sendEvent(BUTTON_Y);
-			std::cout << "? 14 " << control_daten->b << std::endl;
 			control_daten->y = false; //Button zuzücksetzen
 		} 
 		
