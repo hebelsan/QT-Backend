@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QFile>
+#include <QVariantList>
 
 QT_BEGIN_NAMESPACE
 
@@ -66,7 +67,7 @@ signals:
     void musicForwardButtonPressed();
     void musicBackwardButtonPressed();
     void musicWheelDirectionNormal();
-    void newMusicTitleList(std::vector <QString> newMusicList);
+    void sendNewMusicList(QVariantList filesStructure);
 };
 
 #endif // CONNECTOR_H

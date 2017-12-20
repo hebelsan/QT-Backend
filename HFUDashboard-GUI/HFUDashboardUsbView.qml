@@ -1,4 +1,5 @@
 import QtQuick 2.7
+import test 1.0
 
 Item {
     width: 800
@@ -9,9 +10,6 @@ Item {
     Connections {
         target: connector
         onAudioWheelTurnedLeft: {
-            // musicList.model.clear();
-            musicList.model.append({ "titel": "neu",
-                                       "interpreter" : "neu" })
             if (usbView.visible) {
                 if (musicList.currentIndex > 0) {
                     musicList.currentIndex--;
@@ -46,11 +44,18 @@ Item {
             backwardButton.source = backwardButton.backwardButtonPath
             forwardButton.source = forwardButton.forwardButtonPath
         }
-
-        onNewMusicTitleList: {
-            console.log("new Musiklist")
-            console.log(newMusicList[0])
+        onSendNewMusicList: {
+            console.log(filesStructure[0]);
+            musicList.model.clear();
+            for (var i=0; i < filesStructure[0].length; i++) {
+                musicList.model.append({ "titel": filesStructure[0][i],
+                                       "interpreter" : filesStructure[0][i] })
+            }
         }
+    }
+
+    TaglibManager {
+        id: taglibManager
     }
 
 

@@ -1,10 +1,17 @@
 #include "taglibmanager.h"
-#include "connector.h"
 #include <iostream>
 #include <QDebug>
+#include "connector/connector.h"
+
+TaglibManager::TaglibManager(QObject *parent) :
+    QObject(parent)
+{
+}
 
 void TaglibManager::setFiles(char * files) {
     Connector *creader = Connector::getInstance();
+    QVariantList l;
+    QStringList stringList;
 
     std::string filesString(files);
     std::string delimiter = "////";
@@ -13,9 +20,11 @@ void TaglibManager::setFiles(char * files) {
     std::string fileName;
     while ((pos = filesString.find(delimiter)) != std::string::npos) {
         fileName = filesString.substr(0, pos);
-        filesArray.push_back(QString::fromStdString(fileName));
+        stringList.append(QString::fromStdString(fileName));
         filesString.erase(0, pos + delimiter.length());
     }
 
-    emit creader-> newMusicTitleList(filesArray);
+    l << QVariant(stringList);
+    setImagesPathsLists(l);
+    emit creader -> sendNewMusicList(l);
 }
