@@ -5,8 +5,7 @@ using namespace std;
 
 UsbView::UsbView() : State()
 {
-	currentSelect = 0;
-	medium = "";
+	//medium = "";
 }
 
 State* UsbView::getInstance()
@@ -22,8 +21,6 @@ std::string UsbView::getName()
 
 State* UsbView::sendEvent(EventEnum event, GlobalParams& globals) {
 	// Falls sich Medium ändert, zurücksetzen.
-	if(medium != globals.getMountpoint())
-		currentSelect = 0;
 	
 	// switch jedes Event
 	switch (event) {
@@ -42,29 +39,29 @@ State* UsbView::sendEvent(EventEnum event, GlobalParams& globals) {
 		case BUTTON_A:
 			//Volume DOWN
 			globals.decreaseVolume();
-			// std::cout << "? 13 " << control_daten->a << std::endl;
 			break;
 		case BUTTON_Y:
 			// Volume UP
 			globals.increaseVolume();
-			// std::cout << "? 14 " << control_daten->b << std::endl;
 			break;
-		case WHEEL_TURN:
-			// std::cout << "? 20 " << static_cast<int16_t>(control_daten->wheel_turns) << std::endl;
+		case WHEEL_TURN_R:
+			globals.nextSelect();
+			std::cout << "? 20 1" << std::endl;
 			// currenTitle ++ / --
 			break;
+		case WHEEL_TURN_L:
+			globals.previousSelect();
+			std::cout << "? 20 -1" << std::endl;
 		case WHEEL_PRESSED:
-			// std::cout << "? 22 " << control_daten->wheel_pressed << std::endl;
-			// if (!systemState.audioState.isPlaying && control_daten->wheel_pressed == 1) {
-			
-			//} else if (control_daten->wheel_pressed == 1) {
-			//	player.pause();
-			//	systemState.audioState.isPlaying = false;
-			//}
+			globals.loadSelection();
 			break;
-		case WHEEL_DIRECTION:
+		case WHEEL_DIRECTION_R:
+			// TODO spulen
 			// std::cout << "? 21 " << control_daten->wheel_direction << std::endl;
 			// nextTitle
+			break;
+		case WHEEL_DIRECTION_L:
+			// TODO rückwärts spulen
 			break;
 		case USB_PLUGGED_IN:
 			// Stay in this view;

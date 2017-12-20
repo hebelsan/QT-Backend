@@ -50,8 +50,10 @@ State* StartView::sendEvent(EventEnum event, GlobalParams &globals){
 			globals.increaseVolume();
 			return this;
 			break;
-		case WHEEL_TURN:
+		case WHEEL_TURN_R:
 			return this;
+			break;
+		case WHEEL_TURN_L:
 			break;
 		case WHEEL_PRESSED:
 			//if (systemState.leftView == MEDIA) {
@@ -66,16 +68,19 @@ State* StartView::sendEvent(EventEnum event, GlobalParams &globals){
 			//}
 			return this;
 			break;
-		case WHEEL_DIRECTION:
+		case WHEEL_DIRECTION_R:
 			std::cout << "? 21 " << 1 << std::endl;
 			// nextTitle
 			break;
+		case WHEEL_DIRECTION_L:
+			break;
 		case USB_PLUGGED_IN:
-			std::cout << "? 30 1" << std::endl;
 			globals.setOldState(this);
+			std::cout << "? 30 1" << std::endl;
 			return UsbView::getInstance();
 		case USB_PLUGGED_OUT:
 			return this;
 			break;
 	}
+	return this;
 }

@@ -7,8 +7,6 @@
 
 class UsbView : public State {
 private:
-	int currentSelect;
-	std::string medium;
 	UsbView();
 	
 public:

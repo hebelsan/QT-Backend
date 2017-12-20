@@ -5,7 +5,9 @@
 int main (int argc, char** args)
 {
 	GstPlayer player(argc, args);
+	std::cout<< player.isLoaded() << std::endl;
 	player.open("file:///home/jonathanweissenberger/Downloads/01 here we go.mp3");
+	std::cout<< player.isLoaded() << std::endl;
 	player.play();
 	usleep(5000000);
 	

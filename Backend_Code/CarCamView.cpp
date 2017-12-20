@@ -18,6 +18,14 @@ State* CarCamView::sendEvent(EventEnum event, GlobalParams& globals)
 			return InfoView::getInstance();
 		case BUTTON_DOWN:
 			return StartView::getInstance();
+		case BUTTON_A:
+			//Volume DOWN
+			globals.decreaseVolume();
+			break;
+		case BUTTON_Y:
+			// Volume UP
+			globals.increaseVolume();
+			break;
 		case USB_PLUGGED_IN:
 			globals.setOldState(this);
 			return UsbView::getInstance();

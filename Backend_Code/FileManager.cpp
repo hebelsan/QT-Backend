@@ -9,11 +9,11 @@
 #include "FileManager.hpp"
 using namespace std;
 
-vector <string> FileManager::getFileNames(std::string _path) {
+vector<string>* FileManager::getDirContent(std::string _path) {
 	DIR *hdir;
 	struct dirent *entry;
 	string path = _path;
-	vector <string> fileNames;
+	vector<string>* fileNames = new vector<string>();
 
 	TagLib::Tag *tag;
 	TagLib::AudioProperties *properties;
@@ -36,15 +36,15 @@ vector <string> FileManager::getFileNames(std::string _path) {
 				properties = f.audioProperties();				
 				if (properties->length() > 0) 
 				{
-					fileNames.push_back(fileName);
+					fileNames->push_back("FILE:"+fileName);
 				}
-			} else if ((fileName != ".") && (fileName != ".."))
+			} else if ((fileName != ".") /* && (fileName != "..")*/)
 			{
 				if ( stat(uri.c_str(), &status) == 0 ) 
 				{
 					if( status.st_mode & S_IFDIR )
     				{
-						fileNames.push_back(fileName);
+						fileNames->push_back("DIR:"+ fileName);
     				}
 				}
         	}
@@ -53,4 +53,30 @@ vector <string> FileManager::getFileNames(std::string _path) {
     closedir(hdir);
 
 	return fileNames;
+}
+
+std::string FileManager::getContentString(vector<string>& content)
+{
+	std::string result = "";
+	for(std::vector<string>::iterator it = content.begin(); it != content.end(); ++it)
+	{
+		result = result + *it + "////";
+	}
+	result = result.substr(0, result.length()-4);
+	return result;
+}
+
+bool FileManager::isFile(string content)
+{
+	return content.substr(0,4) != "DIR:";
+}
+
+void FileManager::cropDir(string& dir)
+{
+	size_t pos = dir.find_last_of('/');
+	if(pos != std::string::npos)
+	{
+		dir = dir.substr(0, pos);
+	}
+	else dir = "";
 }

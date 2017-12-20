@@ -32,6 +32,7 @@ void GstPlayer::open(string uri)
 	}
 	/* Set the URI to play (Track öffnen) */
 	g_object_set (data.playbin, "uri", uri.c_str(),NULL);
+	data.state = GST_STATE_PAUSED;
 	
 	/* Create a GLib Main Loop */
 	if(data.mainLoop == NULL)
@@ -61,6 +62,11 @@ int GstPlayer::play()
 bool GstPlayer::isPlaying()
 {
 	return data.state == GST_STATE_PLAYING;
+}
+
+bool GstPlayer::isLoaded()
+{
+	return data.state != GST_STATE_NULL;
 }
 
 /* Send seek event to change rate */

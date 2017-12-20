@@ -48,6 +48,7 @@ public:
 	void open(string);
 	int play(void);
 	bool isPlaying();
+	bool isLoaded();
 	int pause(void);
 	void advancedSeek(double);
 	double getPlaybackRate();
