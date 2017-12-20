@@ -126,7 +126,7 @@ void Mount::startScan(std::string &mountpoint, std::string &deviceID, std::strin
 				udev_device_unref(dev);
 
 			} else {
-				printf("No Device from receive_device(). An error occured.\n");
+				//printf("No Device from receive_device(). An error occured.\n");
 			}
 		}
 		usleep(250 * 1000);
@@ -145,7 +145,7 @@ void* Mount::checkMount(void* mObject){
 		((Mount *)mObject)->startScan(mountpoint,device_id,device_node,attached);
 		if(attached)
 		{
-			cout << "attached mountpoint:" << mountpoint << " device id:" << device_id << endl;
+			//cout << "attached mountpoint:" << mountpoint << " device id:" << device_id << endl;
 			// Set Value to notify Controller
 			((Mount *)mObject)->setMountPoint(mountpoint);
 		}

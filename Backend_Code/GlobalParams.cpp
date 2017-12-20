@@ -6,7 +6,7 @@ GlobalParams::GlobalParams()
 	volume = 100;
 	dirContent = nullptr;
 	subDir = "";
-	
+	currentSelect = 0;
 }
 
 void GlobalParams::increaseVolume()
