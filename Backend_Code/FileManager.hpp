@@ -13,6 +13,7 @@ public:
 	std::string getContentString(std::vector<std::string>&);
 	bool isFile(std::string content);
 	void cropDir(std::string& dir);
+	std::string removePrefix(std::string);
 };
 
 

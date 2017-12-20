@@ -90,9 +90,10 @@ void GlobalParams::loadSelection()
 {
 	if(fileManager.isFile((*dirContent)[currentSelect]))
 	{
-		// TODO load player;
+		
 		if(player.isLoaded())
 		player.open("file://"+mountpoint+subDir+(*dirContent)[currentSelect]);
+		togglePlayer();
 	}
 	else
 	{
