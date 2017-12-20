@@ -37,7 +37,6 @@ ApplicationWindow {
     }
 
     Item {
-
         id: keyhandler
         focus:true
         Keys.onReleased: {         
@@ -186,7 +185,8 @@ ApplicationWindow {
                  connector.volumeDownFrameReceived();
             }
             else if(event.key===Qt.Key_C){
-                 connector.musicPlayButtonPressed();
+                connector.musicPlayButtonPressed();
+                connector.musicPauseButtonPressed();
             }
             else if(event.key===Qt.Key_V){
                  connector.audioWheelTurnedLeft();
@@ -260,6 +260,9 @@ ApplicationWindow {
             onDashboardRollerDownFrameReceived:{
                 canEventSink.decreaseZoom();
                 canEventSink.selectNextContact();
+            }
+            onMusicPlayButtonPressed: {
+                musicState.title = musicState.titleCache;
             }
         }
     }

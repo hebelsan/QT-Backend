@@ -137,5 +137,9 @@
         <file>MusicTitleProgressBar.qml</file>
         <file>UsbViewVolumeBar.qml</file>
         <file>bilder/UsbView/NotenSchluessel.jpg</file>
+        <file>bilder/UsbView/speaker/speakerFull.png</file>
+        <file>bilder/UsbView/speaker/speakerQuiet.png</file>
+        <file>bilder/UsbView/speaker/speakerHalf.png</file>
+        <file>bilder/UsbView/speaker/speakerLow.png</file>
     </qresource>
 </RCC>

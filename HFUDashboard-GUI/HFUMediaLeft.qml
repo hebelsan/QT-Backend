@@ -39,19 +39,12 @@ Item{
                     volumeAdjuster.anchors.rightMargin += volumeBar.width / 20
             }
             onMusicPlayButtonPressed: {
-                if (!musicState.isPlaying) {
-                    musicState.isPlaying = !musicState.isPlaying
-                    musicPlayButton.source = musicPlayButton.playPressedPath
-                    playButtonTimer.start()
-                } else {
-                    musicState.isPlaying = !musicState.isPlaying
-                    musicPlayButton.source = musicPlayButton.pausedPressedPath
-                    pauseButtonTimer.start()
-                }
-                if (progressBar.timer.running)
-                    progressBar.timer.stop();
-                else
-                    progressBar.timer.start();
+                musicPlayButton.source = musicPlayButton.playPressedPath
+                playButtonTimer.start()
+            }
+            onMusicPauseButtonPressed: {
+                musicPlayButton.source = musicPlayButton.pausedPressedPath
+                pauseButtonTimer.start()
             }
             onMusicBackwardButtonPressed: {
                 musicBackwardButton.source = musicBackwardButton.path2
@@ -65,9 +58,6 @@ Item{
             }
         }
     }
-
-
-
 
     Item {
         id: mediaWindow
@@ -96,6 +86,7 @@ Item{
             text: musicState.title
             font.pointSize: 16
             color: "white"
+            clip: true
         }
 
         MusicTitleProgressBar {
