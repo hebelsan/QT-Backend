@@ -3,6 +3,8 @@
 
 #include "StartView.hpp"
 #include "UsbView.hpp"
+#include <string>
+#include <iostream>
 
 class InfoView : public State
 {

@@ -19,8 +19,10 @@ State* InfoView::sendEvent(EventEnum event, GlobalParams& globals)
 	switch(event)
 	{
 		case BUTTON_UP:
+			std::cout << "? 4 1" << std::endl;
 			return PhoneView::getInstance();
 		case BUTTON_DOWN:
+			std::cout << "? 5 1" << std::endl;
 			return CarCamView::getInstance();
 		case BUTTON_A:
 			//Volume DOWN
@@ -32,6 +34,7 @@ State* InfoView::sendEvent(EventEnum event, GlobalParams& globals)
 			break;
 		case USB_PLUGGED_IN:
 			globals.setOldState(this);
+			std::cout << "? 11 1" << std::endl;
 			return UsbView::getInstance();
 	}
 	

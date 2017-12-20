@@ -20,6 +20,7 @@ State* StartView::sendEvent(EventEnum event, GlobalParams &globals){
 	switch (event) {
 		case BUTTON_UP:
 			// leftView + 1
+			cout << "? 4 1" << endl;
 			return CarCamView::getInstance();
 			break;
 		case BUTTON_DOWN:
@@ -29,17 +30,13 @@ State* StartView::sendEvent(EventEnum event, GlobalParams &globals){
 // 			} else {
 // 				systemState->leftView = static_cast<LeftViewEnum>(static_cast<int>(systemState->leftView) - 1);
 // 			}
+			cout << "? 5 1" << endl;
 			return PhoneView::getInstance();
 			// std::cout << "? 5 " << control_daten->down << std::endl;
 			break;
-		case BUTTON_LEFT:
-			return this;
-			break;
-		case BUTTON_RIGHT:
-			return this;
-			break;
 		case RSB_TOP:
 			globals.setOldState(this);
+			cout << "? 11 1" << endl;
 			return UsbView::getInstance();
 			break;
 		case BUTTON_A:
