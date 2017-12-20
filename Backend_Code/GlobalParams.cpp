@@ -52,7 +52,6 @@ void GlobalParams::setMountpoint(std::string point)
 	mountpoint = point;
 	if(point != "") dirContent = fileManager.getDirContent(mountpoint);
 	else return;
-	// TODO SEND Dir Information;
 	std::cout << "* " << fileManager.getContentString(*dirContent) << std::endl;
 }
 
@@ -69,19 +68,43 @@ void GlobalParams::nextSelect()
 		++currentSelect;
 }
 
+void GlobalParams::togglePlayer()
+{
+	if(player.isLoaded())
+	{
+		if(player.isPlaying())
+		{
+			player.pause();
+			std::cout << "? 22 0" << std::endl;
+		}
+		else 
+		{
+			player.play();
+			std::cout << "? 22 1" << std::endl;
+		}
+	}
+}
+
 // Zum laden es "currentSelect"ten liedes.
 void GlobalParams::loadSelection()
 {
 	if(fileManager.isFile((*dirContent)[currentSelect]))
 	{
 		// TODO load player;
-		// player.open("file://"+mountpoint+subDir+(*dirContent)[currentSelect]);
+		if(player.isLoaded())
+		player.open("file://"+mountpoint+subDir+(*dirContent)[currentSelect]);
 	}
 	else
 	{
-		if((*dirContent)[currentSelect] == "..")
+		// wenn .. selektiert, dann abwärts bewegen
+		if((*dirContent)[currentSelect] == ".." && subDir == "")
 			fileManager.cropDir(subDir);
-		else subDir = subDir + "/" + (*dirContent)[currentSelect];
-		
+		// aufwärts
+		else 
+		{
+			subDir = subDir + "/" + (*dirContent)[currentSelect];
+			delete dirContent;
+			dirContent = fileManager.getDirContent(mountpoint + subDir);
+		}
 	}
 }

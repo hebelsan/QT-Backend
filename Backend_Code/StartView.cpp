@@ -43,7 +43,7 @@ State* StartView::sendEvent(EventEnum event, GlobalParams &globals){
 			return UsbView::getInstance();
 			break;
 		case BUTTON_A:
-			// std::cout << "? 13 " << control_daten->a << std::endl;
+			globals.decreaseVolume();
 			return this;
 			break;
 		case BUTTON_Y:
@@ -68,11 +68,11 @@ State* StartView::sendEvent(EventEnum event, GlobalParams &globals){
 			//}
 			return this;
 			break;
-		case WHEEL_DIRECTION_R:
+		case WHEEL_DIR_R:
 			std::cout << "? 21 " << 1 << std::endl;
 			// nextTitle
 			break;
-		case WHEEL_DIRECTION_L:
+		case WHEEL_DIR_L:
 			break;
 		case USB_PLUGGED_IN:
 			globals.setOldState(this);

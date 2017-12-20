@@ -62,7 +62,7 @@ std::string FileManager::getContentString(vector<string>& content)
 	{
 		result = result + *it + "////";
 	}
-	result = result.substr(0, result.length()-4);
+	//result = result.substr(0, result.length()-4);
 	return result;
 }
 

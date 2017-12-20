@@ -47,6 +47,7 @@ public:
 	void nextSelect();
 	void previousSelect();
 	void loadSelection();
+	void togglePlayer();
 };
 
 #endif

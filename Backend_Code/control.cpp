@@ -84,7 +84,8 @@ void *control (void* val){
 
 		if(control_daten->rsb_top == true)
 		{ //Prüfen, ob Button "rsb_top" (Warnblinker) betätig wurde.
-			std::cout << "? 11 " << control_daten->rsb_top << std::endl;
+			//std::cout << "? 11 " << control_daten->rsb_top << std::endl;
+			c->sendEvent(RSB_TOP);
 			control_daten->rsb_top = false;
 		}  
 		if(tank != control_daten->tank){ //Prüfen, ob sich der Tankwert geändet hat.
@@ -144,19 +145,40 @@ static void analyseMediaControl(media_control_t *control_daten, Controller *c)
 {
 	if(control_daten->wheel_turns != 0)
 	{
-		std::cout << "? 20 " << static_cast<int16_t>(control_daten->wheel_turns) << std::endl;
+		//std::cout << "? 20 " << static_cast<int16_t>(control_daten->wheel_turns) << std::endl;
+		if(control_daten->wheel_turns > 0)
+			c->sendEvent(WHEEL_TURN_R);
+		else c->sendEvent(WHEEL_TURN_L);
 		control_daten->wheel_turns = 0;
 	}
 	if(control_daten->wheel_direction != local_media_control.wheel_direction)
 	{
-		std::cout << "? 21 " << control_daten->wheel_direction << std::endl;
+		//std::cout << "? 21 " << control_daten->wheel_direction << std::endl;
+		switch(control_daten->wheel_direction)
+		{
+			case RECHTS:
+				c->sendEvent(WHEEL_DIR_R);
+				break;
+			case LINKS:
+				c->sendEvent(WHEEL_DIR_L);
+				break;
+			case HOCH:
+				c->sendEvent(WHEEL_DIR_U);
+				break;
+			case RUNTER:
+				c->sendEvent(WHEEL_DIR_D);
+				break;
+			case NEUTRAL:
+				c->sendEvent(WHEEL_DIR_N);
+				break;
+		}
 		local_media_control.wheel_direction = control_daten->wheel_direction;
 	}
 	if(control_daten->wheel_pressed != local_media_control.wheel_pressed)
 	{
 		c->sendEvent(WHEEL_PRESSED);
-		std::cout << "? 22 " << control_daten->wheel_pressed << std::endl;
-		local_media_control.wheel_pressed = control_daten->wheel_pressed;
+		//std::cout << "? 22 " << control_daten->wheel_pressed << std::endl;
+		//local_media_control.wheel_pressed = control_daten->wheel_pressed;
 	}
 	if(control_daten->menu_pressed != local_media_control.menu_pressed)
 	{
