@@ -16,8 +16,8 @@
 class GlobalParams;
 
 class State {
-	public:
-	State(){};
+public:
+	State();
 	virtual State* sendEvent(EventEnum, GlobalParams&) = 0; // sends Event based on view
 	virtual std::string getName() = 0;
 	// virtual void enter() = 0;

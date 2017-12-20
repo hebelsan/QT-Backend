@@ -16,7 +16,7 @@ private:
 public:
 	static Controller *getInstance();
 	void sendEvent(EventEnum);
-	void setMountPoint(std::string);
+	void setMountpoint(std::string);
 	State* getCurrentState();
 };
 

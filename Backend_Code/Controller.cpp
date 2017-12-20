@@ -21,7 +21,7 @@ void Controller::sendEvent(EventEnum e) {
 	currentState = currentState->sendEvent(e, globals);
 }
 
-void Controller::setMountPoint(std::string point)
+void Controller::setMountpoint(std::string point)
 {
 	globals.setMountpoint(point);
 }

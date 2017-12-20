@@ -1,3 +1,6 @@
+#ifndef GstPlayer_HPP
+#define GstPlayer_HPP
+
 #include <gst/gst.h>
 #include <string>
 #include <thread>
@@ -72,3 +75,5 @@ static void dummy_eof(void* dings)
 {
 	return;
 }
+
+#endif
