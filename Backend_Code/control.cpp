@@ -48,22 +48,26 @@ void *control (void* val){
 			control_daten->b = false; //Button zuzücksetzen
 		}
 		if(control_daten->up == true){ //Prüfen, ob Button "up" (Menu up) betätig wurde.
-			std::cout << "? 4 " << control_daten->up << std::endl;
+			//std::cout << "? 4 " << control_daten->up << std::endl;
+			c->sendEvent(BUTTON_UP);
 			control_daten->up = false; //Button zuzücksetzen
 	
 		}
 		if(control_daten->down == true){ //Prüfen, ob Button "down" (Menu down) betätig wurde.
-			std::cout << "? 5 " << control_daten->down << std::endl;
+			//std::cout << "? 5 " << control_daten->down << std::endl;
+			c->sendEvent(BUTTON_DOWN);
 			control_daten->down = false; //Button zuzücksetzen
 	
 		}
 		if(control_daten->right == true){ //Prüfen, ob Button "right" (left side up / Phonemenu) betätig wurde.
-			std::cout << "? 6 " << control_daten->right << std::endl;
+			//std::cout << "? 6 " << control_daten->right << std::endl;
+			c->sendEvent(BUTTON_RIGHT);
 			control_daten->right  = false; //Button zuzücksetzen
 		}
       
 		if(control_daten->left == true){ //Prüfen, ob Button "left" (left side down  / Phonemenu) betätig wurde.
-			std::cout << "? 7 " << control_daten->left << std::endl;
+			//std::cout << "? 7 " << control_daten->left << std::endl;
+			c->sendEvent(BUTTON_RIGHT);
 			control_daten->left = false; //Button zuzücksetzen	
 		}
 		if(gear != control_daten->gear){ //Prüfen, ob sich der Gang bzw. Fahrmodus geändet hat.
