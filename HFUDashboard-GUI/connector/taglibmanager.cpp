@@ -10,7 +10,7 @@ TaglibManager::TaglibManager(QObject *parent) :
 
 void TaglibManager::setFiles(char * files) {
     Connector *creader = Connector::getInstance();
-    QVariantList l;
+    QVariantList tagList;
     QStringList stringList;
 
     std::string filesString(files);
@@ -24,7 +24,6 @@ void TaglibManager::setFiles(char * files) {
         filesString.erase(0, pos + delimiter.length());
     }
 
-    l << QVariant(stringList);
-    setImagesPathsLists(l);
-    emit creader -> sendNewMusicList(l);
+    tagList << QVariant(stringList);
+    emit creader -> sendNewMusicList(tagList);
 }

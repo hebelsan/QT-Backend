@@ -116,9 +116,10 @@ void InputThread::run() {
                 // Check if pressed, sonst doppelte auslösung des Buttons
                 if(value == 1)
                     // set to playing
-                    emit creader->musicPlayButtonPressed();
+                    emit creader -> musicPlayButtonPressed();
                 else if (value == 0)
                     // set to pause
+                    emit creader -> musicPauseButtonPressed();
                  break;
             }
           }

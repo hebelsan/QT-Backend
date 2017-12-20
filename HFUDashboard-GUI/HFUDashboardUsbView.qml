@@ -1,11 +1,12 @@
 import QtQuick 2.7
-import test 1.0
 
 Item {
+    id: usbView
     width: 800
     height: 600
     anchors.horizontalCenter: parent.horizontalCenter
     anchors.verticalCenter: parent.verticalCenter
+    property var musicFilesList: []
 
     Connections {
         target: connector
@@ -14,6 +15,7 @@ Item {
                 if (musicList.currentIndex > 0) {
                     musicList.currentIndex--;
                 }
+                musicState.titleCache = usbView.musicFilesList[0][musicList.currentIndex];
             }
         }
         onAudioWheelTurnedRight: {
@@ -21,18 +23,14 @@ Item {
                 if (musicList.currentIndex < musicList.count-1) {
                     musicList.currentIndex++;
                 }
+                musicState.titleCache = usbView.musicFilesList[0][musicList.currentIndex];
             }
         }
         onMusicPlayButtonPressed: {
-            if (playButton.isPlaying) {
-                playButton.source = playButton.playPath
-                playButton.isPlaying = false
-            }
-            else {
-                playButton.source = playButton.pausePath
-                playButton.isPlaying = true
-            }
-
+            playButton.source = playButton.pausePath
+        }
+        onMusicPauseButtonPressed: {
+            playButton.source = playButton.playPath
         }
         onMusicBackwardButtonPressed: {
             backwardButton.source = backwardButton.backwardButtonPressedPath
@@ -45,19 +43,9 @@ Item {
             forwardButton.source = forwardButton.forwardButtonPath
         }
         onSendNewMusicList: {
-            console.log(filesStructure[0]);
-            musicList.model.clear();
-            for (var i=0; i < filesStructure[0].length; i++) {
-                musicList.model.append({ "titel": filesStructure[0][i],
-                                       "interpreter" : filesStructure[0][i] })
-            }
+            setNewFileList(filesStructure)
         }
     }
-
-    TaglibManager {
-        id: taglibManager
-    }
-
 
     UsbViewVolumeBar {
         id: usbViewVolumeBar
@@ -89,6 +77,19 @@ Item {
         anchors.bottomMargin: 190
         anchors.leftMargin: -100
 
+        Text {
+            id: title
+            width: parent.width - 100
+            height: 20
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.leftMargin: 50
+            horizontalAlignment:  Text.AlignHCenter
+            text: musicState.title
+            font.pointSize: 16
+            color: "white"
+            clip: true
+        }
 
         MusicTitleProgressBar {
             id: progressBar
@@ -124,7 +125,6 @@ Item {
             id: playButton
             property string playPath: "bilder/UsbView/PlayButton.png"
             property string pausePath: "bilder/UsbView/PauseButton.png"
-            property bool isPlaying: false
             width: 40
             height: 40
             anchors.bottom: parent.bottom
@@ -199,6 +199,31 @@ Item {
         }
     }
 
+    function setNewFileList(filesStructure) {
+        musicState.titleCache = filesStructure[0][0];
+        usbView.musicFilesList = filesStructure;
+        musicList.model.clear();
+        for (var i=0; i < filesStructure[0].length; i++) {
+            if (checkIfDir(filesStructure[0][i])) {
+                appendDir(filesStructure[0][i])
+            } else
+                appendTitle(filesStructure[0][i])
+        }
+    }
 
+    function checkIfDir(fileName) {
+        if (fileName.substring(0, 3) === "DIR")
+            return true;
+    }
+
+    function appendDir(fileName) {
+        musicList.model.append({ "titel": fileName,
+                               "interpreter" : fileName })
+    }
+
+    function appendTitle(fileName) {
+        musicList.model.append({ "titel": fileName,
+                               "interpreter" : fileName })
+    }
 }
 

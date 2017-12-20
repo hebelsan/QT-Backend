@@ -61,6 +61,7 @@ signals:
     void volumeUpFrameReceived();
     void volumeDownFrameReceived();
     void musicPlayButtonPressed();
+    void musicPauseButtonPressed();
     void audioWheelTurnedLeft();
     void audioWheelTurnedRight();
     void switchUsbMediaMode();

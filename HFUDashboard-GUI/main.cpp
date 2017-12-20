@@ -55,7 +55,7 @@ int main(int argc, char *argv[])
     qmlRegisterUncreatableType<Gears>("hfu.enums.Gear", 1, 0, "Gear", "You cannot create an instance of the Enums.");
 
     //qmlRegisterType<HFUEnums::CarWarnings>("hfu.CarWarnings", 1, 0, "HFUCarWarnings");
-    qmlRegisterType<TaglibManager>("test", 1, 0, "TaglibManager");
+    // qmlRegisterType<TaglibManager>("test", 1, 0, "TaglibManager");
     QQmlApplicationEngine engine;
 
     Connector *creader = Connector::getInstance();
