@@ -64,7 +64,7 @@ void GlobalParams::previousSelect()
 // Wenn das Wählrad gedreht wird, soll hier hochgezählt werden.
 void GlobalParams::nextSelect()
 {
-	if(currentSelect < dirContent->size()-1)
+	if(dirContent != nullptr && currentSelect < dirContent->size()-1)
 		++currentSelect;
 }
 
@@ -90,9 +90,10 @@ void GlobalParams::loadSelection()
 {
 	if(fileManager.isFile((*dirContent)[currentSelect]))
 	{
-		// TODO load player;
+		
 		if(player.isLoaded())
 		player.open("file://"+mountpoint+subDir+(*dirContent)[currentSelect]);
+		togglePlayer();
 	}
 	else
 	{

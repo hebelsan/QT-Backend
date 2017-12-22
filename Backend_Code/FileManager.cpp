@@ -80,3 +80,8 @@ void FileManager::cropDir(string& dir)
 	}
 	else dir = "";
 }
+
+string FileManager::removePrefix(string file)
+{
+	return file.substr(5);
+}

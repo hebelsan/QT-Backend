@@ -47,11 +47,11 @@ State* UsbView::sendEvent(EventEnum event, GlobalParams& globals) {
 		case WHEEL_TURN_R:
 			globals.nextSelect();
 			std::cout << "? 20 1" << std::endl;
-			// currenTitle ++ / --
 			break;
 		case WHEEL_TURN_L:
 			globals.previousSelect();
 			std::cout << "? 20 -1" << std::endl;
+			break;
 		case WHEEL_PRESSED:
 			globals.loadSelection();
 			break;
