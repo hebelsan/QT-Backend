@@ -3,6 +3,11 @@
 #include <QDebug>
 #include "connector/connector.h"
 
+#include <sys/types.h>
+#include <sys/stat.h>
+// #include <fileref.h>
+#include <tag.h>
+
 TaglibManager::TaglibManager(QObject *parent) :
     QObject(parent)
 {
@@ -23,6 +28,10 @@ void TaglibManager::setFiles(char * files) {
         stringList.append(QString::fromStdString(fileName));
         filesString.erase(0, pos + delimiter.length());
     }
+
+    // the last enty is the path
+    std::string path = stringList.takeLast().toUtf8().constData();
+    // qInfo(path);
 
     tagList << QVariant(stringList);
     emit creader -> sendNewMusicList(tagList);

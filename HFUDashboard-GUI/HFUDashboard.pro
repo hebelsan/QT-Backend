@@ -4,6 +4,9 @@ QT += qml quick
 
 QMAKE_CXXFLAGS += -std=c++0x -pthread
 LIBS += -pthread
+# libtag
+LIBS += -L/home/alex/taglib/taglib -ltag -lz
+INCLUDEPATH  += /usr/include/taglib
 
 CONFIG += c++11
 

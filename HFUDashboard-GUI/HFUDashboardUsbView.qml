@@ -11,20 +11,10 @@ Item {
     Connections {
         target: connector
         onAudioWheelTurnedLeft: {
-            if (usbView.visible) {
-                if (musicList.currentIndex > 0) {
-                    musicList.currentIndex--;
-                }
-                musicState.titleCache = usbView.musicFilesList[0][musicList.currentIndex];
-            }
+            audioWheelTurnedLeft()
         }
         onAudioWheelTurnedRight: {
-            if (usbView.visible) {
-                if (musicList.currentIndex < musicList.count-1) {
-                    musicList.currentIndex++;
-                }
-                musicState.titleCache = usbView.musicFilesList[0][musicList.currentIndex];
-            }
+            audioWheelTurnedRight()
         }
         onMusicPlayButtonPressed: {
             playButton.source = playButton.pausePath
@@ -171,10 +161,23 @@ Item {
         Component {
             id: musicDelegate
             Item {
-                width: parent.width; height: 30;
-                Column {
-                    Text { text: '<b>Titel:</b> ' + titel }
-                    Text { text: '<b>Interpreter:</b> ' + interpreter }
+                width: parent.width; height: 32;
+                Row {
+                    Image {
+                        height: 32
+                        width: 32
+                        source: image
+                    }
+                    Column {
+                        Text {
+                            text: 'Titel: ' + titel
+                            font.pointSize: 12
+                        }
+                        Text {
+                            text: 'Interpret: ' + "<i>" + interpreter + "</i>"
+                            font.pointSize: 12
+                        }
+                    }
                 }
             }
         }
@@ -196,6 +199,26 @@ Item {
             focus: true
             highlightFollowsCurrentItem: true
             clip: true
+        }
+    }
+
+    function audioWheelTurnedLeft() {
+        if (usbView.visible) {
+            if (musicList.currentIndex > 0) {
+                musicList.currentIndex--;
+            }
+            if (usbView.musicFilesList.length > 0)
+                musicState.titleCache = usbView.musicFilesList[0][musicList.currentIndex];
+        }
+    }
+
+    function audioWheelTurnedRight() {
+        if (usbView.visible) {
+            if (musicList.currentIndex < musicList.count-1) {
+                musicList.currentIndex++;
+            }
+            if (usbView.musicFilesList.length > 0)
+                musicState.titleCache = usbView.musicFilesList[0][musicList.currentIndex];
         }
     }
 

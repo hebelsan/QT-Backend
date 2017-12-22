@@ -9,7 +9,7 @@ Item {
     property bool showVolume: false
     property bool isPlaying: false
     property string titleCache: ""
-    property string title: "Current Title"
+    property string title: ""
     // title duration in seconds
     property int titleDuration: 142
     property int currentTime: 0
