@@ -4,6 +4,7 @@
 #include <string>
 #include "ControllerDatentypen.hpp"
 #include "State.hpp"
+#include "GlobalParams.hpp"
 #include "StartView.hpp"
 
 class Controller {

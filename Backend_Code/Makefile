@@ -1,7 +1,8 @@
 # Definition/Declarations of MAKE-Variables
-OBJ		= model.o lenkrad.o can_data.o can_read.o Car_status.o Motor_simulation.o control.o Mount.o Controller.o State.o UsbView.o StartView.o PhoneView.o InfoView.o CarCamView.o GlobalParams.o FileManager.o
+OBJCNTRL=	StartView.o UsbView.o PhoneView.o CarCamView.o InfoView.o GstPlayer.o FileManager.o State.o Controller.o GlobalParams.o
+OBJ		= model.o lenkrad.o can_data.o can_read.o Car_status.o Motor_simulation.o control.o Mount.o $(OBJCNTRL)
 LIBEVDEV	= /home/pi/libevdev/libevdev/libevdev.o
-CC		= g++
+CC		= g++ -g
 RM		= rm -f
 LIBDEF		= `pkg-config --cflags --libs gstreamer-1.0` -ludev
 TAGLIB	= `pkg-config --cflags --libs taglib` -lz
@@ -12,7 +13,10 @@ all: HFUDashboard_backend
 
 HFUDashboard_backend: $(OBJ) GstPlayer.o
 	$(CC) -o HFUDashboard_backend $(INCPATH) $(LIBEVDEV) $(OBJ) GstPlayer.o $(LIBDEF) main.cpp $(TAGLIB)
-	@echo Erfolg!
+	@echo HFUDashboard_backend erfolgreich gebaut!
+TestController: TestController.cpp $(OBJCNTRL)
+	$(CC) -o TestController TestController.cpp $(OBJCNTRL) $(LIBDEF) $(TAGLIB) -std=gnu++11
+	@echo TestController erfolgreich gebaut!
 can_data.o: can_data.cpp can_data.hpp
 	$(CC) -c can_data.cpp can_data.hpp
 can_read.o: can_read.cpp
@@ -27,7 +31,7 @@ lenkrad.o: lenkrad.hpp lenkrad.cpp
 	$(CC) -c $(INCPATH) $(LIBEVDEV) lenkrad.hpp lenkrad.cpp $(LIBDEF)
 FileManager.o: FileManager.hpp FileManager.cpp
 	$(CC) -c $(LIBDEF) FileManager.hpp FileManager.cpp $(TAGLIB)
-GlobalParams.o: State.hpp GlobalParams.cpp
+GlobalParams.o: GlobalParams.hpp GlobalParams.cpp
 	$(CC) -c $(LIBDEF)  State.hpp GlobalParams.cpp -std=gnu++11
 GstPlayer.o: GstPlayer.hpp GstPlayer.cpp
 	$(CC) -c $(LIBDEF) GstPlayer.hpp GstPlayer.cpp -std=gnu++11

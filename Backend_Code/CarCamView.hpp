@@ -3,6 +3,7 @@
 
 #include <string>
 #include "State.hpp"
+#include "GlobalParams.hpp"
 #include "InfoView.hpp"
 #include "StartView.hpp"
 

@@ -33,12 +33,12 @@ vector<string>* FileManager::getDirContent(std::string _path) {
 			if(!f.isNull() && f.tag() && f.audioProperties()) 
 			{
       			TagLib::Tag *tag = f.tag();
-				properties = f.audioProperties();				
+				properties = f.audioProperties();
 				if (properties->length() > 0) 
 				{
 					fileNames->push_back("FILE:"+fileName);
 				}
-			} else if ((fileName != ".") /* && (fileName != "..")*/)
+			} else if ((fileName[0] != '.') || fileName == ".." /* && (fileName != "..")*/)
 			{
 				if ( stat(uri.c_str(), &status) == 0 ) 
 				{
@@ -55,7 +55,7 @@ vector<string>* FileManager::getDirContent(std::string _path) {
 	return fileNames;
 }
 
-std::string FileManager::getContentString(vector<string>& content)
+string FileManager::getContentString(vector<string>& content)
 {
 	std::string result = "";
 	for(std::vector<string>::iterator it = content.begin(); it != content.end(); ++it)
@@ -83,5 +83,7 @@ void FileManager::cropDir(string& dir)
 
 string FileManager::removePrefix(string file)
 {
-	return file.substr(5);
+	if(file.substr(0,4) == "DIR:")
+		return file.substr(4);
+	else return file.substr(5);
 }

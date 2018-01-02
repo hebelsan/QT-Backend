@@ -23,31 +23,4 @@ public:
 	// virtual void enter() = 0;
 };
 
-class GlobalParams
-{
-private:
-	std::string subDir;
-	std::vector<std::string>* dirContent;
-	FileManager fileManager;
-	int currentSelect;
-	unsigned int volume;
-	State* oldState;
-	GstPlayer player = GstPlayer(0, NULL);
-	std::string mountpoint;
-	
-public:
-	GlobalParams();
-	void increaseVolume();
-	void decreaseVolume();
-	unsigned int getVolume();
-	void setOldState(State*);
-	State* getOldState();
-	void setMountpoint(std::string);
-	std::string getMountpoint();
-	void nextSelect();
-	void previousSelect();
-	void loadSelection();
-	void togglePlayer();
-};
-
 #endif

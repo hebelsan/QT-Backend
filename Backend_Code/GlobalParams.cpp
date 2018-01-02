@@ -1,12 +1,14 @@
-#include "State.hpp"
+#include "GlobalParams.hpp"
 #include <iostream>
 
 GlobalParams::GlobalParams()
 {
+	currentPlayFile = "";
 	volume = 100;
 	dirContent = nullptr;
 	subDir = "";
 	currentSelect = 0;
+	player.setSecondsCb((seconds_cb)secondsCb, (void*)&seconds);
 }
 
 void GlobalParams::increaseVolume()
@@ -90,22 +92,38 @@ void GlobalParams::loadSelection()
 {
 	if(fileManager.isFile((*dirContent)[currentSelect]))
 	{
-		
-		if(player.isLoaded())
-		player.open("file://"+mountpoint+subDir+(*dirContent)[currentSelect]);
+		std::string uri = "file://"+getCurrentDirectory()+'/'+fileManager.removePrefix((*dirContent)[currentSelect]);
+		if(uri != currentPlayFile)
+		{
+			player.open(uri);
+			currentPlayFile = uri;
+		}
 		togglePlayer();
 	}
 	else
 	{
 		// wenn .. selektiert, dann abwärts bewegen
-		if((*dirContent)[currentSelect] == ".." && subDir == "")
+		if((*dirContent)[currentSelect] == "DIR:..")
 			fileManager.cropDir(subDir);
 		// aufwärts
 		else 
 		{
-			subDir = subDir + "/" + (*dirContent)[currentSelect];
-			delete dirContent;
-			dirContent = fileManager.getDirContent(mountpoint + subDir);
+			subDir = subDir + "/" + fileManager.removePrefix((*dirContent)[currentSelect]);
 		}
+		currentSelect = 0;
+		delete dirContent;
+		dirContent = fileManager.getDirContent(getCurrentDirectory());
+		std::cout << "* " << fileManager.getContentString(*dirContent) << getCurrentDirectory() << "////" << std::endl;
 	}
+	std::cout << "New Directory: " << getCurrentDirectory() << std::endl;
+}
+
+std::string GlobalParams::getCurrentDirectory()
+{
+	return mountpoint + subDir;
+}
+
+void GlobalParams::secondsCb(int seconds, int* c_seconds)
+{
+	*c_seconds = seconds;
 }

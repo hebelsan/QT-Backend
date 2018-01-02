@@ -7,10 +7,10 @@
 
 using std::string;
 
-static gboolean dummy_sec(int, void*);
+static void dummy_sec(int, void*);
 static void dummy_eof(void*);
 
-typedef gboolean (*seconds_cb)(int, void*);
+typedef void (*seconds_cb)(int, void*);
 typedef void (*eof_cb)(void*);
 
 typedef struct internal_data
@@ -65,10 +65,10 @@ public:
 	void setEofCb(eof_cb, void*);
 };
 
-static gboolean dummy_sec(int seconds, void*)
+static void dummy_sec(int seconds, void*)
 {
 	printf("%d\n",seconds);
-	return false;
+	//return false;
 }
 
 static void dummy_eof(void* dings)
