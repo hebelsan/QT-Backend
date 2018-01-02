@@ -170,7 +170,7 @@ Item {
                     }
                     Column {
                         Text {
-                            text: 'Titel: ' + titel
+                            text: 'Name: ' + title
                             font.pointSize: 12
                         }
                         Text {
@@ -227,26 +227,19 @@ Item {
         usbView.musicFilesList = filesStructure;
         musicList.model.clear();
         for (var i=0; i < filesStructure[0].length; i++) {
-            if (checkIfDir(filesStructure[0][i])) {
-                appendDir(filesStructure[0][i])
-            } else
-                appendTitle(filesStructure[0][i])
+            appendEntry(filesStructure[0][i], filesStructure[1][i])
         }
     }
 
-    function checkIfDir(fileName) {
-        if (fileName.substring(0, 3) === "DIR")
-            return true;
-    }
-
-    function appendDir(fileName) {
-        musicList.model.append({ "titel": fileName,
-                               "interpreter" : fileName })
-    }
-
-    function appendTitle(fileName) {
-        musicList.model.append({ "titel": fileName,
-                               "interpreter" : fileName })
+    function appendEntry(titleName, artistName) {
+        if (artistName === "")
+            musicList.model.append({ "title": titleName,
+                                   "interpreter": artistName,
+                                   "image": "bilder/UsbView/Directory.png"})
+        else
+            musicList.model.append({ "title": titleName,
+                               "interpreter": artistName,
+                               "image": "bilder/UsbView/NotenSchluessel.jpg"})
     }
 }
 

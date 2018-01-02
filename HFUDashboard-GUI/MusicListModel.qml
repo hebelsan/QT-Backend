@@ -3,42 +3,42 @@ import QtQuick 2.7
 ListModel {
     ListElement {
         image: "bilder/UsbView/NotenSchluessel.jpg"
-        titel: "titel1"
+        title: "titel1"
         interpreter: "interpreter1"
     }
     ListElement {
         image: "bilder/UsbView/NotenSchluessel.jpg"
-        titel: "titel2"
+        title: "titel2"
         interpreter: "interpreter2"
     }
     ListElement {
         image: "bilder/UsbView/NotenSchluessel.jpg"
-        titel: "titel3"
+        title: "titel3"
         interpreter: "interpreter3"
     }
     ListElement {
         image: "bilder/UsbView/NotenSchluessel.jpg"
-        titel: "titel4"
+        title: "titel4"
         interpreter: "interpreter4"
     }
     ListElement {
         image: "bilder/UsbView/NotenSchluessel.jpg"
-        titel: "titel5"
+        title: "titel5"
         interpreter: "interpreter5"
     }
     ListElement {
         image: "bilder/UsbView/NotenSchluessel.jpg"
-        titel: "titel6"
+        title: "titel6"
         interpreter: "interpreter6"
     }
     ListElement {
         image: "bilder/UsbView/NotenSchluessel.jpg"
-        titel: "titel7"
+        title: "titel7"
         interpreter: "interpreter7"
     }
     ListElement {
         image: "bilder/UsbView/NotenSchluessel.jpg"
-        titel: "tite8"
+        title: "tite8"
         interpreter: "interpreter8"
     }
 }

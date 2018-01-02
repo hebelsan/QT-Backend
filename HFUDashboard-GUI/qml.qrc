@@ -141,5 +141,6 @@
         <file>bilder/UsbView/speaker/speakerQuiet.png</file>
         <file>bilder/UsbView/speaker/speakerHalf.png</file>
         <file>bilder/UsbView/speaker/speakerLow.png</file>
+        <file>bilder/UsbView/Directory.png</file>
     </qresource>
 </RCC>
