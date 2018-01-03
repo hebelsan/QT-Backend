@@ -168,15 +168,24 @@ Item {
                         width: 32
                         source: image
                     }
+                    // if its a musicTitle
                     Column {
+                        visible: interpreter != ""
                         Text {
-                            text: 'Name: ' + title
+                            text: "<b>Title:</b> " + title
                             font.pointSize: 12
                         }
                         Text {
-                            text: 'Interpret: ' + "<i>" + interpreter + "</i>"
+                            text: "<b>Interpret:</b> " + "<i>" + interpreter + "</i>"
                             font.pointSize: 12
                         }
+                    }
+                    // if its a directory
+                    Text {
+                            visible: interpreter == ""
+                            text: "<b>DirName:</b> " + title
+                            font.pointSize: 12
+                            anchors.verticalCenter: parent.verticalCenter
                     }
                 }
             }
