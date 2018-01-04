@@ -263,6 +263,10 @@ ApplicationWindow {
             }
             onMusicPlayButtonPressed: {
                 musicState.title = musicState.titleCache;
+                musicState.titleDuration = musicState.tilteDurationCache;
+            }
+            onCurrentTitleSeconds: {
+                musicState.movePlayTime(seconds);
             }
         }
     }

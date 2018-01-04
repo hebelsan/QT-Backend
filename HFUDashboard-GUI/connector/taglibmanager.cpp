@@ -19,6 +19,7 @@ void TaglibManager::setFiles(char * files) {
     QStringList stringEntrys;
     QStringList titelList;
     QStringList artistList;
+    QList<QVariant> titleLengthSeconds;
 
     QString path = "";
     QString uri = "";
@@ -48,15 +49,19 @@ void TaglibManager::setFiles(char * files) {
             QString dirName = stringEntrys[i].remove(0, 4);
             titelList.append(dirName);
             artistList.append("");
+            titleLengthSeconds.append((int)0);
         }
         else
         {
             QString fileName = stringEntrys[i].remove(0, 5);
             uri = path + "/" + fileName;
             TagLib::FileRef f(const_cast<char*>(uri.toStdString().c_str()));
+            TagLib::AudioProperties *properties = f.audioProperties();
             TagLib::Tag *tag = f.tag();
             QString title = tag->title().toCString();
             QString artist = tag->artist().toCString();
+            int seconds = properties->length();
+            titleLengthSeconds.append((int)seconds);
 
             if (title.isEmpty())
                 titelList.append(fileName);
@@ -72,5 +77,6 @@ void TaglibManager::setFiles(char * files) {
 
     tagList << QVariant(titelList);
     tagList << QVariant(artistList);
+    tagList << QVariant(titleLengthSeconds);
     emit creader -> sendNewMusicList(tagList);
 }

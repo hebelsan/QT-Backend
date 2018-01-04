@@ -69,6 +69,7 @@ signals:
     void musicBackwardButtonPressed();
     void musicWheelDirectionNormal();
     void sendNewMusicList(QVariantList filesStructure);
+    void currentTitleSeconds(int seconds);
 };
 
 #endif // CONNECTOR_H

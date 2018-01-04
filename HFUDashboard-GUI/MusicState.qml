@@ -11,7 +11,8 @@ Item {
     property string titleCache: ""
     property string title: ""
     // title duration in seconds
-    property int titleDuration: 142
+    property int tilteDurationCache: 0
+    property int titleDuration: 0
     property int currentTime: 0
     property string coverPath: "bilder/UsbView/NotenSchluessel.jpg"
 
@@ -72,10 +73,10 @@ Item {
         title = newTitle;
     }
 
-    function movePlayTime() {
-        musicState.musicProgressTimerStarted()
+    function movePlayTime(seconds) {
         if (currentTime <= titleDuration) {
-            setCurrentTime(++currentTime)
+            currentTime = seconds;
         }
+        musicState.musicProgressTimerStarted()
     }
 }

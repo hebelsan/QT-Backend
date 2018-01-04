@@ -122,6 +122,10 @@ void InputThread::run() {
                     emit creader -> musicPauseButtonPressed();
                  break;
             }
+            case 27:{
+                emit creader -> currentTitleSeconds(value);
+                break;
+            }
           }
         } else if(sscanf(buffer, "* %[^\n]s", files)==1) {
             qInfo(files);

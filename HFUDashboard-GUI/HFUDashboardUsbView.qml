@@ -211,13 +211,20 @@ Item {
         }
     }
 
+    function setMusicTitleCache() {
+        if (usbView.musicFilesList.length > 0) {
+            musicState.titleCache = usbView.musicFilesList[0][musicList.currentIndex];
+            musicState.tilteDurationCache = usbView.musicFilesList[2][musicList.currentIndex];
+        }
+    }
+
+
     function audioWheelTurnedLeft() {
         if (usbView.visible) {
             if (musicList.currentIndex > 0) {
                 musicList.currentIndex--;
             }
-            if (usbView.musicFilesList.length > 0)
-                musicState.titleCache = usbView.musicFilesList[0][musicList.currentIndex];
+            setMusicTitleCache();
         }
     }
 
@@ -226,8 +233,7 @@ Item {
             if (musicList.currentIndex < musicList.count-1) {
                 musicList.currentIndex++;
             }
-            if (usbView.musicFilesList.length > 0)
-                musicState.titleCache = usbView.musicFilesList[0][musicList.currentIndex];
+            setMusicTitleCache();
         }
     }
 
