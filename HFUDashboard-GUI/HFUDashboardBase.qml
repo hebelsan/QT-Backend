@@ -146,19 +146,19 @@ ApplicationWindow {
                             canEventSink.increaseZoom()
             }
             else if(event.key===Qt.Key_1){
-                canEventSink.setWarning(1);
+                connector.setStartView();
             }
             else if(event.key===Qt.Key_2){
-                canEventSink.setWarning(2);
+                connector.setCarCamView();
             }
             else if(event.key===Qt.Key_3){
-                canEventSink.setWarning(3);
+                connector.setInfoView();
             }
             else if(event.key===Qt.Key_4){
-                canEventSink.setWarning(4);
+                connector.setPhoneView();
             }
             else if(event.key===Qt.Key_5){
-                canEventSink.setWarning(5);
+                connector.setUsbView();
             }
             else if(event.key===Qt.Key_6){
                 canEventSink.setWarning(6);
@@ -233,7 +233,7 @@ ApplicationWindow {
                     canEventSink.setLeftViewToNav();
                 } else {
                     connector.switchUsbMediaMode();
-                    canEventSink.setLeftViewToMedia();
+                    canEventSink.setLeftViewToNav();
                 }
             }
             onSetInfoView: {
@@ -241,7 +241,7 @@ ApplicationWindow {
                     canEventSink.setLeftViewToInfo()
                 } else {
                     connector.switchUsbMediaMode();
-                    canEventSink.setLeftViewToMedia();
+                    canEventSink.setLeftViewToInfo()
                 }
             }
             onSetPhoneView: {
@@ -249,7 +249,7 @@ ApplicationWindow {
                     canEventSink.setLeftViewToPhone()
                 } else {
                     connector.switchUsbMediaMode();
-                    canEventSink.setLeftViewToMedia();
+                    canEventSink.setLeftViewToPhone()
                 }
             }
             onSetUsbView: {
