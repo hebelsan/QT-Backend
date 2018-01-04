@@ -7,6 +7,6 @@
 Für jede View eigenen Befehl
 
 Das Signal
-? 20 <1/-1>	hat feste Bedeutung. --> next Track/Liste hochzählen!
-? 27 <sec>	hat feste Bedeutung Sekunden/Position im Track
-? 28 <1/-1>	hat feste Bedeutung <1> Vorspulen, <-1> zurückspulen
+? 20 <1/-1>		hat feste Bedeutung. --> next Track/Liste hochzählen!
+? 27 <sec>		hat feste Bedeutung Sekunden/Position im Track
+? 28 <1/-1/0>	hat feste Bedeutung <1> Vorspulen, <-1> zurückspulen, <0> nicht spulen
