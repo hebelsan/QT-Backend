@@ -175,6 +175,7 @@ gboolean GstPlayer::handleMessage(GstBus *bus, GstMessage *msg, InternalData* da
 		g_print ("End-Of-Stream reached.\n");
 		gst_element_set_state(data->playbin, GST_STATE_PAUSED);
 		data->state = GST_STATE_NULL;
+		data->eof_cb_func(data->eof_cb_data);
 		//g_main_loop_quit( data->mainLoop );
 		//g_thread_exit(0);
 		//return FALSE;
@@ -224,13 +225,17 @@ gboolean GstPlayer::handleMessage(GstBus *bus, GstMessage *msg, InternalData* da
 gboolean GstPlayer::handleSeconds(void* dieses)
 {
 	InternalData* data = (InternalData*)dieses;
-	gint64 current = -1;
-	/* Query the current position of the stream */
-	if (!gst_element_query_position (data->playbin, GST_FORMAT_TIME, &current)) {
-		g_printerr ("Could not query current position.\n");
-	}
 	
-	data->seconds_cb_func((int)(current/GST_SECOND), data->seconds_cb_data);
+	if(data->state == GST_STATE_PLAYING)
+	{
+		gint64 current = -1;
+		/* Query the current position of the stream */
+		if (!gst_element_query_position (data->playbin, GST_FORMAT_TIME, &current)) {
+			g_printerr ("Could not query current position.\n");
+		}
+		
+		data->seconds_cb_func((int)(current/GST_SECOND), data->seconds_cb_data);
+	}
 	return true;
 }	
 

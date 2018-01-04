@@ -1,0 +1,12 @@
+? 100 1		-> Start-View
+? 100 2		-> CarCam-View (Momentan NavView)
+? 100 3		-> Info-View
+? 100 4		-> Phone-View
+? 100 50 	-> USB-View
+
+Für jede View eigenen Befehl
+
+Das Signal
+? 20 <1/-1>	hat feste Bedeutung. --> next Track/Liste hochzählen!
+? 27 <sec>	hat feste Bedeutung Sekunden/Position im Track
+? 28 <1/-1>	hat feste Bedeutung <1> Vorspulen, <-1> zurückspulen

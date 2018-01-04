@@ -1,6 +1,8 @@
 #include "GlobalParams.hpp"
 #include <iostream>
 
+using namespace std;
+
 GlobalParams::GlobalParams()
 {
 	currentPlayFile = "";
@@ -8,7 +10,8 @@ GlobalParams::GlobalParams()
 	dirContent = nullptr;
 	subDir = "";
 	currentSelect = 0;
-	player.setSecondsCb((seconds_cb)secondsCb, (void*)&seconds);
+	player.setSecondsCb((seconds_cb)SecondsHandler, (void*)&seconds);
+	player.setEofCb((eof_cb)EofHandler, (void*)this);
 }
 
 void GlobalParams::increaseVolume()
@@ -60,14 +63,22 @@ void GlobalParams::setMountpoint(std::string point)
 void GlobalParams::previousSelect()
 {
 	if(currentSelect > 0)
+	{
 		--currentSelect;
+		std::cout << "? 20 -1" << std::endl;
+	}
 }
 
 // Wenn das Wählrad gedreht wird, soll hier hochgezählt werden.
-void GlobalParams::nextSelect()
+bool GlobalParams::nextSelect()
 {
 	if(dirContent != nullptr && currentSelect < dirContent->size()-1)
+	{
 		++currentSelect;
+		std::cout << "? 20 1" << std::endl;
+		return true;
+	}
+	return false;
 }
 
 void GlobalParams::togglePlayer()
@@ -123,7 +134,25 @@ std::string GlobalParams::getCurrentDirectory()
 	return mountpoint + subDir;
 }
 
-void GlobalParams::secondsCb(int seconds, int* c_seconds)
+void GlobalParams::SecondsHandler(int seconds, int* c_seconds)
 {
-	*c_seconds = seconds;
+	// *c_seconds = seconds;
+	cout << "? 27 " << seconds << endl;
+}
+
+void GlobalParams::EofHandler(GlobalParams* object)
+{
+	object->loadNextSong();
+}
+
+void GlobalParams::loadNextSong()
+{
+	while(nextSelect())
+	{
+		if(fileManager.isFile((*dirContent)[currentSelect]))
+		{
+			loadSelection();
+			return;
+		}
+	}
 }
