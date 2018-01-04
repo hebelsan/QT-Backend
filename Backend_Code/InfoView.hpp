@@ -15,6 +15,7 @@ public:
 	static InfoView* getInstance();
 	virtual State* sendEvent(EventEnum, GlobalParams&);
 	virtual std::string getName();
+	virtual int getId();
 };
 
 

@@ -2,6 +2,7 @@
 #define FileManager_HPP
 
 #include <vector>
+#include <algorithm>
 #include <string>
 
 class FileManager
@@ -13,7 +14,7 @@ public:
 	std::string getContentString(std::vector<std::string>&);
 	bool isFile(std::string content);
 	void cropDir(std::string& dir);
-	std::string removePrefix(std::string);
+	static std::string removePrefix(std::string);
 };
 
 

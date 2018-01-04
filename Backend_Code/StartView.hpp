@@ -16,6 +16,7 @@ public:
 	static StartView* getInstance();
 	virtual State* sendEvent(EventEnum, GlobalParams&);
 	virtual std::string getName();
+	virtual int getId();
 };
 
 #endif
