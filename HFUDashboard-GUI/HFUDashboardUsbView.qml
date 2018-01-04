@@ -91,10 +91,10 @@ Item {
             Connections {
                 target: musicState
                 onMusicProgressTimerStarted: {
-                    progressBar.fullProgressBar.width +=
-                            progressBar.fullProgressBar.parent.width / musicState.titleDuration
-                    progressBar.progressButton.anchors.leftMargin +=
-                            progressBar.progressButton.parent.width / musicState.titleDuration
+                    progressBar.fullProgressBar.width =
+                            (progressBar.fullProgressBar.parent.width / musicState.titleDuration) * musicState.currentPlayTimeSeconds
+                    progressBar.progressButton.anchors.leftMargin =
+                            (progressBar.progressButton.parent.width / musicState.titleDuration) * musicState.currentPlayTimeSeconds
                 }
             }
         }

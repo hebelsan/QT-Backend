@@ -13,7 +13,7 @@ Item {
     // title duration in seconds
     property int tilteDurationCache: 0
     property int titleDuration: 0
-    property int currentTime: 0
+    property int currentPlayTimeSeconds: 0
     property string coverPath: "bilder/UsbView/NotenSchluessel.jpg"
 
     function setShowVolume(state) {
@@ -30,11 +30,11 @@ Item {
     }
 
     function getMinutesCurentTitle() {
-        return getMinutes(currentTime);
+        return getMinutes(currentPlayTimeSeconds);
     }
 
     function getSecondsCurentTitle() {
-        return getSeconds(currentTime);
+        return getSeconds(currentPlayTimeSeconds);
     }
 
     function getMinutesTitleFullDuration() {
@@ -61,8 +61,9 @@ Item {
         }
     }
 
+    // sets the current playtime in seconds
     function setCurrentTime(time) {
-        currentTime = time
+        currentPlayTimeSeconds = time
     }
 
     function setTitleDuration(time) {
@@ -74,8 +75,8 @@ Item {
     }
 
     function movePlayTime(seconds) {
-        if (currentTime <= titleDuration) {
-            currentTime = seconds;
+        if (currentPlayTimeSeconds <= titleDuration) {
+            setCurrentTime(seconds);
         }
         musicState.musicProgressTimerStarted()
     }
