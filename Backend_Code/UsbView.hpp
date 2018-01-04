@@ -13,6 +13,7 @@ public:
 	static State* getInstance();
 	virtual State* sendEvent(EventEnum, GlobalParams&);
 	virtual std::string getName();
+	virtual int getId();
 };
 
 #endif

@@ -1,5 +1,7 @@
 #include "CarCamView.hpp"
 
+using namespace std;
+
 CarCamView::CarCamView() : State()
 {
 }
@@ -15,10 +17,12 @@ State* CarCamView::sendEvent(EventEnum event, GlobalParams& globals)
 	switch(event)
 	{
 		case BUTTON_UP:
-			std::cout << "? 4 1" << std::endl;
+			//std::cout << "? 4 1" << std::endl;
+			cout << "? 100 " << InfoView::getInstance()->getId() << endl;
 			return InfoView::getInstance();
 		case BUTTON_DOWN:
-			std::cout << "? 5 1" << std::endl;
+			//std::cout << "? 5 1" << std::endl;
+			cout << "? 100 " << StartView::getInstance()->getId() << endl;
 			return StartView::getInstance();
 		case BUTTON_A:
 			//Volume DOWN
@@ -30,7 +34,8 @@ State* CarCamView::sendEvent(EventEnum event, GlobalParams& globals)
 			break;
 		case USB_PLUGGED_IN:
 			globals.setOldState(this);
-			std::cout << "? 11 1" << std::endl;
+			//std::cout << "? 11 1" << std::endl;
+			cout << "? 100 " << UsbView::getInstance()->getId() << endl;
 			return UsbView::getInstance();
 	}
 	return this;
@@ -39,4 +44,9 @@ State* CarCamView::sendEvent(EventEnum event, GlobalParams& globals)
 std::string CarCamView::getName()
 {
 	return std::string("Car Cam View");
+}
+
+int CarCamView::getId()
+{
+	return 2;
 }

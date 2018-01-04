@@ -9,6 +9,8 @@
 #include "FileManager.hpp"
 using namespace std;
 
+bool sortFunction(string content1, string content2);
+
 vector<string>* FileManager::getDirContent(std::string _path) {
 	DIR *hdir;
 	struct dirent *entry;
@@ -19,11 +21,11 @@ vector<string>* FileManager::getDirContent(std::string _path) {
 	TagLib::AudioProperties *properties;
 	
 	struct stat status;
-    hdir = opendir(path.c_str());
+	hdir = opendir(path.c_str());
 
-    do
-    {
-        entry = readdir(hdir);
+	do
+	{
+		entry = readdir(hdir);
         if (entry)
         {
 			string fileName = string(entry->d_name);
@@ -51,7 +53,7 @@ vector<string>* FileManager::getDirContent(std::string _path) {
 		}
     } while (entry);
     closedir(hdir);
-
+	std::sort(fileNames->begin(), fileNames->end(), sortFunction);
 	return fileNames;
 }
 
@@ -86,4 +88,13 @@ string FileManager::removePrefix(string file)
 	if(file.substr(0,4) == "DIR:")
 		return file.substr(4);
 	else return file.substr(5);
+}
+
+bool sortFunction(string content1, string content2)
+{
+	content1 = FileManager::removePrefix(content1);
+	content2 = FileManager::removePrefix(content2);
+	if(content1 == "..") return 1;
+	else if(content2 == "..") return 0;
+	return content1.compare(content2) < 0;
 }

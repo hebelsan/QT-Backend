@@ -1,5 +1,7 @@
 #include "PhoneView.hpp"
 
+using namespace std;
+
 PhoneView* PhoneView::getInstance()
 {
 	static PhoneView theInstance;
@@ -16,11 +18,13 @@ State* PhoneView::sendEvent(EventEnum event, GlobalParams& globals)
 	switch(event)
 	{
 		case BUTTON_UP:
-			std::cout << "? 4 1" << std::endl;
+			//cout << "? 4 1" << endl;
+			cout << "? 100 " << StartView::getInstance()->getId() << endl;
 			return StartView::getInstance();
 			break;
 		case BUTTON_DOWN:
-			std::cout << "? 5 1" << std::endl;
+			//cout << "? 5 1" << endl;
+			cout << "? 100 " << InfoView::getInstance()->getId() << endl;
 			return InfoView::getInstance();
 			break;
 		case BUTTON_A:
@@ -35,9 +39,15 @@ State* PhoneView::sendEvent(EventEnum event, GlobalParams& globals)
 			break;
 		case USB_PLUGGED_IN:
 			globals.setOldState(this);
-			std::cout << "? 11 1" << std::endl;
+			//cout << "? 11 1" << endl;
+			cout << "? 100 " << UsbView::getInstance()->getId() << endl;
 			return UsbView::getInstance();
 			break;
 	}
 	return this;
+}
+
+int PhoneView::getId()
+{
+	return 4;
 }

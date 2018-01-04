@@ -1,5 +1,7 @@
 #include "InfoView.hpp"
 
+using namespace std;
+
 InfoView::InfoView()
 {}
 
@@ -19,10 +21,12 @@ State* InfoView::sendEvent(EventEnum event, GlobalParams& globals)
 	switch(event)
 	{
 		case BUTTON_UP:
-			std::cout << "? 4 1" << std::endl;
+			//cout << "? 4 1" << endl;
+			cout << "? 100 " << PhoneView::getInstance()->getId() << endl;
 			return PhoneView::getInstance();
 		case BUTTON_DOWN:
-			std::cout << "? 5 1" << std::endl;
+			//cout << "? 5 1" << endl;
+			cout << "? 100 " << CarCamView::getInstance()->getId() << endl;
 			return CarCamView::getInstance();
 		case BUTTON_A:
 			//Volume DOWN
@@ -34,9 +38,15 @@ State* InfoView::sendEvent(EventEnum event, GlobalParams& globals)
 			break;
 		case USB_PLUGGED_IN:
 			globals.setOldState(this);
-			std::cout << "? 11 1" << std::endl;
+			//cout << "? 11 1" << endl;
+			cout << "? 100 " << UsbView::getInstance()->getId() << endl;
 			return UsbView::getInstance();
 	}
 	
 	return this;
+}
+
+int InfoView::getId()
+{
+	return 3;
 }

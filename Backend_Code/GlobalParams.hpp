@@ -28,12 +28,15 @@ public:
 	State* getOldState();
 	void setMountpoint(std::string);
 	std::string getMountpoint();
-	void nextSelect();
+	bool nextSelect();
 	void previousSelect();
 	void loadSelection();
 	void togglePlayer();
 	std::string getCurrentDirectory();
-	static void secondsCb(int, int*);
+	static void SecondsHandler(int, int*);
+	static void EofHandler(GlobalParams*);
+	void loadNextSong();
+	void seek(int);
 };
 
 #endif

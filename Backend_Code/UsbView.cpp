@@ -46,11 +46,9 @@ State* UsbView::sendEvent(EventEnum event, GlobalParams& globals) {
 			break;
 		case WHEEL_TURN_R:
 			globals.nextSelect();
-			std::cout << "? 20 1" << std::endl;
 			break;
 		case WHEEL_TURN_L:
 			globals.previousSelect();
-			std::cout << "? 20 -1" << std::endl;
 			break;
 		case WHEEL_PRESSED:
 			globals.loadSelection();
@@ -59,18 +57,26 @@ State* UsbView::sendEvent(EventEnum event, GlobalParams& globals) {
 			// TODO spulen
 			// std::cout << "? 21 " << control_daten->wheel_direction << std::endl;
 			// nextTitle
+			globals.seek(1);
 			break;
 		case WHEEL_DIR_L:
 			// TODO rückwärts spulen
+			globals.seek(-1);
 			break;
 		case USB_PLUGGED_IN:
 			// Stay in this view;
 			return this;
 			break;
 		case USB_PLUGGED_OUT:
-			std::cout << "? 11 1" << std::endl;
+			//std::cout << "? 11 1" << std::endl;
+			std::cout << "? 100 " << globals.getOldState()->getId() << std::endl;
 			return globals.getOldState();
 			break;
 	}
 	return this;
+}
+
+int UsbView::getId()
+{
+	return 50;
 }
