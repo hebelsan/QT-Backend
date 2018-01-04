@@ -28,7 +28,7 @@ Item {
         height: 18
         anchors.top: parent.top
         anchors.left: parent.left
-        anchors.leftMargin: -4
+        anchors.leftMargin: -7
         source: "bilder/UsbView/Playposition.png"
     }
     Text {

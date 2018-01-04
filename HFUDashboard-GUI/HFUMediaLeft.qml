@@ -101,7 +101,7 @@ Item{
                     progressBar.fullProgressBar.width =
                             (progressBar.fullProgressBar.parent.width / musicState.titleDuration) * musicState.currentPlayTimeSeconds
                     progressBar.progressButton.anchors.leftMargin =
-                            (progressBar.progressButton.parent.width / musicState.titleDuration) * musicState.currentPlayTimeSeconds
+                            (progressBar.progressButton.parent.width / musicState.titleDuration) * musicState.currentPlayTimeSeconds - 7
                 }
             }
         }

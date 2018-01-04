@@ -75,7 +75,10 @@ Item {
     }
 
     function movePlayTime(seconds) {
-        setCurrentTime(seconds);
+        if (seconds > titleDuration)
+            setCurrentTime(0);
+        else
+            setCurrentTime(seconds);
         musicState.musicProgressTimerStarted()
     }
 }
