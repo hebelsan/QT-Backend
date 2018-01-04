@@ -156,3 +156,42 @@ void GlobalParams::loadNextSong()
 		}
 	}
 }
+
+void GlobalParams::seek(int direction)
+{
+	double rate = player.getPlaybackRate();
+	
+	if(direction > 0)
+	{
+		if((int)rate == (int)1.0)
+		{
+			player.advancedSeek(2.5);
+			cout << "? 28 1" << endl;
+		}
+		else if(rate > 1.0)
+		{
+			player.advancedSeek(rate + 0.5);
+		}
+		else
+		{
+			player.advancedSeek(1.0);
+		}
+	} else if(direction < 0)
+	{
+		if((int)rate == (int)1.0)
+		{
+			player.advancedSeek(-2.0);
+			cout << "? 28 -1" << endl;
+		}
+		else if(rate < 1.0)
+		{
+			player.advancedSeek(rate - 0.5);
+		}
+		else 
+		{
+			player.advancedSeek(1.0);
+			cout << "? 28 0" << endl;
+		}
+	}
+	else player.advancedSeek(1.0);
+}

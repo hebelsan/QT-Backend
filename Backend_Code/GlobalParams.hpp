@@ -36,6 +36,7 @@ public:
 	static void SecondsHandler(int, int*);
 	static void EofHandler(GlobalParams*);
 	void loadNextSong();
+	void seek(int);
 };
 
 #endif

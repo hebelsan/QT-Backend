@@ -8,7 +8,7 @@ static EventEnum toEventEnum(std::string, bool&, std::regex&);
 
 int main (int argc, char** argv)
 {
-	std::string regexp = "^[udMmsnpvVrR](\\s(([a-z^:/?#]+)://)?(/(/?[a-zA-Z0-9]+(\\\\\\s)*)+))?\\r?\\n?";
+	std::string regexp = "^[udMmsScnpvV](\\s(([a-z^:/?#]+)://)?(/(/?[a-zA-Z0-9]+(\\\\\\s)*)+))?\\r?\\n?";
 	std::regex validator(regexp);
 	Controller *c = Controller::getInstance();
 	bool run = true;
@@ -53,8 +53,8 @@ static EventEnum toEventEnum(std::string text, bool& run, std::regex& validator)
 			case 'M':
 				// unmounted
 				return USB_PLUGGED_OUT;
-			case 's':
-				// select
+			case 'c':
+				// select / choose
 				return WHEEL_PRESSED;
 			case 'n':
 				// next
@@ -66,9 +66,9 @@ static EventEnum toEventEnum(std::string text, bool& run, std::regex& validator)
 				return BUTTON_A;
 			case 'V':
 				return BUTTON_Y;
-			case 'r':
+			case 's':
 				return WHEEL_DIR_R;
-			case 'R':
+			case 'S':
 				return WHEEL_DIR_L;
 		}
 	}

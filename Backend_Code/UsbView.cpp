@@ -57,9 +57,11 @@ State* UsbView::sendEvent(EventEnum event, GlobalParams& globals) {
 			// TODO spulen
 			// std::cout << "? 21 " << control_daten->wheel_direction << std::endl;
 			// nextTitle
+			globals.seek(1);
 			break;
 		case WHEEL_DIR_L:
 			// TODO rückwärts spulen
+			globals.seek(-1);
 			break;
 		case USB_PLUGGED_IN:
 			// Stay in this view;
