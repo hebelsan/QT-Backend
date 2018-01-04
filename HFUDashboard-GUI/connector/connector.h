@@ -57,6 +57,12 @@ signals:
     void dashboardRollerUpFrameReceived();
     void dashboardRollerDownFrameReceived();
 
+    void setStartView();
+    void setCarCamView();
+    void setInfoView();
+    void setPhoneView();
+    void setUsbView();
+
     // media
     void volumeUpFrameReceived();
     void volumeDownFrameReceived();

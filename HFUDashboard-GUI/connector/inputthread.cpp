@@ -126,6 +126,24 @@ void InputThread::run() {
                 emit creader -> currentTitleSeconds(value);
                 break;
             }
+            case 100:{
+                //                1		-> Start-View
+                //                2		-> CarCam-View (Momentan NavView)
+                //                3		-> Info-View
+                //                4		-> Phone-View
+                //                50 	-> USB-View
+                if (value == 1)
+                    emit creader -> setStartView();
+                if (value == 2)
+                    emit creader -> setCarCamView();
+                if (value == 3)
+                    emit creader -> setInfoView();
+                if (value == 4)
+                    emit creader -> setPhoneView();
+                if (value == 50)
+                    emit creader -> setUsbView();
+                break;
+            }
           }
         } else if(sscanf(buffer, "* %[^\n]s", files)==1) {
             qInfo(files);

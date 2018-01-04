@@ -65,12 +65,19 @@ Item {
     signal speedSignal(int speed)
 
     function setLeftViewToMedia() {
-        setMediaLeft();
-        mediaItem.pos = 0;
-        navItem.pos = 1;
-        infoItem.pos = 2;
-        phoneItem.pos = 3;
-        setProbs(mediaItem);
+        setLeftView(0);
+    }
+
+    function setLeftViewToPhone() {
+        setLeftView(1);
+    }
+
+    function setLeftViewToInfo() {
+        setLeftView(2);
+    }
+
+    function setLeftViewToNav() {
+        setLeftView(3);
     }
 
     function setShowVolume(state) {

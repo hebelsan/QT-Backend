@@ -220,6 +220,42 @@ ApplicationWindow {
     Item {
         Connections {
             target: connector
+            onSetStartView: {
+                if (usbView.visible == false) {
+                    canEventSink.setLeftViewToMedia();
+                } else {
+                    connector.switchUsbMediaMode();
+                    canEventSink.setLeftViewToMedia();
+                }
+            }
+            onSetCarCamView: {
+                if (usbView.visible == false) {
+                    canEventSink.setLeftViewToNav();
+                } else {
+                    connector.switchUsbMediaMode();
+                    canEventSink.setLeftViewToMedia();
+                }
+            }
+            onSetInfoView: {
+                if (usbView.visible == false) {
+                    canEventSink.setLeftViewToInfo()
+                } else {
+                    connector.switchUsbMediaMode();
+                    canEventSink.setLeftViewToMedia();
+                }
+            }
+            onSetPhoneView: {
+                if (usbView.visible == false) {
+                    canEventSink.setLeftViewToPhone()
+                } else {
+                    connector.switchUsbMediaMode();
+                    canEventSink.setLeftViewToMedia();
+                }
+            }
+            onSetUsbView: {
+                if (usbView.visible == false)
+                    connector.switchUsbMediaMode();
+            }
             onSpeedFrameReceived: {
                 canEventSink.setSpeed(speed);
             }
