@@ -304,6 +304,15 @@ ApplicationWindow {
             onCurrentTitleSeconds: {
                 musicState.movePlayTime(seconds);
             }
+            onMusicFastForward: {
+                connector.musicForwardButtonPressed();
+            }
+            onMusicPlayTimeNormal: {
+                connector.musicWheelDirectionNormal();
+            }
+            onMusicWindBack: {
+                connector.musicBackwardButtonPressed();
+            }
         }
     }
 

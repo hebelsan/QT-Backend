@@ -114,13 +114,24 @@ void InputThread::run() {
             }
             case 22:{
                 // Check if pressed, sonst doppelte auslösung des Buttons
-                if(value == 1)
+                if (value == 1)
                     // set to playing
                     emit creader -> musicPlayButtonPressed();
                 else if (value == 0)
                     // set to pause
                     emit creader -> musicPauseButtonPressed();
                  break;
+            }
+            case 28:{
+                // 1 vorspulen
+                // 0 normal
+                // -1 zurückspulen
+                if (value == 1)
+                    emit creader -> musicFastForward();
+                if (value == 0)
+                    emit creader -> musicPlayTimeNormal();
+                if (value == -1)
+                    emit creader -> musicWindBack();
             }
             case 27:{
                 emit creader -> currentTitleSeconds(value);

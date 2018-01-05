@@ -220,21 +220,17 @@ Item {
 
 
     function audioWheelTurnedLeft() {
-        if (usbView.visible) {
-            if (musicList.currentIndex > 0) {
-                musicList.currentIndex--;
-            }
-            setMusicTitleCache();
+        if (musicList.currentIndex > 0) {
+            musicList.currentIndex--;
         }
+        setMusicTitleCache();
     }
 
     function audioWheelTurnedRight() {
-        if (usbView.visible) {
-            if (musicList.currentIndex < musicList.count-1) {
-                musicList.currentIndex++;
-            }
-            setMusicTitleCache();
+        if (musicList.currentIndex < musicList.count-1) {
+            musicList.currentIndex++;
         }
+        setMusicTitleCache();
     }
 
     function setNewFileList(filesStructure) {
