@@ -11,6 +11,19 @@ Item{
 
     id: hfuNav
 
+    Item {
+        id: navWindow
+        x: 185
+        y: 50
+        width: 250
+        height: parent.height - 50
+
+        Column {
+            Image { source: "image://colors/yellow" }
+            Image { source: "image://colors/red" }
+        }
+    }
+
 /*
     NumberAnimation on opacity {
         id: createAnimation

@@ -13,6 +13,7 @@
 #include "hfuenums.h"
 #include "connector/connector.h"
 #include "connector/taglibmanager.h"
+#include "colorimageprovider.h"
 #include "main.h"
 
 QMLSlot::QMLSlot(QObject *parent) : QObject(parent)
@@ -46,25 +47,17 @@ int main(int argc, char *argv[])
     QFont newFont("Ubuntu Mono", 11, QFont::Normal, false);
     app.setFont(newFont);
 
-//    QFont newFont("Courier", 8, QFont::Bold, true);
-//    app.setFont(newFont);
-
-    //qRegisterMetaType<HFUEnums::CarWarning>("HFUEnums::CarWarning");
     qmlRegisterUncreatableType<CruseControl>("hfu.enums.CruseControl", 1, 0, "CruseControl", "You cannot create an instance of the Enums.");
     qmlRegisterUncreatableType<Indicators>("hfu.enums.IndicatorLight", 1, 0, "IndicatorLight", "You cannot create an instance of the Enums.");
     qmlRegisterUncreatableType<Gears>("hfu.enums.Gear", 1, 0, "Gear", "You cannot create an instance of the Enums.");
 
-    //qmlRegisterType<HFUEnums::CarWarnings>("hfu.CarWarnings", 1, 0, "HFUCarWarnings");
-    // qmlRegisterType<TaglibManager>("test", 1, 0, "TaglibManager");
     QQmlApplicationEngine engine;
 
     Connector *creader = Connector::getInstance();
     engine.rootContext()->setContextProperty("connector", creader);
+    engine.addImageProvider(QLatin1String("colors"), ColorImageProvider::getInstance());
     engine.load(QUrl(QLatin1String("qrc:/HFUDashboardBase.qml")));
 
-    //creader->setKph(100);
-    //creader->turnSignalTest("both");
-    //creader->menuTest();
 
     /*logging for delay test
     QObject *rootObject = engine.rootObjects().first();

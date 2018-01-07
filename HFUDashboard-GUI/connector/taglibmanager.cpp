@@ -2,6 +2,7 @@
 #include <iostream>
 #include <QDebug>
 #include "connector/connector.h"
+#include "colorimageprovider.h"
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -15,11 +16,13 @@ TaglibManager::TaglibManager(QObject *parent) :
 
 void TaglibManager::setFiles(char * files) {
     Connector *creader = Connector::getInstance();
+    ColorImageProvider *musicCoverConnector = ColorImageProvider::getInstance();
     QVariantList tagList;
     QStringList stringEntrys;
     QStringList titelList;
     QStringList artistList;
     QList<QVariant> titleLengthSeconds;
+    QHash<QString, QImage> titleCovers;
 
     QString path = "";
     QString uri = "";
@@ -74,6 +77,12 @@ void TaglibManager::setFiles(char * files) {
                 artistList.append(artist);
         }
     }
+
+    // TEST
+    QPixmap pixmap(100, 100);
+    pixmap.fill(QColor("green").rgba());
+    titleCovers.insert("test", pixmap.toImage());
+    musicCoverConnector->setCovers(titleCovers);
 
     tagList << QVariant(titelList);
     tagList << QVariant(artistList);

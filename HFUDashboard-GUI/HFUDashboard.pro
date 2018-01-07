@@ -17,7 +17,8 @@ SOURCES += main.cpp \
     connector/inputthread.cpp \
     connector/smooththread.cpp \
     connector/timethread.cpp \
-    connector/taglibmanager.cpp
+    connector/taglibmanager.cpp \
+    colorimageprovider.cpp
 
 RESOURCES += qml.qrc \
     dev.qrc
@@ -41,7 +42,8 @@ HEADERS += \
     connector/inputthread.h \
     connector/smooththread.h \
     connector/timethread.h \
-    connector/taglibmanager.h
+    connector/taglibmanager.h \
+    colorimageprovider.h
 
 #test pi
 target.path = /home/pi/
