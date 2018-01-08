@@ -215,6 +215,7 @@ Item {
         if (usbView.musicFilesList.length > 0) {
             musicState.titleCache = usbView.musicFilesList[0][musicList.currentIndex];
             musicState.tilteDurationCache = usbView.musicFilesList[2][musicList.currentIndex];
+            musicState.coverPathCache = "image://cover/" + usbView.musicFilesList[3][musicList.currentIndex];
         }
     }
 
@@ -235,22 +236,25 @@ Item {
 
     function setNewFileList(filesStructure) {
         musicState.titleCache = filesStructure[0][0];
+        musicState.tilteDurationCache = filesStructure[2][0];
+        musicState.coverPathCache = "image://cover/" + filesStructure[3][0];
         usbView.musicFilesList = filesStructure;
         musicList.model.clear();
         for (var i=0; i < filesStructure[0].length; i++) {
-            appendEntry(filesStructure[0][i], filesStructure[1][i])
+            appendEntry(filesStructure[0][i], filesStructure[1][i], filesStructure[3][i])
         }
     }
 
-    function appendEntry(titleName, artistName) {
+    function appendEntry(titleName, artistName, coverId) {
+        var coverPath = "image://cover/" + coverId;
         if (artistName === "")
             musicList.model.append({ "title": titleName,
                                    "interpreter": artistName,
-                                   "image": "bilder/UsbView/Directory.png"})
+                                   "image": coverPath})
         else
             musicList.model.append({ "title": titleName,
                                "interpreter": artistName,
-                               "image": "bilder/UsbView/NotenSchluessel.jpg"})
+                               "image": coverPath})
     }
 }
 

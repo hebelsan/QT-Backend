@@ -15,6 +15,7 @@ Item {
     property int titleDuration: 0
     property int currentPlayTimeSeconds: 0
     property string coverPath: "bilder/UsbView/NotenSchluessel.jpg"
+    property string coverPathCache: "";
 
     function setShowVolume(state) {
         showVolume = state;

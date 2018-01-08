@@ -300,6 +300,7 @@ ApplicationWindow {
             onMusicPlayButtonPressed: {
                 musicState.title = musicState.titleCache;
                 musicState.titleDuration = musicState.tilteDurationCache;
+                musicState.coverPath = musicState.coverPathCache;
             }
             onCurrentTitleSeconds: {
                 musicState.movePlayTime(seconds);

@@ -55,7 +55,7 @@ int main(int argc, char *argv[])
 
     Connector *creader = Connector::getInstance();
     engine.rootContext()->setContextProperty("connector", creader);
-    engine.addImageProvider(QLatin1String("colors"), ColorImageProvider::getInstance());
+    engine.addImageProvider(QLatin1String("cover"), ColorImageProvider::getInstance());
     engine.load(QUrl(QLatin1String("qrc:/HFUDashboardBase.qml")));
 
 

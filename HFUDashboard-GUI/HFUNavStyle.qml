@@ -19,8 +19,8 @@ Item{
         height: parent.height - 50
 
         Column {
-            Image { source: "image://colors/yellow" }
-            Image { source: "image://colors/red" }
+            Image { source: "image://cover/yellow" }
+            Image { source: "image://cover/red" }
         }
     }
 

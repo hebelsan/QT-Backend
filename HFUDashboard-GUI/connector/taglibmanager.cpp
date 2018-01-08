@@ -8,6 +8,11 @@
 #include <sys/stat.h>
 #include <fileref.h>
 #include <tag.h>
+#include<id3v2tag.h>
+#include<mpegfile.h>
+#include<id3v2frame.h>
+#include<id3v2header.h>
+#include <attachedpictureframe.h>
 
 TaglibManager::TaglibManager(QObject *parent) :
     QObject(parent)
@@ -23,6 +28,7 @@ void TaglibManager::setFiles(char * files) {
     QStringList artistList;
     QList<QVariant> titleLengthSeconds;
     QHash<QString, QImage> titleCovers;
+    QStringList coverIds;
 
     QString path = "";
     QString uri = "";
@@ -53,6 +59,9 @@ void TaglibManager::setFiles(char * files) {
             titelList.append(dirName);
             artistList.append("");
             titleLengthSeconds.append((int)0);
+            QImage *dirCover = new QImage(":/bilder/UsbView/Directory.png");
+            titleCovers.insert("DIR", *dirCover);
+            coverIds.append("DIR");
         }
         else
         {
@@ -66,26 +75,50 @@ void TaglibManager::setFiles(char * files) {
             int seconds = properties->length();
             titleLengthSeconds.append((int)seconds);
 
+            // append title
             if (title.isEmpty())
+            {
                 titelList.append(fileName);
-            else
+            } else
+            {
                 titelList.append(title);
+            }
 
+            // append artist
             if (artist.isEmpty())
+            {
                 artistList.append("unknown");
-            else
+            } else
+            {
                 artistList.append(artist);
+            }
+
+            // append cover
+            TagLib::MPEG::File file(const_cast<char*>(uri.toStdString().c_str()));
+            TagLib::ID3v2::Tag *m_tag = file.ID3v2Tag(true);
+            TagLib::ID3v2::FrameList frameList = m_tag->frameList("APIC");
+
+            if(frameList.isEmpty())
+            {
+                QImage *standartTitleCover = new QImage(":/bilder/UsbView/NotenSchluessel.jpg");
+                titleCovers.insert(titelList.at(i) + artistList.at(i), *standartTitleCover);
+                coverIds.append(titelList.at(i) + artistList.at(i));
+            } else
+            {
+                TagLib::ID3v2::AttachedPictureFrame *coverImg = static_cast<TagLib::ID3v2::AttachedPictureFrame *>(frameList.front());
+                QImage coverQImg;
+                coverQImg.loadFromData((const uchar *) coverImg->picture().data(), coverImg->picture().size());
+                titleCovers.insert(titelList.at(i) + artistList.at(i), coverQImg);
+                coverIds.append(titelList.at(i) + artistList.at(i));
+            }
         }
     }
 
-    // TEST
-    QPixmap pixmap(100, 100);
-    pixmap.fill(QColor("green").rgba());
-    titleCovers.insert("test", pixmap.toImage());
     musicCoverConnector->setCovers(titleCovers);
 
     tagList << QVariant(titelList);
     tagList << QVariant(artistList);
     tagList << QVariant(titleLengthSeconds);
+    tagList << QVariant(coverIds);
     emit creader -> sendNewMusicList(tagList);
 }
