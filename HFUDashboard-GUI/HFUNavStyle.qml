@@ -1,7 +1,6 @@
 import QtQuick 2.7
 import QtQuick.Controls.Styles 1.4
-//import QtLocation 5.5
-//import QtPositioning 5.2
+import QtWebEngine 1.3
 
 /**
   * Has no function right no could be implemented in a later version
@@ -18,9 +17,13 @@ Item{
         width: 250
         height: parent.height - 50
 
-        Column {
-            Image { source: "image://cover/yellow" }
-            Image { source: "image://cover/red" }
+        WebEngineView {
+            id: webView
+            width: parent.width
+            height: parent.height
+            anchors.fill: parent
+            zoomFactor: 0.25
+            url: "https://www.hs-furtwangen.de"
         }
     }
 
