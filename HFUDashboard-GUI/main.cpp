@@ -7,7 +7,7 @@
 #include <QDateTime>
 #include <QFont>
 #include <QFontDatabase>
-#include <QtWebEngine/QtWebEngine>
+//#include <QtWebEngine/QtWebEngine>
 
 #include <unistd.h>
 
@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
 
     QGuiApplication app(argc, argv);
 
-    QtWebEngine::initialize();
+//    QtWebEngine::initialize();
 
     QFontDatabase::addApplicationFont("fonts/UbuntuMono-R.ttf");
     QFont newFont("Ubuntu Mono", 11, QFont::Normal, false);

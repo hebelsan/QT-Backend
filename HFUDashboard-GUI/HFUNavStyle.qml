@@ -1,6 +1,6 @@
 import QtQuick 2.7
 import QtQuick.Controls.Styles 1.4
-import QtWebEngine 1.3
+//import QtWebEngine 1.3
 
 /**
   * Has no function right no could be implemented in a later version
@@ -10,22 +10,22 @@ Item{
 
     id: hfuNav
 
-    Item {
-        id: navWindow
-        x: 185
-        y: 50
-        width: 250
-        height: parent.height - 50
+//    Item {
+//        id: navWindow
+//        x: 185
+//        y: 50
+//        width: 250
+//        height: parent.height - 50
 
-        WebEngineView {
-            id: webView
-            width: parent.width
-            height: parent.height
-            anchors.fill: parent
-            zoomFactor: 0.25
-            url: "https://www.hs-furtwangen.de"
-        }
-    }
+//        WebEngineView {
+//            id: webView
+//            width: parent.width
+//            height: parent.height
+//            anchors.fill: parent
+//            zoomFactor: 0.25
+//            url: "https://www.hs-furtwangen.de"
+//        }
+//    }
 
 /*
     NumberAnimation on opacity {

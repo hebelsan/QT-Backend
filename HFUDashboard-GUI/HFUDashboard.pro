@@ -1,5 +1,5 @@
 QT += qml quick
-QT += webengine
+#QT += webengine
 
 #QT += network positioning location # maps
 
