@@ -30,7 +30,7 @@ model.o: model.hpp model.cpp can_data.o
 lenkrad.o: lenkrad.hpp lenkrad.cpp
 	$(CC) -c $(INCPATH) $(LIBEVDEV) lenkrad.hpp lenkrad.cpp $(LIBDEF)
 FileManager.o: FileManager.hpp FileManager.cpp
-	$(CC) -c $(LIBDEF) FileManager.hpp FileManager.cpp $(TAGLIB)
+	$(CC) -c $(LIBDEF) FileManager.hpp FileManager.cpp $(TAGLIB) -std=c++11
 GlobalParams.o: GlobalParams.hpp GlobalParams.cpp
 	$(CC) -c $(LIBDEF)  State.hpp GlobalParams.cpp -std=gnu++11
 GstPlayer.o: GstPlayer.hpp GstPlayer.cpp

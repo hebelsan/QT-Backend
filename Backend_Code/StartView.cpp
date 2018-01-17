@@ -32,7 +32,7 @@ State* StartView::sendEvent(EventEnum event, GlobalParams &globals){
 			break;
 		case RSB_TOP:
 			globals.setOldState(this);
-			cout << "? 11 1" << endl;
+			cout << "? 100 " << UsbView::getInstance()->getId() << endl;
 			return UsbView::getInstance();
 			break;
 		case BUTTON_A:
