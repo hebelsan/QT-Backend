@@ -57,7 +57,7 @@ void GlobalParams::setMountpoint(std::string point)
 	mountpoint = point;
 	if(point != "") dirContent = fileManager.getDirContent(mountpoint);
 	else return;
-	std::cout << "* " << fileManager.getContentString(*dirContent) << std::endl;
+	std::cout << "* " << fileManager.getMP3Information(*dirContent, getCurrentDirectory()) << std::endl;
 }
 
 void GlobalParams::previousSelect()
@@ -124,7 +124,7 @@ void GlobalParams::loadSelection()
 		currentSelect = 0;
 		delete dirContent;
 		dirContent = fileManager.getDirContent(getCurrentDirectory());
-		std::cout << "* " << fileManager.getContentString(*dirContent) << getCurrentDirectory() << "////" << std::endl;
+		std::cout << "* " << fileManager.getMP3Information(*dirContent, getCurrentDirectory()) << std::endl;
 	}
 	std::cout << "New Directory: " << getCurrentDirectory() << std::endl;
 }

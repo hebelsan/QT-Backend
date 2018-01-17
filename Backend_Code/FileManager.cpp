@@ -99,7 +99,7 @@ bool sortFunction(string content1, string content2)
 	return content1.compare(content2) < 0;
 }
 
-std::string FileManager::getMP3Information(std::vector<string> filesInString) {
+std::string FileManager::getMP3Information(std::vector<string> filesInString, std::string path) {
 
     vector <string> titelList;
     vector <string> artistList;
@@ -107,12 +107,7 @@ std::string FileManager::getMP3Information(std::vector<string> filesInString) {
     // QHash<QString, QImage> titleCovers;
     vector <string> coverIds;
 
-    std::string path = "";
     std::string uri = "";
-
-    // the last entry is the path
-    path = filesInString.back();
-	filesInString.pop_back();
 
     for (int i = 0; i < filesInString.size(); i++)
     {
@@ -160,7 +155,7 @@ std::string FileManager::getMP3Information(std::vector<string> filesInString) {
     std::string result;
 	for (int i = 0; i < filesInString.size(); i++) 
 	{
-		result += titelList[i] + "||||" + artistList[i] + "||||" + std::to_string(titleLengthSeconds[i]) + "////";
+		result += titelList[i] + "||||" + artistList[i] + "||||" + std::to_string(titleLengthSeconds[i]) + "||||"+ "////";
 	}
 	return result;		
 }
