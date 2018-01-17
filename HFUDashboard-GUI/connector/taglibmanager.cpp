@@ -165,12 +165,12 @@ void TaglibManager::deliverUsbViewInformation(char *files) {
         titelList.append(info.at(0));
         artistList.append(info.at(1));
         titleLengthSeconds.append(info.at(2).toInt());
-        if (info.at(3) == 'D') {
+        if (info.at(3) == QString('D')) {
             coverIds.append("Directory");
-        } else if (info.at(3) == 'M') {
+        } else if (info.at(3) == QString('M')) {
             coverIds.append("Music");
-        } else if (info.at(3) == 'A') {
-            coverIds.append(info.at(0))
+        } else if (info.at(3) == QString('A')) {
+            coverIds.append(info.at(0));
         }
     }
 
