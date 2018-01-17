@@ -158,7 +158,7 @@ void InputThread::run() {
           }
         } else if(sscanf(buffer, "* %[^\n]s", files)==1) {
             qInfo(files);
-            TaglibManager.setFiles(files);
+            TaglibManager.deliverUsbViewInformation(files);
         }
         else{
             for(int i = 0; buffer[i] != '\n'; i++){

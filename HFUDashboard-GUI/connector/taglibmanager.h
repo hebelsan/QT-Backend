@@ -9,6 +9,7 @@ class TaglibManager :  public QObject {
 public:
     explicit TaglibManager(QObject *parent = 0);
     Q_INVOKABLE void setFiles(char *);
+    Q_INVOKABLE void deliverUsbViewInformation(char *);
 private:
     QVariantList m_imagesPathsLists;
 };
