@@ -246,7 +246,13 @@ Item {
     }
 
     function appendEntry(titleName, artistName, coverId) {
-        var coverPath = "image://cover/" + coverId;
+        var coverPath;
+        if (coverId === "Music" || coverId === "Directory") {
+            coverPath = "image://cover/" + coverId;
+        } else {
+            coverPath = "/tmp/QTCovers/" + coverId;
+        }
+
         if (artistName === "")
             musicList.model.append({ "title": titleName,
                                    "interpreter": artistName,
