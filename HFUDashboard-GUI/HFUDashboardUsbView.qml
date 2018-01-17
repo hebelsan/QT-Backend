@@ -251,7 +251,7 @@ Item {
             coverPath = "image://cover/" + coverId;
         } else {
             console.log("OBACHT");
-            coverPath = "/tmp/QTCovers/" + coverId;
+            coverPath = "file:////tmp/QTCovers/" + coverId;
         }
 
         if (artistName === "")
