@@ -6,8 +6,8 @@ QT += qml quick
 QMAKE_CXXFLAGS += -std=c++0x -pthread
 LIBS += -pthread
 # libtag
-LIBS +=  -ltag -lz
-INCLUDEPATH  += /usr/local/include/taglib
+# LIBS +=  -ltag -lz
+# INCLUDEPATH  += /usr/local/include/taglib
 
 CONFIG += c++11
 
