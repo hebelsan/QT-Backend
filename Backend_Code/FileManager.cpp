@@ -1,12 +1,12 @@
+#include "FileManager.hpp"
+
 #include <dirent.h>
 #include <iostream>
-#include <string>
 #include <sys/types.h>
 #include <sys/stat.h>
 
 #include <fileref.h>
 #include <tag.h>
-#include "FileManager.hpp"
 using namespace std;
 
 bool sortFunction(string content1, string content2);
@@ -97,4 +97,70 @@ bool sortFunction(string content1, string content2)
 	if(content1 == "..") return 1;
 	else if(content2 == "..") return 0;
 	return content1.compare(content2) < 0;
+}
+
+std::string FileManager::getMP3Information(std::vector<string> filesInString) {
+
+    vector <string> titelList;
+    vector <string> artistList;
+    vector <int> titleLengthSeconds;
+    // QHash<QString, QImage> titleCovers;
+    vector <string> coverIds;
+
+    std::string path = "";
+    std::string uri = "";
+
+    // the last entry is the path
+    path = filesInString.back();
+	filesInString.pop_back();
+
+    for (int i = 0; i < filesInString.size(); i++)
+    {
+        // remove identifier DIR: or FILE:
+        if (!isFile(filesInString[i])) // DIRECTORY
+        {
+            std::string dirName = removePrefix(filesInString[i]);
+            titelList.push_back(dirName);
+            artistList.push_back("");
+            titleLengthSeconds.push_back((int)0);
+        }
+        else
+        {
+            std::string fileName = removePrefix(filesInString[i]);
+            uri = path + "/" + fileName;
+            TagLib::FileRef f(const_cast<char*>(uri.c_str()));
+            TagLib::AudioProperties *properties = f.audioProperties();
+            TagLib::Tag *tag = f.tag();
+            std::string title = tag->title().toCString();
+            std::string artist = tag->artist().toCString();
+            int seconds = properties->length();
+            titleLengthSeconds.push_back((int)seconds);
+
+            // append title
+            if (title.empty())
+            {
+                titelList.push_back(fileName);
+            } else
+            {
+                titelList.push_back(title);
+            }
+
+            // append artist
+            if (artist.empty())
+            {
+                artistList.push_back("unknown");
+            } else
+            {
+                artistList.push_back(artist);
+            }
+
+        }
+    }
+
+    std::string result;
+	for (int i = 0; i < filesInString.size(); i++) 
+	{
+		result += titelList[i] + "||||" + artistList[i] + "||||" + std::to_string(titleLengthSeconds[i]) + "////";
+	}
+	return result;		
 }
