@@ -15,7 +15,7 @@ public:
 	bool isFile(std::string content);
 	void cropDir(std::string& dir);
 	static std::string removePrefix(std::string);
-	std::string getMP3Information(std::vector<std::string>);
+	std::string getMP3Information(std::vector<std::string>, std::string);
 };
 
 
