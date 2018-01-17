@@ -1,18 +1,18 @@
 # Definition/Declarations of MAKE-Variables
-OBJCNTRL=	StartView.o UsbView.o PhoneView.o CarCamView.o InfoView.o GstPlayer.o FileManager.o State.o Controller.o GlobalParams.o
-OBJ		= model.o lenkrad.o can_data.o can_read.o Car_status.o Motor_simulation.o control.o Mount.o $(OBJCNTRL)
+OBJCNTRL	= StartView.o UsbView.o PhoneView.o CarCamView.o InfoView.o GstPlayer.o FileManager.o State.o Controller.o GlobalParams.o
+OBJ			= model.o lenkrad.o can_data.o can_read.o Car_status.o Motor_simulation.o control.o Mount.o $(OBJCNTRL)
 LIBEVDEV	= /home/pi/libevdev/libevdev/libevdev.o
-CC		= g++ -g
-RM		= rm -f
+CC			= g++ -g
+RM			= rm -f
 LIBDEF		= `pkg-config --cflags --libs gstreamer-1.0` -ludev
-TAGLIB	= `pkg-config --cflags --libs taglib` -lz
+TAGLIB		= `pkg-config --cflags --libs taglib` -lz
 INCPATH		= -I /home/pi/libevdev/libevdev
 
 # targets:
 all: HFUDashboard_backend
 
 HFUDashboard_backend: $(OBJ) GstPlayer.o
-	$(CC) -o HFUDashboard_backend $(INCPATH) $(LIBEVDEV) $(OBJ) GstPlayer.o $(LIBDEF) main.cpp $(TAGLIB)
+	$(CC) -o HFUDashboard_backend $(INCPATH) $(LIBEVDEV) $(OBJ) $(LIBDEF) main.cpp $(TAGLIB)
 	@echo HFUDashboard_backend erfolgreich gebaut!
 TestController: TestController.cpp $(OBJCNTRL)
 	$(CC) -o TestController TestController.cpp $(OBJCNTRL) $(LIBDEF) $(TAGLIB) -std=gnu++11
@@ -30,7 +30,7 @@ model.o: model.hpp model.cpp can_data.o
 lenkrad.o: lenkrad.hpp lenkrad.cpp
 	$(CC) -c $(INCPATH) $(LIBEVDEV) lenkrad.hpp lenkrad.cpp $(LIBDEF)
 FileManager.o: FileManager.hpp FileManager.cpp
-	$(CC) -c $(LIBDEF) FileManager.hpp FileManager.cpp $(TAGLIB) -std=c++11
+	$(CC) -c $(LIBDEF) FileManager.hpp FileManager.cpp $(TAGLIB) -std=gnu++11
 GlobalParams.o: GlobalParams.hpp GlobalParams.cpp
 	$(CC) -c $(LIBDEF)  State.hpp GlobalParams.cpp -std=gnu++11
 GstPlayer.o: GstPlayer.hpp GstPlayer.cpp
