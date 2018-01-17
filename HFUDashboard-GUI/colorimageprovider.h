@@ -14,7 +14,13 @@ private:
     QHash<QString, QImage> titleCovers;
 public:
     ColorImageProvider()
-        : QQuickImageProvider(QQuickImageProvider::Image) {}
+        : QQuickImageProvider(QQuickImageProvider::Image)
+    {
+        QImage * musicImage = new QImage(":/bilder/UsbView/NotenSchluessel.jpg");
+        QImage * directoryImage = new QImage(":/bilder/UsbView/Directory.png");
+        titleCovers.insert("Music", *musicImage);
+        titleCovers.insert("Directory", *directoryImage);
+    }
     static ColorImageProvider* getInstance();
     ImageType imageType(){
         return QQmlImageProviderBase::Image;

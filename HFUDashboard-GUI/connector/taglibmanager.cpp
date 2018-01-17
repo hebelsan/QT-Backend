@@ -166,9 +166,9 @@ void TaglibManager::deliverUsbViewInformation(char *files) {
         artistList.append(info.at(1));
         titleLengthSeconds.append(info.at(2).toInt());
         if (info.at(1).isEmpty()) {
-            coverIds.append("Music");
+            coverIds.append("Directory");
         } else {
-            coverIds.append("Dir");
+            coverIds.append("Music");
         }
     }
 
