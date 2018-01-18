@@ -7,6 +7,13 @@
 
 #include <fileref.h>
 #include <tag.h>
+#include <cstring>
+#include<id3v2tag.h>
+#include<mpegfile.h>
+#include<id3v2frame.h>
+#include<id3v2header.h>
+#include <attachedpictureframe.h>
+
 using namespace std;
 
 bool sortFunction(string content1, string content2);
@@ -118,6 +125,7 @@ std::string FileManager::getMP3Information(std::vector<string> filesInString, st
             titelList.push_back(dirName);
             artistList.push_back("");
             titleLengthSeconds.push_back((int)0);
+			coverIds.push_back("D");
         }
         else
         {
@@ -148,14 +156,55 @@ std::string FileManager::getMP3Information(std::vector<string> filesInString, st
             {
                 artistList.push_back(artist);
             }
-
+            // Append cover art
+            coverIds.push_back(readCoverArt(uri, titelList.back()));
         }
     }
 
     std::string result;
 	for (int i = 0; i < filesInString.size(); i++) 
 	{
-		result += titelList[i] + "||||" + artistList[i] + "||||" + std::to_string(titleLengthSeconds[i]) + "||||"+ "////";
+		result += titelList[i] + "||||" + artistList[i] + "||||" + std::to_string(titleLengthSeconds[i]) + "||||"+ coverIds[i] + "////";
 	}
-	return result;		
+	return result;
+}
+
+// Returns whether Cover available (A for available) or not (M for missing)
+string FileManager::readCoverArt(string uri, string name)
+{
+	TagLib::MPEG::File file(const_cast<char*>(uri.c_str()));
+	TagLib::ID3v2::Tag *m_tag = file.ID3v2Tag(true);
+	TagLib::ID3v2::FrameList frameList = m_tag->frameList("APIC");
+
+	if(frameList.isEmpty())
+	{
+		// FALLS KEIN COVER VORHANDEN
+		return "M";
+	} else
+	{
+		
+		FILE *jpegFile;
+		jpegFile = fopen(("/tmp/QTCovers/" + name).c_str(),"wb");
+		unsigned long size;
+		TagLib::ID3v2::AttachedPictureFrame *PicFrame;
+		void *RetImage = NULL, *SrcImage;
+		
+		for(TagLib::ID3v2::FrameList::ConstIterator it = frameList.begin(); it != frameList.end(); ++it)
+		{
+			PicFrame = (TagLib::ID3v2::AttachedPictureFrame *)(*it) ;
+			// extract image (in it’s compressed form)
+			size = PicFrame->picture().size() ;
+			SrcImage = malloc ( size ) ;
+			if ( SrcImage )
+			{
+				memcpy ( SrcImage, PicFrame->picture().data(), size ) ;
+				fwrite(SrcImage, size, 1, jpegFile);
+				fclose(jpegFile);
+				free( SrcImage ) ;
+			}
+		}
+		
+		TagLib::ID3v2::AttachedPictureFrame *coverImg = static_cast<TagLib::ID3v2::AttachedPictureFrame *>(frameList.front());
+		return "A";
+	}
 }
