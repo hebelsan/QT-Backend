@@ -8,7 +8,8 @@
 class FileManager
 {
 private:
-
+	std::string readCoverArt(std::string, std::string);
+	
 public:
 	std::vector<std::string>* getDirContent(std::string path);
 	std::string getContentString(std::vector<std::string>&);
