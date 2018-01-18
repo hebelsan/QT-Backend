@@ -215,7 +215,12 @@ Item {
         if (usbView.musicFilesList.length > 0) {
             musicState.titleCache = usbView.musicFilesList[0][musicList.currentIndex];
             musicState.tilteDurationCache = usbView.musicFilesList[2][musicList.currentIndex];
-            musicState.coverPathCache = "image://cover/" + usbView.musicFilesList[3][musicList.currentIndex];
+            var coverId = usbView.musicFilesList[3][musicList.currentIndex];
+            if (coverId == "Music" || coverId == "Directory" ) {
+                musicState.coverPathCache = "image://cover/" + coverId;
+            } else {
+                musicState.coverPathCache = "file:////tmp/QTCovers/" + coverId;
+            }
         }
     }
 
