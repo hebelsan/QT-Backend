@@ -164,7 +164,7 @@ std::string FileManager::getMP3Information(std::vector<string> filesInString, st
     std::string result;
 	for (int i = 0; i < filesInString.size(); i++) 
 	{
-		result += titelList[i] + "||||" + artistList[i] + "||||" + std::to_string(titleLengthSeconds[i]) + "||||"+ coverIds[i] + "////";
+		result += titelList[i] + "||||" + artistList[i] + "||||" + std::to_string(titleLengthSeconds[i]) + "||||"+ coverIds[i] + "||||"+ "////";
 	}
 	return result;
 }
