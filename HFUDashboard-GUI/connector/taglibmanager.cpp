@@ -160,7 +160,7 @@ void TaglibManager::deliverUsbViewInformation(char *files) {
         {
             fileName = filesInString[i].substr(0, pos);
             info.append(QString::fromStdString(fileName));
-            filesInString[i].erase(0, pos + delimiter1.length());
+            filesInString[i].erase(0, pos + delimiter2.length());
         }
         titelList.append(info.at(0));
         artistList.append(info.at(1));

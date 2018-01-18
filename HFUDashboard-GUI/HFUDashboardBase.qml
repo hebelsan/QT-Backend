@@ -198,13 +198,13 @@ ApplicationWindow {
                 connector.switchUsbMediaMode();
             }
             else if(event.key===Qt.Key_A){
-                connector.musicBackwardButtonPressed();
+                // connector.musicBackwardButtonPressed();
             }
             else if(event.key===Qt.Key_S){
-                connector.musicForwardButtonPressed();
+                // connector.musicForwardButtonPressed();
             }
             else if(event.key===Qt.Key_Z){
-                connector.musicWheelDirectionNormal();
+                // connector.musicWheelDirectionNormal();
             }
             else if(event.key===Qt.Key_Escape){
                 close()
