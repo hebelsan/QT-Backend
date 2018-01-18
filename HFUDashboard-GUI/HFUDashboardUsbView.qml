@@ -237,7 +237,11 @@ Item {
     function setNewFileList(filesStructure) {
         musicState.titleCache = filesStructure[0][0];
         musicState.tilteDurationCache = filesStructure[2][0];
-        musicState.coverPathCache = "image://cover/" + filesStructure[3][0];
+        if (filesStructure[3][0] === "Music" || filesStructure[3][0] === "Directory") {
+            musicState.coverPathCache = "image://cover/" + filesStructure[3][0];
+        } else {
+            musicState.coverPathCache = "file:////tmp/QTCovers/" + filesStructure[3][0];
+        }
         usbView.musicFilesList = filesStructure;
         musicList.model.clear();
         for (var i=0; i < filesStructure[0].length; i++) {
