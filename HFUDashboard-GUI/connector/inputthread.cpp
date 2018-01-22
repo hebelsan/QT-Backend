@@ -21,7 +21,7 @@ void InputThread::run() {
     TaglibManager TaglibManager;
 
 
-    char buffer[1024]; unsigned int identifier; int value; char files[1024];
+    char buffer[1024]; unsigned int identifier; int value; char files[4096];
     while(1){
         if(fgets(buffer, sizeof(buffer), stdin) == NULL){
             continue;

@@ -259,7 +259,6 @@ Item {
         if (coverId === "Music" || coverId === "Directory") {
             coverPath = "image://cover/" + coverId;
         } else {
-            console.log("OBACHT");
             coverPath = "file:////tmp/QTCovers/" + coverId;
         }
 
