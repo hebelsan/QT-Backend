@@ -32,10 +32,6 @@ State* UsbView::sendEvent(EventEnum event, GlobalParams& globals) {
 			break;
 		case BUTTON_RIGHT:
 			break;
-		case RSB_TOP:
-			return globals.getOldState();
-			// std::cout << "? 11 " << control_daten->rsb_top << std::endl;
-			break;
 		case BUTTON_A:
 			//Volume DOWN
 			globals.decreaseVolume();
