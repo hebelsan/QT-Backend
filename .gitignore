@@ -7,3 +7,4 @@ Backend_Code/core
 build-HFUDashboard-Desktop_Qt_5_7_0_GCC_64bit-Debug/*
 build-HFUDashboard-Rpi3-Debug/*
 *.user
+TestController

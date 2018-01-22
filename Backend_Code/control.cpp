@@ -176,7 +176,7 @@ static void analyseMediaControl(media_control_t *control_daten, Controller *c)
 		}
 		local_media_control.wheel_direction = control_daten->wheel_direction;
 	}
-	if(control_daten->wheel_pressed != local_media_control.wheel_pressed)
+	if(control_daten->wheel_pressed == 1/*!= local_media_control.wheel_pressed*/)
 	{
 		c->sendEvent(WHEEL_PRESSED);
 		//std::cout << "? 22 " << control_daten->wheel_pressed << std::endl;

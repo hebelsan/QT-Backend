@@ -101,6 +101,7 @@ void GlobalParams::togglePlayer()
 // Zum laden es "currentSelect"ten liedes.
 void GlobalParams::loadSelection()
 {
+	// IST MUSIKDATEI???
 	if(fileManager.isFile((*dirContent)[currentSelect]))
 	{
 		std::string uri = "file://"+getCurrentDirectory()+'/'+fileManager.removePrefix((*dirContent)[currentSelect]);
