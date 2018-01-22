@@ -37,6 +37,10 @@ State* CarCamView::sendEvent(EventEnum event, GlobalParams& globals)
 			//std::cout << "? 11 1" << std::endl;
 			cout << "? 100 " << UsbView::getInstance()->getId() << endl;
 			return UsbView::getInstance();
+		case RSB_TOP:
+			globals.setOldState(this);
+			std::cout << "? 100 " << UsbView::getInstance()->getId() << std::endl;
+			return UsbView::getInstance();
 	}
 	return this;
 }

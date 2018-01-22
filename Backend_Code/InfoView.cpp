@@ -41,6 +41,10 @@ State* InfoView::sendEvent(EventEnum event, GlobalParams& globals)
 			//cout << "? 11 1" << endl;
 			cout << "? 100 " << UsbView::getInstance()->getId() << endl;
 			return UsbView::getInstance();
+		case RSB_TOP:
+			globals.setOldState(this);
+			cout << "? 100 " << UsbView::getInstance()->getId() << std::endl;
+			return UsbView::getInstance();
 	}
 	
 	return this;

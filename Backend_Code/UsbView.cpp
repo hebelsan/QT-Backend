@@ -68,10 +68,12 @@ State* UsbView::sendEvent(EventEnum event, GlobalParams& globals) {
 			return this;
 			break;
 		case USB_PLUGGED_OUT:
-			//std::cout << "? 11 1" << std::endl;
 			std::cout << "? 100 " << globals.getOldState()->getId() << std::endl;
 			return globals.getOldState();
 			break;
+		case RSB_TOP:
+			std::cout << "? 100 " << globals.getOldState()->getId() << std::endl;
+			return globals.getOldState();
 	}
 	return this;
 }

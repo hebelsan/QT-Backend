@@ -43,6 +43,11 @@ State* PhoneView::sendEvent(EventEnum event, GlobalParams& globals)
 			cout << "? 100 " << UsbView::getInstance()->getId() << endl;
 			return UsbView::getInstance();
 			break;
+		case RSB_TOP:
+			globals.setOldState(this);
+			std::cout << "? 100 " << UsbView::getInstance()->getId() << std::endl;
+			return UsbView::getInstance();
+			
 	}
 	return this;
 }
