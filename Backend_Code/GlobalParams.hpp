@@ -29,13 +29,14 @@ public:
 	void setMountpoint(std::string);
 	std::string getMountpoint();
 	bool nextSelect();
-	void previousSelect();
+	bool previousSelect();
 	void loadSelection();
 	void togglePlayer();
 	std::string getCurrentDirectory();
 	static void SecondsHandler(int, int*);
 	static void EofHandler(GlobalParams*);
 	void loadNextSong();
+	void loadPreviousSong();
 	void seek(int);
 };
 

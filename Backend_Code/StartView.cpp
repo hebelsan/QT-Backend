@@ -49,23 +49,20 @@ State* StartView::sendEvent(EventEnum event, GlobalParams &globals){
 		case WHEEL_TURN_L:
 			break;
 		case WHEEL_PRESSED:
-			//if (systemState.leftView == MEDIA) {
-				// std::cout << "? 22 " << control_daten->wheel_pressed << std::endl;
-				// if (!systemState.audioState.isPlaying && control_daten->wheel_pressed == 1) {
-			// globals.startPlaying();
-					//systemState->audioState.isPlaying = true;
-				//} else if (control_daten->wheel_pressed == 1) {
-				//	player.pause();
-				//	systemState.audioState.isPlaying = false;
-				//}
-			//}
+			globals.togglePlayer();
 			return this;
 			break;
 		case WHEEL_DIR_R:
-			std::cout << "? 21 " << 1 << std::endl;
-			// nextTitle
+			globals.seek(1);
 			break;
 		case WHEEL_DIR_L:
+			globals.seek(-1);
+			break;
+		case MM_BTN_RIGHT:
+			globals.loadNextSong();
+			break;
+		case MM_BTN_LEFT:
+			globals.loadPreviousSong();
 			break;
 		case USB_PLUGGED_IN:
 			globals.setOldState(this);

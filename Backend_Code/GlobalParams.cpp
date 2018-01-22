@@ -60,13 +60,15 @@ void GlobalParams::setMountpoint(std::string point)
 	std::cout << "* " << fileManager.getMP3Information(*dirContent, getCurrentDirectory()) << std::endl;
 }
 
-void GlobalParams::previousSelect()
+bool GlobalParams::previousSelect()
 {
 	if(currentSelect > 0)
 	{
 		--currentSelect;
 		std::cout << "? 20 -1" << std::endl;
+		return true;
 	}
+	return false;
 }
 
 // Wenn das Wählrad gedreht wird, soll hier hochgezählt werden.
@@ -149,6 +151,18 @@ void GlobalParams::EofHandler(GlobalParams* object)
 void GlobalParams::loadNextSong()
 {
 	while(nextSelect())
+	{
+		if(fileManager.isFile((*dirContent)[currentSelect]))
+		{
+			loadSelection();
+			return;
+		}
+	}
+}
+
+void GlobalParams::loadPreviousSong()
+{
+	while(previousSelect())
 	{
 		if(fileManager.isFile((*dirContent)[currentSelect]))
 		{
