@@ -5,6 +5,7 @@
 #include "can_data.hpp"
 #include "datentypen.hpp"
 #include <stdint.h>
+#include <unistd.h>
 
 void *can_read(void* val){
   
@@ -14,7 +15,8 @@ void *can_read(void* val){
         media_control_t *media_control = help->my_media_control;
   
 	//Endlosschleife, die prüft ob neue Daten am CAN-BUS anliegen
-	while(1){ 
+	while(1)
+	{ 
     
     
    	 	help_can_data->read_canframe(help_can_frame);
@@ -96,6 +98,7 @@ void *can_read(void* val){
 			default:
 				break;
 		}
+		usleep(100000);
 	}
   
 }
