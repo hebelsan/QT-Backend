@@ -58,10 +58,10 @@ State* StartView::sendEvent(EventEnum event, GlobalParams &globals){
 		case WHEEL_DIR_L:
 			globals.seek(-1);
 			break;
-		case MM_BTN_RIGHT:
+		case MM_BTN_R:
 			globals.loadNextSong();
 			break;
-		case MM_BTN_LEFT:
+		case MM_BTN_L:
 			globals.loadPreviousSong();
 			break;
 		case USB_PLUGGED_IN:

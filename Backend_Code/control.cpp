@@ -195,12 +195,14 @@ static void analyseMediaControl(media_control_t *control_daten, Controller *c)
 	}
 	if(control_daten->btn_left_pressed != local_media_control.btn_left_pressed)
 	{
-		std::cout << "? 25 " << control_daten->btn_left_pressed << std::endl;
+		//std::cout << "? 25 " << control_daten->btn_left_pressed << std::endl;
+		if(!local_media_control.btn_left_pressed) c->sendEvent(MM_BTN_R);
 		local_media_control.btn_left_pressed = control_daten->btn_left_pressed;
 	}
 	if(control_daten->btn_right_pressed != local_media_control.btn_right_pressed)
 	{
-		std::cout << "? 26 " << control_daten->btn_right_pressed << std::endl;
+		//std::cout << "? 26 " << control_daten->btn_right_pressed << std::endl;
+		if(!local_media_control.btn_right_pressed) c->sendEvent(MM_BTN_L);
 		local_media_control.btn_right_pressed = control_daten->btn_right_pressed;
 	}
 }

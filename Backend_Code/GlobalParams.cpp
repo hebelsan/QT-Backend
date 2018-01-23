@@ -127,7 +127,7 @@ void GlobalParams::loadSelection()
 		currentSelect = 0;
 		delete dirContent;
 		dirContent = fileManager.getDirContent(getCurrentDirectory());
-		std::cout << "* " << fileManager.getMP3Information(*dirContent, getCurrentDirectory()) << std::endl;
+		std::cout << std::endl << "* " << fileManager.getMP3Information(*dirContent, getCurrentDirectory()) << std::endl;
 	}
 	std::cout << "New Directory: " << getCurrentDirectory() << std::endl;
 }
