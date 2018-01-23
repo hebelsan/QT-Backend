@@ -21,9 +21,9 @@ void PipeControl::add(const string & msg)
 	*(ringbuffer+top) = msg;
 	increment(top);
 	++amount;
+	lock.unlock();
 	if(amount == size)
 		popAll();
-	lock.unlock();
 }
 
 void PipeControl::increment(int& x)
