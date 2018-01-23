@@ -98,7 +98,7 @@ void *can_read(void* val){
 			default:
 				break;
 		}
-		usleep(100000);
+		usleep(10000);
 	}
   
 }
