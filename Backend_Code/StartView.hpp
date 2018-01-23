@@ -10,7 +10,8 @@
 class StartView : public State 
 {
 private:
-	StartView() : State(){}
+	StartView() : State(){ pout = PipeControl::getInstance(); }
+	PipeControl* pout;
 	
 public:
 	static StartView* getInstance();

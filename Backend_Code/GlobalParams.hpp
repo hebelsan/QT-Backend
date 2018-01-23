@@ -3,10 +3,14 @@
 
 #include <string>
 #include "State.hpp"
+#include "PipeControl.hpp"
+
+class State;
 
 class GlobalParams
 {
 private:
+	PipeControl* pout;
 	std::string currentPlayFile;
 	std::string subDir;
 	std::vector<std::string>* dirContent;

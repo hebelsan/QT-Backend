@@ -9,7 +9,8 @@
 class PhoneView : public State
 {
 private:
-	PhoneView() : State() {};
+	PhoneView() : State() { pout = PipeControl::getInstance(); };
+	PipeControl* pout;
 public:
 	
 	static PhoneView* getInstance();

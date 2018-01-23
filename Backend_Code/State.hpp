@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 #include "FileManager.hpp"
+#include "GlobalParams.hpp"
 
 /*
  * Was ich brauche:
@@ -13,6 +14,7 @@
  * globale bindings.
  * 
  */
+
 class GlobalParams;
 
 class State {

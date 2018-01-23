@@ -19,12 +19,12 @@ State* PhoneView::sendEvent(EventEnum event, GlobalParams& globals)
 	{
 		case BUTTON_UP:
 			//cout << "? 4 1" << endl;
-			cout << "? 100 " << StartView::getInstance()->getId() << endl;
+			pout->add( "? 100 " + to_string(StartView::getInstance()->getId() ));
 			return StartView::getInstance();
 			break;
 		case BUTTON_DOWN:
 			//cout << "? 5 1" << endl;
-			cout << "? 100 " << InfoView::getInstance()->getId() << endl;
+			pout->add( "? 100 " + to_string(InfoView::getInstance()->getId() ));
 			return InfoView::getInstance();
 			break;
 		case BUTTON_A:
@@ -40,12 +40,12 @@ State* PhoneView::sendEvent(EventEnum event, GlobalParams& globals)
 		case USB_PLUGGED_IN:
 			globals.setOldState(this);
 			//cout << "? 11 1" << endl;
-			cout << "? 100 " << UsbView::getInstance()->getId() << endl;
+			pout->add( "? 100 " + to_string(UsbView::getInstance()->getId() ));
 			return UsbView::getInstance();
 			break;
 		case RSB_TOP:
 			globals.setOldState(this);
-			std::cout << "? 100 " << UsbView::getInstance()->getId() << std::endl;
+			pout->add( "? 100 " + to_string(UsbView::getInstance()->getId() ));
 			return UsbView::getInstance();
 			
 	}

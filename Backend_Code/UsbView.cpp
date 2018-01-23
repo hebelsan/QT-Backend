@@ -6,6 +6,7 @@ using namespace std;
 UsbView::UsbView() : State()
 {
 	//medium = "";
+	pout = PipeControl::getInstance();
 }
 
 State* UsbView::getInstance()
@@ -64,11 +65,11 @@ State* UsbView::sendEvent(EventEnum event, GlobalParams& globals) {
 			return this;
 			break;
 		case USB_PLUGGED_OUT:
-			std::cout << "? 100 " << globals.getOldState()->getId() << std::endl;
+			pout->add("? 100 " + to_string(globals.getOldState()->getId()));
 			return globals.getOldState();
 			break;
 		case RSB_TOP:
-			std::cout << "? 100 " << globals.getOldState()->getId() << std::endl;
+			pout->add("? 100 " + to_string(globals.getOldState()->getId()));
 			return globals.getOldState();
 	}
 	return this;

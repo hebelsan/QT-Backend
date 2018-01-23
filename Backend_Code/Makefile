@@ -1,5 +1,5 @@
 # Definition/Declarations of MAKE-Variables
-OBJCNTRL	= StartView.o UsbView.o PhoneView.o CarCamView.o InfoView.o GstPlayer.o FileManager.o State.o Controller.o GlobalParams.o
+OBJCNTRL	= StartView.o UsbView.o PhoneView.o CarCamView.o InfoView.o GstPlayer.o FileManager.o State.o Controller.o GlobalParams.o PipeControl.o
 OBJ			= model.o lenkrad.o can_data.o can_read.o Car_status.o Motor_simulation.o control.o Mount.o $(OBJCNTRL)
 LIBEVDEV	= /home/pi/libevdev/libevdev/libevdev.o
 CC			= g++ -g
@@ -43,7 +43,7 @@ State.o: State.hpp State.cpp GstPlayer.o
 	$(CC) -c $(LIBDEF) State.hpp State.cpp -std=gnu++11
 StartView.o: StartView.hpp StartView.cpp PhoneView.o CarCamView.o
 	$(CC) -c $(LIBDEF) StartView.hpp StartView.cpp -std=gnu++11
-UsbView.o: UsbView.hpp UsbView.cpp
+UsbView.o: UsbView.hpp UsbView.cpp PipeControl.o
 	$(CC) -c $(LIBDEF) UsbView.hpp UsbView.cpp -std=gnu++11
 control.o: control.hpp control.cpp
 	$(CC) -c control.hpp $(LIBDEF) control.cpp -std=gnu++11
@@ -51,6 +51,8 @@ Controller.o: Controller.hpp Controller.cpp StartView.o UsbView.o
 	$(CC) -c $(LIBDEF) Controller.hpp Controller.cpp -std=gnu++11
 Mount.o: Mount.hpp Mount.cpp Controller.cpp
 	$(CC) -c $(LIBDEF) Mount.hpp Mount.cpp -std=gnu++11
+PipeControl.o: PipeControl.hpp PipeControl.cpp
+	$(CC) -c $(LIBDEF) PipeControl.cpp PipeControl.hpp -std=gnu++11
 
 .PHONY: clean
 clean:

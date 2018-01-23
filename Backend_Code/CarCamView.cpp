@@ -4,6 +4,7 @@ using namespace std;
 
 CarCamView::CarCamView() : State()
 {
+	pout = PipeControl::getInstance();
 }
 
 CarCamView* CarCamView::getInstance()
@@ -18,11 +19,11 @@ State* CarCamView::sendEvent(EventEnum event, GlobalParams& globals)
 	{
 		case BUTTON_UP:
 			//std::cout << "? 4 1" << std::endl;
-			cout << "? 100 " << InfoView::getInstance()->getId() << endl;
+			pout->add("? 100 " + to_string( InfoView::getInstance()->getId()));
 			return InfoView::getInstance();
 		case BUTTON_DOWN:
 			//std::cout << "? 5 1" << std::endl;
-			cout << "? 100 " << StartView::getInstance()->getId() << endl;
+			pout->add("? 100 " + to_string(StartView::getInstance()->getId()));
 			return StartView::getInstance();
 		case BUTTON_A:
 			//Volume DOWN
@@ -35,11 +36,11 @@ State* CarCamView::sendEvent(EventEnum event, GlobalParams& globals)
 		case USB_PLUGGED_IN:
 			globals.setOldState(this);
 			//std::cout << "? 11 1" << std::endl;
-			cout << "? 100 " << UsbView::getInstance()->getId() << endl;
+			pout->add("? 100 " + to_string( UsbView::getInstance()->getId() ));
 			return UsbView::getInstance();
 		case RSB_TOP:
 			globals.setOldState(this);
-			std::cout << "? 100 " << UsbView::getInstance()->getId() << std::endl;
+			pout->add("? 100 " + to_string( UsbView::getInstance()->getId() ));
 			return UsbView::getInstance();
 	}
 	return this;

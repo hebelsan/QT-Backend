@@ -11,6 +11,7 @@ class CarCamView : public State
 {
 private:
 	CarCamView();
+	PipeControl* pout;
 	
 public:
 	static CarCamView* getInstance();

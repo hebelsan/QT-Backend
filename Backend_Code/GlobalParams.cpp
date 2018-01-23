@@ -5,6 +5,7 @@ using namespace std;
 
 GlobalParams::GlobalParams()
 {
+	pout = PipeControl::getInstance();
 	currentPlayFile = "";
 	volume = 100;
 	dirContent = nullptr;
@@ -20,7 +21,7 @@ void GlobalParams::increaseVolume()
 		volume += 5;
 	}
 	player.setVolume((double)volume/100);
-	std::cout << "? 14 1" << std::endl;
+	pout->add( "? 14 1" );
 }
 
 void GlobalParams::decreaseVolume()
@@ -29,7 +30,7 @@ void GlobalParams::decreaseVolume()
 		volume -= 5;
 	}
 	player.setVolume((double)volume/100);
-	std::cout << "? 13 1" << std::endl;
+	pout->add( "? 13 1" );
 }
 
 unsigned int GlobalParams::getVolume()
@@ -57,7 +58,7 @@ void GlobalParams::setMountpoint(std::string point)
 	mountpoint = point;
 	if(point != "") dirContent = fileManager.getDirContent(mountpoint);
 	else return;
-	std::cout << "* " << fileManager.getMP3Information(*dirContent, getCurrentDirectory()) << std::endl;
+	pout->add( "* " + fileManager.getMP3Information(*dirContent, getCurrentDirectory()) );
 }
 
 bool GlobalParams::previousSelect()
@@ -65,7 +66,7 @@ bool GlobalParams::previousSelect()
 	if(currentSelect > 0)
 	{
 		--currentSelect;
-		std::cout << "? 20 -1" << std::endl;
+		pout->add( "? 20 -1" );
 		return true;
 	}
 	return false;
@@ -77,7 +78,7 @@ bool GlobalParams::nextSelect()
 	if(dirContent != nullptr && currentSelect < dirContent->size()-1)
 	{
 		++currentSelect;
-		std::cout << "? 20 1" << std::endl;
+		pout->add( "? 20 1" );
 		return true;
 	}
 	return false;
@@ -90,12 +91,12 @@ void GlobalParams::togglePlayer()
 		if(player.isPlaying())
 		{
 			player.pause();
-			std::cout << "? 22 0" << std::endl;
+			pout->add( "? 22 0" );
 		}
 		else 
 		{
 			player.play();
-			std::cout << "? 22 1" << std::endl;
+			pout->add( "? 22 1" );
 		}
 	}
 }
@@ -127,9 +128,9 @@ void GlobalParams::loadSelection()
 		currentSelect = 0;
 		delete dirContent;
 		dirContent = fileManager.getDirContent(getCurrentDirectory());
-		std::cout << std::endl << "* " << fileManager.getMP3Information(*dirContent, getCurrentDirectory()) << std::endl;
+		pout->add( "* " + fileManager.getMP3Information(*dirContent, getCurrentDirectory()) );
 	}
-	std::cout << "New Directory: " << getCurrentDirectory() << std::endl;
+	pout->add( "New Directory: " + getCurrentDirectory() );
 }
 
 std::string GlobalParams::getCurrentDirectory()
@@ -140,7 +141,7 @@ std::string GlobalParams::getCurrentDirectory()
 void GlobalParams::SecondsHandler(int seconds, int* c_seconds)
 {
 	// *c_seconds = seconds;
-	cout << "? 27 " << seconds << endl;
+	PipeControl::getInstance()->add( "? 27 " + to_string(seconds) );
 }
 
 void GlobalParams::EofHandler(GlobalParams* object)
@@ -181,7 +182,7 @@ void GlobalParams::seek(int direction)
 		if((int)rate == (int)1.0)
 		{
 			player.advancedSeek(2.5);
-			cout << "? 28 1" << endl;
+			pout->add( "? 28 1" );
 		}
 		else if(rate > 1.0)
 		{
@@ -196,7 +197,7 @@ void GlobalParams::seek(int direction)
 		if((int)rate == (int)1.0)
 		{
 			player.advancedSeek(-2.0);
-			cout << "? 28 -1" << endl;
+			pout->add( "? 28 -1" );
 		}
 		else if(rate < 1.0)
 		{
@@ -205,7 +206,7 @@ void GlobalParams::seek(int direction)
 		else 
 		{
 			player.advancedSeek(1.0);
-			cout << "? 28 0" << endl;
+			pout->add( "? 28 0" );
 		}
 	}
 	else player.advancedSeek(1.0);

@@ -12,6 +12,8 @@ static media_control_t local_media_control;
 static string local_mnt_point;
 
 void *control (void* val){
+	PipeControl* pout = PipeControl::getInstance();
+	
 	control_daten_intern *control_daten=(control_daten_intern *) val;
   
 	bool my_new; //true, wenn sich daten geändert haben. Wird wieder auf falsegesetzt, wenn die neue Daten an die View übermittelt wurden.
@@ -128,6 +130,7 @@ void *control (void* val){
 		}
 		//std::cout << *control_daten->my_mnt_point << std::endl;
 		analyseMediaControl(control_daten->media_control, c);
+		PipeControl::getInstance()->popAll();
 	}
 }
 
