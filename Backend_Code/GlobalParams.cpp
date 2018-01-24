@@ -191,6 +191,7 @@ void GlobalParams::seek(int direction)
 		else
 		{
 			player.advancedSeek(1.0);
+			pout->add( "? 28 0" );
 		}
 	} else if(direction < 0)
 	{

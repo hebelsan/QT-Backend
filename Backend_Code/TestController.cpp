@@ -23,6 +23,7 @@ int main (int argc, char** argv)
 		std::cout << c->getCurrentState()->getName() << std::endl;
 		std::getline(std::cin, text);
 		c->sendEvent(toEventEnum(text, run, validator));
+		PipeControl::getInstance()->popAll();
 	}
 	return 1;
 }
