@@ -10,9 +10,9 @@ static bool isPlaying = false;
 // Lokaler Datenhalter
 static media_control_t local_media_control;
 static string local_mnt_point;
+static PipeControl* pout = PipeControl::getInstance();
 
 void *control (void* val){
-	PipeControl* pout = PipeControl::getInstance();
 	
 	control_daten_intern *control_daten=(control_daten_intern *) val;
   
@@ -32,21 +32,21 @@ void *control (void* val){
 		if(control_daten->my_new == true){ //Überprüfung, ob es im Model neue Daten gibt
       
 		if(kmh != control_daten->kmh){ //Prüfen, ob sich die Geschwindigkeit geändet hat.
-		std::cout << "? 0 " << control_daten->kmh*3 << std::endl; //Geschwindigkeitswert wird mit 3 multipliziert, da die Werte aus der Motorsimulation als Hexwerte für das Originaldisplay berechnet werden.
+		pout->add( "? 0 " + std::to_string(control_daten->kmh*3)); //Geschwindigkeitswert wird mit 3 multipliziert, da die Werte aus der Motorsimulation als Hexwerte für das Originaldisplay berechnet werden.
 		kmh = control_daten->kmh;
 	
 		}
 		if( rpm != control_daten->rpm){ //Prüfen, ob sich die Drehzahl geändet hat.
-		std::cout << "? 1 " << control_daten->rpm*60 << std::endl; //Drehzahlswert wird mit 60 multipliziert, da die Werte aus der Motorsimulation als Hexwerte für das Originaldisplay berechnet werden.
+		pout->add( "? 1 " + std::to_string( control_daten->rpm*60 )); //Drehzahlswert wird mit 60 multipliziert, da die Werte aus der Motorsimulation als Hexwerte für das Originaldisplay berechnet werden.
 		rpm = control_daten->rpm;
 	
 		}
 		if(control_daten->x == true){ //Prüfen, ob Button "x" (Blinker linbks) betätig wurde.
-			std::cout << "? 2 " << control_daten->x << std::endl;
+			pout->add( "? 2 " + std::to_string( control_daten->x ));
 			control_daten->x = false; //Button zuzücksetzen
 		}
 		if(control_daten->b == true){ //Prüfen, ob Button "b" (Blinker rechts) betätig wurde.
-			std::cout << "? 3 " << control_daten->b << std::endl;
+			pout->add( "? 3 " +std::to_string( control_daten->b ));
 			control_daten->b = false; //Button zuzücksetzen
 		}
 		if(control_daten->up == true){ //Prüfen, ob Button "up" (Menu up) betätig wurde.
@@ -73,18 +73,18 @@ void *control (void* val){
 			control_daten->left = false; //Button zuzücksetzen	
 		}
 		if(gear != control_daten->gear){ //Prüfen, ob sich der Gang bzw. Fahrmodus geändet hat.
-			std::cout << "? 8 " << control_daten->gear << std::endl;
+			pout->add( "? 8 " + std::to_string( control_daten->gear ));
 			gear = control_daten->gear; //Button zuzücksetzen
 		}
       
 		if(temp != control_daten->temp)
 		{ //Prüfen, ob sich die Temperatur geändet hat.
-			std::cout << "? 9 " << control_daten->temp << std::endl;
+			pout->add( "? 9 " +std::to_string( control_daten->temp ));
 			temp = control_daten->temp;
 		}
 		if(control_daten->xbox == true)
 		{ //Prüfen, ob Button "xbox" (Fehlermeldungen) betätig wurde.
-			std::cout << "? 10 " << control_daten->xbox << std::endl;
+			pout->add( "? 10 " + std::to_string( control_daten->xbox ));
 			control_daten->xbox = false;
 		}
 
@@ -95,7 +95,7 @@ void *control (void* val){
 			control_daten->rsb_top = false;
 		}  
 		if(tank != control_daten->tank){ //Prüfen, ob sich der Tankwert geändet hat.
-			std::cout << "? 12 " << control_daten->tank << std::endl;
+			pout->add( "? 12 " + std::to_string( control_daten->tank ));
 			tank = control_daten->tank;
 		}
 		if(control_daten->a == true)
@@ -125,7 +125,7 @@ void *control (void* val){
 				local_mnt_point = "";
 				c->setMountpoint("");
 				c->sendEvent(USB_PLUGGED_OUT);
-				std::cout << "USB_PLUGGED_OUT" << std::endl;
+				//std::cout << "USB_PLUGGED_OUT" << std::endl;
 			}
 		}
 		//std::cout << *control_daten->my_mnt_point << std::endl;
@@ -181,31 +181,30 @@ static void analyseMediaControl(media_control_t *control_daten, Controller *c)
 	}
 	if(control_daten->wheel_pressed != local_media_control.wheel_pressed)
 	{
-		std::cout << "Rad gedrückt! " << control_daten->wheel_pressed << std::endl;
 		if(!local_media_control.wheel_pressed) c->sendEvent(WHEEL_PRESSED);
 		//std::cout << "? 22 " << control_daten->wheel_pressed << std::endl;
 		local_media_control.wheel_pressed = control_daten->wheel_pressed;
 	}
 	if(control_daten->menu_pressed != local_media_control.menu_pressed)
 	{
-		std::cout << "? 23 " << control_daten->menu_pressed << std::endl;
+		pout->add( "? 23 " + std::to_string(control_daten->menu_pressed ));
 		local_media_control.menu_pressed = control_daten->menu_pressed;
 	}
 	if(control_daten->back_pressed != local_media_control.back_pressed)
 	{
-		std::cout << "? 24 " << control_daten->back_pressed << std::endl;
+		pout->add( "? 24 " + std::to_string( control_daten->back_pressed ));
 		local_media_control.back_pressed = control_daten->back_pressed;
 	}
 	if(control_daten->btn_left_pressed != local_media_control.btn_left_pressed)
 	{
 		//std::cout << "? 25 " << control_daten->btn_left_pressed << std::endl;
-		if(!local_media_control.btn_left_pressed) c->sendEvent(MM_BTN_R);
+		if(!local_media_control.btn_left_pressed) c->sendEvent(MM_BTN_L);
 		local_media_control.btn_left_pressed = control_daten->btn_left_pressed;
 	}
 	if(control_daten->btn_right_pressed != local_media_control.btn_right_pressed)
 	{
 		//std::cout << "? 26 " << control_daten->btn_right_pressed << std::endl;
-		if(!local_media_control.btn_right_pressed) c->sendEvent(MM_BTN_L);
+		if(!local_media_control.btn_right_pressed) c->sendEvent(MM_BTN_R);
 		local_media_control.btn_right_pressed = control_daten->btn_right_pressed;
 	}
 }
