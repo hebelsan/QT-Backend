@@ -12,7 +12,7 @@ private:
 	Controller();
 	GstPlayer player = GstPlayer(0, NULL);
 	State *currentState;
-	GlobalParams globals;
+	GlobalParams* globals;
 	
 public:
 	static Controller *getInstance();

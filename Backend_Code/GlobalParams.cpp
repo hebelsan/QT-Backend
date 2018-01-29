@@ -9,6 +9,7 @@ GlobalParams::GlobalParams()
 	currentPlayFile = "";
 	volume = 100;
 	dirContent = nullptr;
+	mountpoint = "";
 	subDir = "";
 	currentSelect = 0;
 	player.setSecondsCb((seconds_cb)SecondsHandler, (void*)&seconds);
@@ -56,6 +57,7 @@ std::string GlobalParams::getMountpoint()
 void GlobalParams::setMountpoint(std::string point)
 {
 	mountpoint = point;
+	subDir = "";
 	if(point != "") dirContent = fileManager.getDirContent(mountpoint);
 	else return;
 	pout->add( "* " + fileManager.getMP3Information(*dirContent, getCurrentDirectory()) );
